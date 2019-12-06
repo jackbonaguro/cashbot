@@ -15,6 +15,7 @@ export default class App extends React.Component {
     // console.warn('User -> ', user.toJSON());
 
     // await firebase.analytics().logEvent('foo', { bar: '123'});
+    this.fcmToken = await firebase.messaging().getToken();
   }
 
   render() {
@@ -35,8 +36,7 @@ export default class App extends React.Component {
             </Text>
           ) : (
             <Text style={styles.instructions}>
-              Double tap R on your keyboard to reload,{'\n'}
-              Cmd+M or shake for dev menu
+              {this.fcmToken}
             </Text>
           )}
           <View style={styles.modules}>

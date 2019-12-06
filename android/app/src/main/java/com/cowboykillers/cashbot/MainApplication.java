@@ -1,4 +1,4 @@
-package com.invertase.rnfirebasestarter;
+package com.cowboykillers.cashbot;
 
 import androidx.multidex.MultiDexApplication;
 

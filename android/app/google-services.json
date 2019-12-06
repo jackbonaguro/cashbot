@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "616568526462",
+    "firebase_url": "https://cashbot-59ed2.firebaseio.com",
+    "project_id": "cashbot-59ed2",
+    "storage_bucket": "cashbot-59ed2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616568526462:android:3f09b9da4c945389fcea2f",
+        "android_client_info": {
+          "package_name": "com.cashbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616568526462-hth5f65imbah6bk5eo4gb26ou2hm9sus.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPeI_QBHu3E5lcUq9Xzg3czKLjEFWYeSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616568526462-hth5f65imbah6bk5eo4gb26ou2hm9sus.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616568526462:android:9bc61b689a1f0414fcea2f",
+        "android_client_info": {
+          "package_name": "com.cowboykillers.cashbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616568526462-hth5f65imbah6bk5eo4gb26ou2hm9sus.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPeI_QBHu3E5lcUq9Xzg3czKLjEFWYeSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616568526462-hth5f65imbah6bk5eo4gb26ou2hm9sus.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
