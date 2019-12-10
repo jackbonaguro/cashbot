@@ -18,21 +18,24 @@ export default class Keystore extends React.Component {
   constructor() {
     super();
     this.state = {
-      key: null
+      mnemonic: null
     };
   }
 
   new() {
     generateSecureRandom(24).then(randomBytes => {
+      let mnemonic = Mnemonic.fromSeed(new Buffer(randomBytes), Mnemonic.Words.ENGLISH);
+      console.log(mnemonic);
       this.setState({
-        key: new Buffer(randomBytes),
+        // Successfully generates new BIP39 Mnemonic from native secure RNG
+        mnemonic,
       });
     });
   }
 
-  save(key) {
+  save(mnemonic) {
     const keyIndex = 0;
-    RNSecureKeyStore.set(`KEY-${keyIndex}`, JSON.stringify(key), { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY })
+    RNSecureKeyStore.set(`KEY-${keyIndex}`, mnemonic.toString(), { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY })
       .then((res) => {
         console.log(res);
       }, (err) => {
@@ -45,19 +48,26 @@ export default class Keystore extends React.Component {
     RNSecureKeyStore.get(`KEY-${keyIndex}`)
       .then((res) => {
         this.setState({
-          key: new Buffer(JSON.parse(res))
+          mnemonic: new Mnemonic(res, Mnemonic.Words.ENGLISH),
         });
       }, (err) => {
-        console.warn(err);
+        if (err && err.code && err.code === '404') {
+          // 404 comes from filesystem server, means no file exists at this path.
+          // For now we just set mnemonic back to null.
+          this.setState({
+            mnemonic: null,
+          });
+        } else {
+          console.warn(err);
+        }
       });
   }
 
   delete() {
-    RNSecureKeyStore.remove("key1")
+    const keyIndex = 0;
+    RNSecureKeyStore.remove(`KEY-${keyIndex}`)
       .then((res) => {
-        /* this.setState({
-          key: null
-        }); */
+        console.log(res)
       }, (err) => {
         console.warn(err);
       });
@@ -68,7 +78,7 @@ export default class Keystore extends React.Component {
       <View>
         <View>
           <TextInput>
-            {this.state.key ? /* JSON.stringify(this.state.key) */ Mnemonic.fromSeed(this.state.key, Mnemonic.Words.ENGLISH).toString() : 'No Key'}
+            {this.state.mnemonic ? this.state.mnemonic.toString() : 'No Key'}
           </TextInput>
         </View>
         <View
@@ -81,7 +91,7 @@ export default class Keystore extends React.Component {
             this.new();
           }}></Button>
           <Button title={'SAVE'} onPress={() => {
-            this.save(this.state.key);
+            this.save(this.state.mnemonic);
           }}></Button>
           <Button title={'LOAD'} onPress={() => {
             this.load();
