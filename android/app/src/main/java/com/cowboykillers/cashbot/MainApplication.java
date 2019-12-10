@@ -8,6 +8,8 @@ import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 
 import com.facebook.react.ReactApplication;
+import com.bitgo.randombytes.RandomBytesPackage;
+import net.rhogan.rnsecurerandom.RNSecureRandomPackage;
 import com.reactlibrary.securekeystore.RNSecureKeyStorePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;

@@ -194,6 +194,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-randombytes')
+    implementation project(':react-native-securerandom')
     implementation project(':react-native-secure-key-store')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules

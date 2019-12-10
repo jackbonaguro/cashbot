@@ -49,6 +49,10 @@ target 'Cashbot' do
 
   pod 'RNSecureKeyStore', :path => '../node_modules/react-native-secure-key-store'
 
+  pod 'RNSecureRandom', :path => '../node_modules/react-native-securerandom'
+
+  pod 'react-native-randombytes', :path => '../node_modules/react-native-randombytes'
+
   target 'CashbotTests' do
     inherit! :search_paths
     # Pods for testing
