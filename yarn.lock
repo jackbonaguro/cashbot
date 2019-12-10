@@ -5395,6 +5395,11 @@ react-native-firebase@^5.5.6:
     opencollective-postinstall "^2.0.0"
     prop-types "^15.7.2"
 
+react-native-secure-key-store@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-secure-key-store/-/react-native-secure-key-store-2.0.5.tgz#bebc17847b57ce1ff68a96bce812962269946f02"
+  integrity sha512-m0dzG+cYPMsA07dXfUMpeIwI4erb4khcni1FayC6N+cnPGjAqgF1mscdNnN8FvhSydoDxDK+avKl8TjlTSPgRw==
+
 react-native@0.60.5:
   version "0.60.5"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.60.5.tgz#3c1d9c06a0fbab9807220b6acac09488d39186ee"

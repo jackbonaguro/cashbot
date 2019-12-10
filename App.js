@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
+import Keystore from './components/Keystore';
 
 export default class App extends React.Component {
   constructor() {
@@ -110,6 +111,12 @@ export default class App extends React.Component {
             console.log('Press');
             console.warn('Warning');
           }} />
+        </View>
+        <View style={{
+          backgroundColor: '#ECF5FF',
+          padding: 10,
+        }}>
+          <Keystore></Keystore>
         </View>
         <FlatList
           data={this.state.notifications}
