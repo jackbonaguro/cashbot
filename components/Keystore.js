@@ -21,18 +21,18 @@ export default class Keystore extends React.Component {
     this.state = {
       mnemonic: null,
       index: null,
+      address: null,
     };
   }
 
   async componentDidMount() {
     this.load();
-    const index = await this.loadIndex();
-    if (index === null) {
-      this.saveIndex(0);
-      this.setState({
-        index: 0,
-      });
-    }
+    await this.loadIndex();
+  }
+
+  deriveAddress(mnemonic, index) {
+    // Will return address string
+    return '1234'
   }
 
   new() {
@@ -98,20 +98,21 @@ export default class Keystore extends React.Component {
   }
 
   async loadIndex() {
+    const keyIndex = 0;
     try {
-      const value = await AsyncStorage.getItem('@storage_Key')
+      const value = await AsyncStorage.getItem(`KEY-${keyIndex}/INDEX`)
+      let index;
       if (value !== null) {
         // value previously stored
-        this.setState({
-          index: parseInt(value),
-        });
-        return parseInt(value);
+        index = parseInt(value);
       } else {
-        this.setState({
-          index: null,
-        });
-        return null;
+        index = 0;
       }
+      const address = this.deriveAddress(this.state.mnemonic, index);
+      this.setState({
+        index,
+        address,
+      })
     } catch (e) {
       console.error(e);
     }
@@ -145,8 +146,16 @@ export default class Keystore extends React.Component {
             this.delete();
           }}></Button>
         </View>
-        <View>
-          <Text>{`Current Index: ${this.state.index}`}</Text>
+        <View style={{ paddingVertical: 10 }}>
+          <Text style={styles.instructions}>{`Current Index: ${this.state.index}`}</Text>
+          <Text style={styles.instructions}>Current Address:</Text>
+          <TextInput>
+            {this.state.address}
+          </TextInput>
+          <Button title={'INCREMENT'} onPress={async () => {
+            await this.saveIndex(this.state.index + 1);
+            await this.loadIndex();
+          }}></Button>
         </View>
       </View>
     );
