@@ -12,7 +12,7 @@ import {
 
 import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
 import { generateSecureRandom } from 'react-native-securerandom';
-import Mnemonic from 'bitcore-mnemonic';
+import Mnemonic, { bitcore } from 'bitcore-mnemonic';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Keystore extends React.Component {
@@ -32,7 +32,28 @@ export default class Keystore extends React.Component {
 
   deriveAddress(mnemonic, index) {
     // Will return address string
-    return '1234'
+    var xpriv = mnemonic.toHDPrivateKey();
+
+    const derivationPath = `m/44'/1'/0'/0/${index}`;
+    const derivedXPriv = xpriv.derive(derivationPath);
+    const pubKey = derivedXPriv.publicKey; //.toObject().publicKey;
+    const address = pubKey.toAddress();
+    console.log(`Address: ${address}`);
+    return `${address}`;
+    // const rootPrivKey = xpriv.derive(rootPath);
+    // const rootPubKey = rootPrivKey.hdPublicKey;
+
+    // const derivedXPriv = rootPrivKey.derive(ripplePath);
+    // const derivedPubkey = derivedXPriv.hdPublicKey.toObject().publicKey;
+    // const rippleAddress = rippleKeypairs.deriveAddress(derivedPubkey);
+
+    // console.log(`Extended Root Private Key: ${rootPrivKey.toObject().xprivkey}`);
+    // console.log(`Extended Root Public Key: ${rootPubKey.toObject().xpubkey}`);
+    // console.log(`Root Private Key: ${rootPrivKey.toObject().privateKey}`);
+    // console.log(`Root Public Key: ${rootPubKey.toObject().publicKey}`);
+
+    //console.log(`Derived Private Key: ${derivedXPriv.toObject().privateKey}`);
+    //console.log(`Ripple Address: ${rippleAddress}`);
   }
 
   new() {
@@ -152,10 +173,21 @@ export default class Keystore extends React.Component {
           <TextInput>
             {this.state.address}
           </TextInput>
-          <Button title={'INCREMENT'} onPress={async () => {
-            await this.saveIndex(this.state.index + 1);
-            await this.loadIndex();
-          }}></Button>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Button title={'INCREMENT'} onPress={async () => {
+              await this.saveIndex(this.state.index + 1);
+              await this.loadIndex();
+            }}></Button>
+            <Button title={'RESET'} onPress={async () => {
+              await this.saveIndex(0);
+              await this.loadIndex();
+            }}></Button>
+          </View>
         </View>
       </View>
     );
