@@ -13,21 +13,36 @@ import {
 import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
 import { generateSecureRandom } from 'react-native-securerandom';
 import Mnemonic from 'bitcore-mnemonic';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Keystore extends React.Component {
   constructor() {
     super();
     this.state = {
-      mnemonic: null
+      mnemonic: null,
+      index: null,
     };
   }
 
+  async componentDidMount() {
+    this.load();
+    const index = await this.loadIndex();
+    if (index === null) {
+      this.saveIndex(0);
+      this.setState({
+        index: 0,
+      });
+    }
+  }
+
   new() {
-    generateSecureRandom(24).then(randomBytes => {
+    // 16 bytes = 128 bits, yielding a 12-word mnemonic (compatible with most wallets)
+    // https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+    generateSecureRandom(16).then(randomBytes => {
+      // Successfully generates new BIP39 Mnemonic from native secure RNG
       let mnemonic = Mnemonic.fromSeed(new Buffer(randomBytes), Mnemonic.Words.ENGLISH);
       console.log(mnemonic);
       this.setState({
-        // Successfully generates new BIP39 Mnemonic from native secure RNG
         mnemonic,
       });
     });
@@ -73,10 +88,40 @@ export default class Keystore extends React.Component {
       });
   }
 
+  async saveIndex(index) {
+    const keyIndex = 0;
+    try {
+      await AsyncStorage.setItem(`KEY-${keyIndex}/INDEX`, `${index}`);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async loadIndex() {
+    try {
+      const value = await AsyncStorage.getItem('@storage_Key')
+      if (value !== null) {
+        // value previously stored
+        this.setState({
+          index: parseInt(value),
+        });
+        return parseInt(value);
+      } else {
+        this.setState({
+          index: null,
+        });
+        return null;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   render() {
     return (
       <View>
         <View>
+          <Text style={styles.welcome}>Keystore</Text>
           <TextInput>
             {this.state.mnemonic ? this.state.mnemonic.toString() : 'No Key'}
           </TextInput>
@@ -100,7 +145,23 @@ export default class Keystore extends React.Component {
             this.delete();
           }}></Button>
         </View>
+        <View>
+          <Text>{`Current Index: ${this.state.index}`}</Text>
+        </View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  }
+});

@@ -20,27 +20,35 @@ export default class App extends React.Component {
       fcmToken: '',
       apiResponse: '',
       notifications: [],
+      messages: [],
     };
     console.log('App');
   }
 
+  async respondToMessage(address) {
+    return new Promise((resolve, reject) => {
+      fetch('http://localhost:3001/respond', {
+        method: 'POST',
+        body: `{ "address": "${address}" }`,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+      }).then(response => response.json()).then(json => {
+        return resolve(json);
+      }).catch(reject);
+    });
+  }
+
   async componentDidMount() {
-    // TODO: You: Do firebase things
-    //const { user } = await firebase.auth().signInAnonymously();
-    //console.warn('User -> ', user.toJSON());
-
-    // await firebase.analytics().logEvent('foo', { bar: '123'});
     try {
-      //let apiResponse = await fetch('https://api.bitcore.io/');
-      //console.log(`ApiResponse: ${apiResponse}`);
-
-      fetch('https://api.bitcore.io/').then((apiResponse) => {
-        console.log(`ApiResponse: ${apiResponse}`);
+      this.respondToMessage('1234').then((responseBody) => {
+        console.log(`responseBody: ${JSON.stringify(responseBody)}`);
         firebase.messaging().getToken().then((fcmToken) => {
           console.log(`FCMToken: ${fcmToken}`);
           this.setState({
             fcmToken,
-            apiResponse: JSON.stringify(apiResponse),
+            apiResponse: JSON.stringify(responseBody),
           });
         }).catch(console.error);
       }).catch(console.error);
@@ -71,9 +79,7 @@ export default class App extends React.Component {
             console.log('Notification: ', notification);
           });
           this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
-            console.log('Notification.title: ', notification.title);
-            console.log('Notification.body: ', notification.body);
-            console.log('Notification.id: ', notification.notificationId);
+            console.log(notification);
             this.setState({
               notifications: [
                 ...(this.state.notifications),
@@ -83,7 +89,24 @@ export default class App extends React.Component {
                   id: notification.notificationId,
                 }
               ],
-            })
+            });
+          });
+          // Data message listener
+          this.messageListener = firebase.messaging().onMessage((message) => {
+            console.log(message);
+            this.respondToMessage('5678').then(responseBody => {
+              console.log(`responseBody: ${JSON.stringify(responseBody)}`);
+              this.setState({
+                messages: [
+                  ...(this.state.messages),
+                  {
+                    data: message.data,
+                    id: message.messageId,
+                  },
+                ],
+                apiResponse: JSON.stringify(responseBody),
+              });
+            }).catch(console.error);
           });
         } else {
           console.warn('FCM Token not available');
@@ -94,13 +117,17 @@ export default class App extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.notificationListener();
+    this.messageListener();
+  }
+
   render() {
     return (
       <ScrollView>
         <View style={styles.container}>
-          {/*<Image source={require('./assets/ReactNativeFirebase.png')} style={[styles.logo]}/>*/}
           <Text style={styles.welcome}>
-            Cashbot
+            Wallet
           </Text>
           <Text>FCMToken: </Text>
           <TextInput style={styles.instructions}>
@@ -118,26 +145,48 @@ export default class App extends React.Component {
         }}>
           <Keystore></Keystore>
         </View>
-        <FlatList
-          data={this.state.notifications}
-          extraData={this.state}
-          renderItem={({ item: n }) => {
-            console.log(n);
-            const title = n.title;
-            const body = n.body;
-            const id = n.id;
-            return (
-              <View style={{
-                padding: 10,
-              }}>
-                <Text>{`Name: ${title}`}</Text>
-                <Text>{`Body: ${body}`}</Text>
-                <Text>{`ID: ${id}`}</Text>
-              </View>
-            );
-          }}
-          keyExtractor={n => n.id}
-        />
+        <View style={{ backgroundColor: '#DEF' }}>
+          <Text style={styles.welcome}>Notifications</Text>
+          <FlatList
+            data={this.state.notifications}
+            extraData={this.state}
+            renderItem={({ item: n }) => {
+              const title = n.title;
+              const body = n.body;
+              const id = n.id;
+              return (
+                <View style={{
+                  padding: 10,
+                }}>
+                  <Text>{`Name: ${title}`}</Text>
+                  <Text>{`Body: ${body}`}</Text>
+                  <Text>{`ID: ${id}`}</Text>
+                </View>
+              );
+            }}
+            keyExtractor={n => n.id}
+          />
+        </View>
+        <View style={{ backgroundColor: '#FED' }}>
+          <Text style={styles.welcome}>Messages</Text>
+          <FlatList
+            data={this.state.messages}
+            extraData={this.state}
+            renderItem={({ item: m }) => {
+              const data = m.data;
+              const id = m.id;
+              return (
+                <View style={{
+                  padding: 10,
+                }}>
+                  <Text>{`Data: ${JSON.stringify(data)}`}</Text>
+                  <Text>{`ID: ${id}`}</Text>
+                </View>
+              );
+            }}
+            keyExtractor={n => n.id}
+          />
+        </View>
       </ScrollView>
     );
   }
@@ -150,13 +199,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5ECFF',
   },
-  logo: {
-    height: 120,
-    marginBottom: 16,
-    marginTop: 64,
-    padding: 10,
-    width: 135,
-  },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
@@ -166,17 +208,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
-  },
-  modules: {
-    margin: 20,
-  },
-  modulesHeader: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  module: {
-    fontSize: 14,
-    marginTop: 4,
-    textAlign: 'center',
   }
 });
