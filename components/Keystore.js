@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   StyleSheet,
-  Platform,
+  TouchableOpacity,
   TextInput,
   Text,
   View,
@@ -9,11 +9,13 @@ import {
   FlatList,
   Button,
 } from 'react-native';
-
+import { Link } from 'react-router-native';
 import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
 import { generateSecureRandom } from 'react-native-securerandom';
 import Mnemonic, { bitcore } from 'bitcore-mnemonic';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import styles, { pallette } from '../styles';
 
 export default class Keystore extends React.Component {
   constructor() {
@@ -141,60 +143,70 @@ export default class Keystore extends React.Component {
 
   render() {
     return (
-      <View>
-        <View>
-          <Text style={styles.welcome}>Keystore</Text>
-          <TextInput>
-            {this.state.mnemonic ? this.state.mnemonic.toString() : 'No Key'}
-          </TextInput>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Button title={'NEW'} onPress={() => {
-            this.new();
-          }}></Button>
-          <Button title={'SAVE'} onPress={() => {
-            this.save(this.state.mnemonic);
-          }}></Button>
-          <Button title={'LOAD'} onPress={() => {
-            this.load();
-          }}></Button>
-          <Button title={'DELETE'} onPress={() => {
-            this.delete();
-          }}></Button>
-        </View>
-        <View style={{ paddingVertical: 10 }}>
-          <Text style={styles.instructions}>{`Current Index: ${this.state.index}`}</Text>
-          <Text style={styles.instructions}>Current Address:</Text>
-          <TextInput>
-            {this.state.address}
-          </TextInput>
+      <ScrollView>
+        <View style={styles.container}>
+          <View>
+            <Text style={localStyles.welcome}>Keystore</Text>
+            <TextInput>
+              {this.state.mnemonic ? this.state.mnemonic.toString() : 'No Key'}
+            </TextInput>
+          </View>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}
           >
-            <Button title={'INCREMENT'} onPress={async () => {
-              await this.saveIndex(this.state.index + 1);
-              await this.loadIndex();
+            <Button title={'NEW'} onPress={() => {
+              this.new();
             }}></Button>
-            <Button title={'RESET'} onPress={async () => {
-              await this.saveIndex(0);
-              await this.loadIndex();
+            <Button title={'SAVE'} onPress={() => {
+              this.save(this.state.mnemonic);
+            }}></Button>
+            <Button title={'LOAD'} onPress={() => {
+              this.load();
+            }}></Button>
+            <Button title={'DELETE'} onPress={() => {
+              this.delete();
             }}></Button>
           </View>
+          <View style={{ paddingVertical: 10 }}>
+            <Text style={localStyles.instructions}>{`Current Index: ${this.state.index}`}</Text>
+            <Text style={localStyles.instructions}>Current Address:</Text>
+            <TextInput>
+              {this.state.address}
+            </TextInput>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Button title={'INCREMENT'} onPress={async () => {
+                await this.saveIndex(this.state.index + 1);
+                await this.loadIndex();
+              }}></Button>
+              <Button title={'RESET'} onPress={async () => {
+                await this.saveIndex(0);
+                await this.loadIndex();
+              }}></Button>
+            </View>
+          </View>
+          <Link
+            to='/status'
+            component={TouchableOpacity}
+            activeOpacity={0.8}
+            replace={false}
+          >
+            <Text style={styles.routerButton}>Status</Text>
+          </Link>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   welcome: {
     fontSize: 20,
     textAlign: 'center',
