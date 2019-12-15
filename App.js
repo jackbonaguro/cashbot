@@ -9,11 +9,13 @@ import {
   FlatList,
   Button,
 } from 'react-native';
-
 import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
+
+import { setEmail } from './actions';
+
 import Keystore from './components/Keystore';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -210,3 +212,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   }
 });
+
+const mapStateToProps = state => ({
+  email: state.email,
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
