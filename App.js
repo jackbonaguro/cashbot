@@ -1,13 +1,6 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Platform,
-  TextInput,
-  Text,
-  View,
-  ScrollView,
-  FlatList,
-  Button,
+  Dimensions
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -19,6 +12,8 @@ import { setEmail } from './actions';
 
 import Keystore from './components/Keystore';
 import Status from './components/Status';
+import TabBar from './components/TabBar';
+import styles from './styles';
 
 const store = createStore(rootReducer);
 
@@ -26,7 +21,12 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <NativeRouter>
+        <NativeRouter style={[
+          styles.appContainer,
+          {
+            height: Dimensions.get('window').height,
+          }
+        ]}>
           <Switch>
             <Redirect exact from="/" to="/status" />
             <Route
@@ -42,6 +42,7 @@ class App extends React.Component {
               )}
             />
           </Switch>
+          <TabBar />
         </NativeRouter>
       </Provider>
     );
