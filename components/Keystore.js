@@ -10,6 +10,8 @@ import {
   Button,
 } from 'react-native';
 import { Link } from 'react-router-native';
+import { connect } from 'react-redux';
+import { setAddress } from '../actions';
 import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
 import { generateSecureRandom } from 'react-native-securerandom';
 import Mnemonic, { bitcore } from 'bitcore-mnemonic';
@@ -17,7 +19,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import styles, { pallette } from '../styles';
 
-export default class Keystore extends React.Component {
+class Keystore extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -40,7 +42,7 @@ export default class Keystore extends React.Component {
     const derivedXPriv = xpriv.derive(derivationPath);
     const pubKey = derivedXPriv.publicKey;
     const address = pubKey.toAddress();
-    console.log(`Address: ${address}`);
+    this.props.dispatch(setAddress(address)); // TODO: Move to appropriate action, derive should be pure
     return `${address}`;
   }
 
@@ -204,3 +206,17 @@ const localStyles = StyleSheet.create({
     marginBottom: 5,
   }
 });
+
+const mapStateToProps = ({ userReducer }) => ({
+  email: userReducer.email,
+  address: userReducer.address,
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Keystore);

@@ -130,6 +130,10 @@ class Status extends React.Component {
           <TextInput style={localStyles.instructions}>
             {`${this.state.fcmToken}`}
           </TextInput>
+          <Text>Current Address: </Text>
+          <TextInput style={localStyles.instructions}>
+            {`${this.props.address}`}
+          </TextInput>
           <Link
             to='/keystore'
             component={TouchableOpacity}
@@ -205,8 +209,9 @@ const localStyles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
-  email: state.email,
+const mapStateToProps = ({ userReducer }) => ({
+  email: userReducer.email,
+  address: userReducer.address,
 });
 
 const mapDispatchToProps = dispatch => ({

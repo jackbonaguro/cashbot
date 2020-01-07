@@ -8,6 +8,12 @@ const userReducer = (state = {}, action) => {
         email: action.email,
       };
     }
+    case 'SET_ADDRESS': {
+      return {
+        ...state,
+        address: action.address,
+      };
+    }
     default: {
       return state;
     }

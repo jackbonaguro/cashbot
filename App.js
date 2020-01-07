@@ -15,7 +15,8 @@ import Status from './components/Status';
 import TabBar from './components/TabBar';
 import styles from './styles';
 
-const store = createStore(rootReducer);
+//const store = createStore(rootReducer);
+import store from './store';
 
 class App extends React.Component {
   render() {

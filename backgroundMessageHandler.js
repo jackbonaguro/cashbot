@@ -1,7 +1,7 @@
 // @flow
 import firebase from 'react-native-firebase';
-// Optional flow type
-import type { RemoteMessage } from 'react-native-firebase';
+
+import './store';
 
 async function respondToMessage(address) {
   return new Promise((resolve, reject) => {
@@ -18,7 +18,9 @@ async function respondToMessage(address) {
   });
 }
 
-export default async (message: RemoteMessage) => {
+export default async (message) => {
+  //let address = store.getState().userReducer.address;
+  //console.warn('Address from store: ' + address);
   respondToMessage('1HSqyCH5mF6jbRcySed5ds8hxLEiNDDevm').then(responseBody => {
     // Keep count of requests, check restrictions and bucket
   }).catch(err => {
