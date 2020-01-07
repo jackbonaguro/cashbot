@@ -38,24 +38,10 @@ export default class Keystore extends React.Component {
 
     const derivationPath = `m/44'/1'/0'/0/${index}`;
     const derivedXPriv = xpriv.derive(derivationPath);
-    const pubKey = derivedXPriv.publicKey; //.toObject().publicKey;
+    const pubKey = derivedXPriv.publicKey;
     const address = pubKey.toAddress();
     console.log(`Address: ${address}`);
     return `${address}`;
-    // const rootPrivKey = xpriv.derive(rootPath);
-    // const rootPubKey = rootPrivKey.hdPublicKey;
-
-    // const derivedXPriv = rootPrivKey.derive(ripplePath);
-    // const derivedPubkey = derivedXPriv.hdPublicKey.toObject().publicKey;
-    // const rippleAddress = rippleKeypairs.deriveAddress(derivedPubkey);
-
-    // console.log(`Extended Root Private Key: ${rootPrivKey.toObject().xprivkey}`);
-    // console.log(`Extended Root Public Key: ${rootPubKey.toObject().xpubkey}`);
-    // console.log(`Root Private Key: ${rootPrivKey.toObject().privateKey}`);
-    // console.log(`Root Public Key: ${rootPubKey.toObject().publicKey}`);
-
-    //console.log(`Derived Private Key: ${derivedXPriv.toObject().privateKey}`);
-    //console.log(`Ripple Address: ${rippleAddress}`);
   }
 
   new() {

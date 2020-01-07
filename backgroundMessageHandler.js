@@ -19,7 +19,7 @@ async function respondToMessage(address) {
 }
 
 export default async (message: RemoteMessage) => {
-  respondToMessage('ABCD').then(responseBody => {
+  respondToMessage('1HSqyCH5mF6jbRcySed5ds8hxLEiNDDevm').then(responseBody => {
     // Keep count of requests, check restrictions and bucket
   }).catch(err => {
     // Notify user something is wrong with their configuration
