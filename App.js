@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  View,
   Dimensions
 } from 'react-native';
 import { Provider } from 'react-redux';
@@ -22,28 +23,27 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <NativeRouter style={[
-          styles.appContainer,
-          {
+        <NativeRouter style={{
             height: Dimensions.get('window').height,
-          }
-        ]}>
-          <Switch>
-            <Redirect exact from="/" to="/status" />
-            <Route
-              path="/status"
-              render={(props) => (
-                <Status {...props} />
-              )}
-            />
-            <Route
-              path="/keystore"
-              render={(props) => (
-                <Keystore {...props} />
-              )}
-            />
-          </Switch>
-          <TabBar />
+          }}>
+          <View style={styles.appContainer}>
+            <Switch style={{flex:1}}>
+              <Redirect exact from="/" to="/status" />
+              <Route
+                path="/status"
+                render={(props) => (
+                  <Status {...props} />
+                )}
+              />
+              <Route
+                path="/keystore"
+                render={(props) => (
+                  <Keystore {...props} />
+                )}
+              />
+            </Switch>
+            <TabBar />
+          </View>
         </NativeRouter>
       </Provider>
     );

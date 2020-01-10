@@ -2,8 +2,6 @@ import React from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
-  TextInput,
-  Text,
   View,
   ScrollView,
   FlatList,
@@ -15,9 +13,10 @@ import { generateSecureRandom } from 'react-native-securerandom';
 import Mnemonic, { bitcore } from 'bitcore-mnemonic';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { default as Text } from './Text';
 import styles, { pallette } from '../styles';
 
-export default Keystore = (props) => {
+const TabBar = (props) => {
   return (
     <View style={styles.tabBar}>
       <Link style={styles.tabBarLink}
@@ -51,4 +50,6 @@ export default Keystore = (props) => {
       </Link>
     </View>
   );
-}
+};
+
+export default TabBar;

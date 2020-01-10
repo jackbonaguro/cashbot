@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const pallette = {
   white: '#FFFFFF',
@@ -45,10 +45,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   appContainer: {
+    height: Dimensions.get('window').height,
     backgroundColor: '#444444',
     flex: 1,
-    flexDirection: 'column-reverse',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
   },
 });
 

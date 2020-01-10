@@ -2,8 +2,6 @@ import React from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
-  TextInput,
-  Text,
   View,
   ScrollView,
   FlatList,
@@ -15,6 +13,8 @@ import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
 
 import { setEmail } from '../actions';
 
+import { default as Text } from './Text';
+import { default as TextInput } from './TextInput';
 import styles, { pallette } from '../styles';
 
 class Status extends React.Component {

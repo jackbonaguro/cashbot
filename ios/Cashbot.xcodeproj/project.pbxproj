@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* CashbotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CashbotTests.m */; };
 		039963B89D919933DA02DD1D /* libPods-Cashbot-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A114661868ACFA83CCA60B3 /* libPods-Cashbot-tvOS.a */; };
@@ -24,6 +23,33 @@
 		CB23C3742761BB2944FDCE0B /* libPods-CashbotTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3AC53CF282E97E63953C49 /* libPods-CashbotTests.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
+		4DB3E523143D4F8D94986A42 /* Iosevka-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB8A7842C0FF49AE927712F5 /* Iosevka-Bold.ttf */; };
+		506A3D4B2F684192A7B7BBE0 /* iosevka-bolditalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00A173E8437448478EC5A9BD /* iosevka-bolditalic.ttf */; };
+		1792E1ACE8AA487584B32835 /* iosevka-boldoblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F53B0EFA197546AB91AA7B3D /* iosevka-boldoblique.ttf */; };
+		C7B9F615D9DA4E119CB6A7AE /* iosevka-extrabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 561C4DB08DDA4415A3763A21 /* iosevka-extrabold.ttf */; };
+		54A1611EE82746689ACEECD9 /* iosevka-extrabolditalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82DA919E6C2B4830BC311F6A /* iosevka-extrabolditalic.ttf */; };
+		BDEE6C00473141E5A0C398CC /* iosevka-extraboldoblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD9B91AAEA414D7EAB881235 /* iosevka-extraboldoblique.ttf */; };
+		856BA3E4EE434380B3F24E8B /* iosevka-extralight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CB18F96E54C427EB113AE06 /* iosevka-extralight.ttf */; };
+		E042EF61DF4141E1BB55805E /* iosevka-extralightitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4AA06D77C9A42FFA0112333 /* iosevka-extralightitalic.ttf */; };
+		901DEA9A7E674B90AA6F149A /* iosevka-extralightoblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5492A13E66948ACA1AED545 /* iosevka-extralightoblique.ttf */; };
+		B21C59A78C744426BEE3B7AB /* iosevka-heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 168B286E5CE3410B8DB52935 /* iosevka-heavy.ttf */; };
+		5120801E1DBD4F84B8197A9A /* iosevka-heavyitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 850A6B8D9A1F4B29B25DBD4B /* iosevka-heavyitalic.ttf */; };
+		D1FE724C9A7D436E9685C6D6 /* iosevka-heavyoblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 783AFD57637B4D75A487E64D /* iosevka-heavyoblique.ttf */; };
+		6FCECB5A161E47998A0549BD /* iosevka-italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E741E34B0AC4F8B81B4C67C /* iosevka-italic.ttf */; };
+		04FD605DC62947E6B1FF10A8 /* iosevka-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0C773DF73B2D4F6592C5B028 /* iosevka-light.ttf */; };
+		83E68548C5254580BB4D1278 /* iosevka-lightitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C0FBAAB190445DB8B436771 /* iosevka-lightitalic.ttf */; };
+		18EA58CC769B4534A18EE35E /* iosevka-lightoblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EB71612A7FC4BCA81815C66 /* iosevka-lightoblique.ttf */; };
+		B4ADF1D9C9EA4D3895A11398 /* iosevka-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058C44237CD343F9BED85F5A /* iosevka-medium.ttf */; };
+		E67A9F471DE945AB960A2009 /* iosevka-mediumitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60B6E9CABBF94586A7589041 /* iosevka-mediumitalic.ttf */; };
+		73EE366069F14F85BCDF550B /* iosevka-mediumoblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B2D1744D0124DE9A68BFDA2 /* iosevka-mediumoblique.ttf */; };
+		CB596552BB394DEF85CA6862 /* iosevka-oblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CF475CE9EF041B8A789E8EC /* iosevka-oblique.ttf */; };
+		9E2E68DEF01B424DB62BF154 /* iosevka-semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FDFF4B3EC445E828D6224 /* iosevka-semibold.ttf */; };
+		43177918E8F244A9B5A60325 /* iosevka-semibolditalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F2B7FCCDCB424D3B97AC89AE /* iosevka-semibolditalic.ttf */; };
+		05679A6A878E4693B497C7A5 /* iosevka-semiboldoblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 920F7E30E4E042D48236187E /* iosevka-semiboldoblique.ttf */; };
+		613227CC0AED4E33A8D55B46 /* iosevka-thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 824B29367A5B4A8BA97DDEC4 /* iosevka-thin.ttf */; };
+		617706FA23274FD7B3EB4928 /* iosevka-thinitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68FF527246E648F48460D4CB /* iosevka-thinitalic.ttf */; };
+		4810EFA1FD6C4E73A16B3CB5 /* iosevka-thinoblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4ADD63A43AAA4F07B3713A20 /* iosevka-thinoblique.ttf */; };
+		E359A7067E8F448E854595C4 /* Iosevka.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 365113982F4E419C9706D865 /* Iosevka.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +99,33 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F2C89EE2F4607D097253AE26 /* Pods-Cashbot-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cashbot-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cashbot-tvOSTests/Pods-Cashbot-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		EB8A7842C0FF49AE927712F5 /* Iosevka-Bold.ttf */ = {isa = PBXFileReference; name = "Iosevka-Bold.ttf"; path = "../assets/fonts/iosevka/Iosevka-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		00A173E8437448478EC5A9BD /* iosevka-bolditalic.ttf */ = {isa = PBXFileReference; name = "iosevka-bolditalic.ttf"; path = "../assets/fonts/iosevka/iosevka-bolditalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F53B0EFA197546AB91AA7B3D /* iosevka-boldoblique.ttf */ = {isa = PBXFileReference; name = "iosevka-boldoblique.ttf"; path = "../assets/fonts/iosevka/iosevka-boldoblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		561C4DB08DDA4415A3763A21 /* iosevka-extrabold.ttf */ = {isa = PBXFileReference; name = "iosevka-extrabold.ttf"; path = "../assets/fonts/iosevka/iosevka-extrabold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		82DA919E6C2B4830BC311F6A /* iosevka-extrabolditalic.ttf */ = {isa = PBXFileReference; name = "iosevka-extrabolditalic.ttf"; path = "../assets/fonts/iosevka/iosevka-extrabolditalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BD9B91AAEA414D7EAB881235 /* iosevka-extraboldoblique.ttf */ = {isa = PBXFileReference; name = "iosevka-extraboldoblique.ttf"; path = "../assets/fonts/iosevka/iosevka-extraboldoblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2CB18F96E54C427EB113AE06 /* iosevka-extralight.ttf */ = {isa = PBXFileReference; name = "iosevka-extralight.ttf"; path = "../assets/fonts/iosevka/iosevka-extralight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E4AA06D77C9A42FFA0112333 /* iosevka-extralightitalic.ttf */ = {isa = PBXFileReference; name = "iosevka-extralightitalic.ttf"; path = "../assets/fonts/iosevka/iosevka-extralightitalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D5492A13E66948ACA1AED545 /* iosevka-extralightoblique.ttf */ = {isa = PBXFileReference; name = "iosevka-extralightoblique.ttf"; path = "../assets/fonts/iosevka/iosevka-extralightoblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		168B286E5CE3410B8DB52935 /* iosevka-heavy.ttf */ = {isa = PBXFileReference; name = "iosevka-heavy.ttf"; path = "../assets/fonts/iosevka/iosevka-heavy.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		850A6B8D9A1F4B29B25DBD4B /* iosevka-heavyitalic.ttf */ = {isa = PBXFileReference; name = "iosevka-heavyitalic.ttf"; path = "../assets/fonts/iosevka/iosevka-heavyitalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		783AFD57637B4D75A487E64D /* iosevka-heavyoblique.ttf */ = {isa = PBXFileReference; name = "iosevka-heavyoblique.ttf"; path = "../assets/fonts/iosevka/iosevka-heavyoblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0E741E34B0AC4F8B81B4C67C /* iosevka-italic.ttf */ = {isa = PBXFileReference; name = "iosevka-italic.ttf"; path = "../assets/fonts/iosevka/iosevka-italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0C773DF73B2D4F6592C5B028 /* iosevka-light.ttf */ = {isa = PBXFileReference; name = "iosevka-light.ttf"; path = "../assets/fonts/iosevka/iosevka-light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6C0FBAAB190445DB8B436771 /* iosevka-lightitalic.ttf */ = {isa = PBXFileReference; name = "iosevka-lightitalic.ttf"; path = "../assets/fonts/iosevka/iosevka-lightitalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0EB71612A7FC4BCA81815C66 /* iosevka-lightoblique.ttf */ = {isa = PBXFileReference; name = "iosevka-lightoblique.ttf"; path = "../assets/fonts/iosevka/iosevka-lightoblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		058C44237CD343F9BED85F5A /* iosevka-medium.ttf */ = {isa = PBXFileReference; name = "iosevka-medium.ttf"; path = "../assets/fonts/iosevka/iosevka-medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60B6E9CABBF94586A7589041 /* iosevka-mediumitalic.ttf */ = {isa = PBXFileReference; name = "iosevka-mediumitalic.ttf"; path = "../assets/fonts/iosevka/iosevka-mediumitalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9B2D1744D0124DE9A68BFDA2 /* iosevka-mediumoblique.ttf */ = {isa = PBXFileReference; name = "iosevka-mediumoblique.ttf"; path = "../assets/fonts/iosevka/iosevka-mediumoblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6CF475CE9EF041B8A789E8EC /* iosevka-oblique.ttf */ = {isa = PBXFileReference; name = "iosevka-oblique.ttf"; path = "../assets/fonts/iosevka/iosevka-oblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5D1FDFF4B3EC445E828D6224 /* iosevka-semibold.ttf */ = {isa = PBXFileReference; name = "iosevka-semibold.ttf"; path = "../assets/fonts/iosevka/iosevka-semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F2B7FCCDCB424D3B97AC89AE /* iosevka-semibolditalic.ttf */ = {isa = PBXFileReference; name = "iosevka-semibolditalic.ttf"; path = "../assets/fonts/iosevka/iosevka-semibolditalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		920F7E30E4E042D48236187E /* iosevka-semiboldoblique.ttf */ = {isa = PBXFileReference; name = "iosevka-semiboldoblique.ttf"; path = "../assets/fonts/iosevka/iosevka-semiboldoblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		824B29367A5B4A8BA97DDEC4 /* iosevka-thin.ttf */ = {isa = PBXFileReference; name = "iosevka-thin.ttf"; path = "../assets/fonts/iosevka/iosevka-thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		68FF527246E648F48460D4CB /* iosevka-thinitalic.ttf */ = {isa = PBXFileReference; name = "iosevka-thinitalic.ttf"; path = "../assets/fonts/iosevka/iosevka-thinitalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4ADD63A43AAA4F07B3713A20 /* iosevka-thinoblique.ttf */ = {isa = PBXFileReference; name = "iosevka-thinoblique.ttf"; path = "../assets/fonts/iosevka/iosevka-thinoblique.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		365113982F4E419C9706D865 /* Iosevka.ttf */ = {isa = PBXFileReference; name = "Iosevka.ttf"; path = "../assets/fonts/iosevka/Iosevka.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +252,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				0F65422D7FF42AB1B1B439CC /* Pods */,
 				2759474C2261A42900BA95C5 /* Recovered References */,
+				D7CFA4F37010499481857B5A /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -215,6 +269,41 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		D7CFA4F37010499481857B5A /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				EB8A7842C0FF49AE927712F5 /* Iosevka-Bold.ttf */,
+				00A173E8437448478EC5A9BD /* iosevka-bolditalic.ttf */,
+				F53B0EFA197546AB91AA7B3D /* iosevka-boldoblique.ttf */,
+				561C4DB08DDA4415A3763A21 /* iosevka-extrabold.ttf */,
+				82DA919E6C2B4830BC311F6A /* iosevka-extrabolditalic.ttf */,
+				BD9B91AAEA414D7EAB881235 /* iosevka-extraboldoblique.ttf */,
+				2CB18F96E54C427EB113AE06 /* iosevka-extralight.ttf */,
+				E4AA06D77C9A42FFA0112333 /* iosevka-extralightitalic.ttf */,
+				D5492A13E66948ACA1AED545 /* iosevka-extralightoblique.ttf */,
+				168B286E5CE3410B8DB52935 /* iosevka-heavy.ttf */,
+				850A6B8D9A1F4B29B25DBD4B /* iosevka-heavyitalic.ttf */,
+				783AFD57637B4D75A487E64D /* iosevka-heavyoblique.ttf */,
+				0E741E34B0AC4F8B81B4C67C /* iosevka-italic.ttf */,
+				0C773DF73B2D4F6592C5B028 /* iosevka-light.ttf */,
+				6C0FBAAB190445DB8B436771 /* iosevka-lightitalic.ttf */,
+				0EB71612A7FC4BCA81815C66 /* iosevka-lightoblique.ttf */,
+				058C44237CD343F9BED85F5A /* iosevka-medium.ttf */,
+				60B6E9CABBF94586A7589041 /* iosevka-mediumitalic.ttf */,
+				9B2D1744D0124DE9A68BFDA2 /* iosevka-mediumoblique.ttf */,
+				6CF475CE9EF041B8A789E8EC /* iosevka-oblique.ttf */,
+				5D1FDFF4B3EC445E828D6224 /* iosevka-semibold.ttf */,
+				F2B7FCCDCB424D3B97AC89AE /* iosevka-semibolditalic.ttf */,
+				920F7E30E4E042D48236187E /* iosevka-semiboldoblique.ttf */,
+				824B29367A5B4A8BA97DDEC4 /* iosevka-thin.ttf */,
+				68FF527246E648F48460D4CB /* iosevka-thinitalic.ttf */,
+				4ADD63A43AAA4F07B3713A20 /* iosevka-thinoblique.ttf */,
+				365113982F4E419C9706D865 /* Iosevka.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -358,6 +447,33 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				27760E91229B6FDF00F5F127 /* GoogleService-Info.plist in Resources */,
+				4DB3E523143D4F8D94986A42 /* Iosevka-Bold.ttf in Resources */,
+				506A3D4B2F684192A7B7BBE0 /* iosevka-bolditalic.ttf in Resources */,
+				1792E1ACE8AA487584B32835 /* iosevka-boldoblique.ttf in Resources */,
+				C7B9F615D9DA4E119CB6A7AE /* iosevka-extrabold.ttf in Resources */,
+				54A1611EE82746689ACEECD9 /* iosevka-extrabolditalic.ttf in Resources */,
+				BDEE6C00473141E5A0C398CC /* iosevka-extraboldoblique.ttf in Resources */,
+				856BA3E4EE434380B3F24E8B /* iosevka-extralight.ttf in Resources */,
+				E042EF61DF4141E1BB55805E /* iosevka-extralightitalic.ttf in Resources */,
+				901DEA9A7E674B90AA6F149A /* iosevka-extralightoblique.ttf in Resources */,
+				B21C59A78C744426BEE3B7AB /* iosevka-heavy.ttf in Resources */,
+				5120801E1DBD4F84B8197A9A /* iosevka-heavyitalic.ttf in Resources */,
+				D1FE724C9A7D436E9685C6D6 /* iosevka-heavyoblique.ttf in Resources */,
+				6FCECB5A161E47998A0549BD /* iosevka-italic.ttf in Resources */,
+				04FD605DC62947E6B1FF10A8 /* iosevka-light.ttf in Resources */,
+				83E68548C5254580BB4D1278 /* iosevka-lightitalic.ttf in Resources */,
+				18EA58CC769B4534A18EE35E /* iosevka-lightoblique.ttf in Resources */,
+				B4ADF1D9C9EA4D3895A11398 /* iosevka-medium.ttf in Resources */,
+				E67A9F471DE945AB960A2009 /* iosevka-mediumitalic.ttf in Resources */,
+				73EE366069F14F85BCDF550B /* iosevka-mediumoblique.ttf in Resources */,
+				CB596552BB394DEF85CA6862 /* iosevka-oblique.ttf in Resources */,
+				9E2E68DEF01B424DB62BF154 /* iosevka-semibold.ttf in Resources */,
+				43177918E8F244A9B5A60325 /* iosevka-semibolditalic.ttf in Resources */,
+				05679A6A878E4693B497C7A5 /* iosevka-semiboldoblique.ttf in Resources */,
+				613227CC0AED4E33A8D55B46 /* iosevka-thin.ttf in Resources */,
+				617706FA23274FD7B3EB4928 /* iosevka-thinitalic.ttf in Resources */,
+				4810EFA1FD6C4E73A16B3CB5 /* iosevka-thinoblique.ttf in Resources */,
+				E359A7067E8F448E854595C4 /* Iosevka.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

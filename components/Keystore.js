@@ -2,11 +2,8 @@ import React from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
-  TextInput,
-  Text,
   View,
   ScrollView,
-  FlatList,
   Button,
 } from 'react-native';
 import { Link } from 'react-router-native';
@@ -17,6 +14,8 @@ import { generateSecureRandom } from 'react-native-securerandom';
 import Mnemonic, { bitcore } from 'bitcore-mnemonic';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { default as Text } from './Text';
+import { default as TextInput } from './TextInput';
 import styles, { pallette } from '../styles';
 
 class Keystore extends React.Component {
@@ -31,7 +30,7 @@ class Keystore extends React.Component {
 
   async componentDidMount() {
     this.load();
-    await this.loadIndex();
+    this.loadIndex();
   }
 
   deriveAddress(mnemonic, index) {
@@ -42,7 +41,6 @@ class Keystore extends React.Component {
     const derivedXPriv = xpriv.derive(derivationPath);
     const pubKey = derivedXPriv.publicKey;
     const address = pubKey.toAddress();
-    this.props.dispatch(setAddress(address)); // TODO: Move to appropriate action, derive should be pure
     return `${address}`;
   }
 
@@ -110,6 +108,7 @@ class Keystore extends React.Component {
 
   async loadIndex() {
     const keyIndex = 0;
+    this.props.dispatch(setAddress('...'));
     try {
       const value = await AsyncStorage.getItem(`KEY-${keyIndex}/INDEX`)
       let index;
@@ -120,9 +119,10 @@ class Keystore extends React.Component {
         index = 0;
       }
       const address = this.deriveAddress(this.state.mnemonic, index);
+      this.props.dispatch(setAddress(address));
       this.setState({
         index,
-        address,
+        //address,
       })
     } catch (e) {
       console.error(e);
@@ -132,7 +132,8 @@ class Keystore extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={styles.container}>
+        <View style={styles.container}
+        >
           <View>
             <Text style={localStyles.welcome}>Keystore</Text>
             <TextInput>
@@ -162,7 +163,7 @@ class Keystore extends React.Component {
             <Text style={localStyles.instructions}>{`Current Index: ${this.state.index}`}</Text>
             <Text style={localStyles.instructions}>Current Address:</Text>
             <TextInput>
-              {this.state.address}
+              {this.props.address}
             </TextInput>
             <View
               style={{
@@ -171,12 +172,14 @@ class Keystore extends React.Component {
               }}
             >
               <Button title={'INCREMENT'} onPress={async () => {
-                await this.saveIndex(this.state.index + 1);
-                await this.loadIndex();
+                this.saveIndex(this.state.index + 1).then(() => {
+                  this.loadIndex();
+                }).catch(console.error);
               }}></Button>
               <Button title={'RESET'} onPress={async () => {
-                await this.saveIndex(0);
-                await this.loadIndex();
+                this.saveIndex(0).then(() => {
+                  this.loadIndex();
+                }).catch(console.error);
               }}></Button>
             </View>
           </View>
