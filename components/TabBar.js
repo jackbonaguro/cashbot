@@ -27,18 +27,16 @@ const TabBar = (props) => {
       >
         <Text style={styles.tabBarButton}>Status</Text>
       </Link>
-      <Link style={[
-        styles.tabBarLink,
-        {
-          backgroundColor: '#F0FFF0',
-        }
-      ]}
+      <Link style={styles.tabBarLink}
         to='/keystore'
         component={TouchableOpacity}
         activeOpacity={0.8}
         replace={false}
       >
-        <Text style={styles.tabBarButton}>Keystore</Text>
+        <Text style={{
+          ...styles.tabBarButton,
+          backgroundColor: pallette.tabBarHighlight,
+        }}>Keystore</Text>
       </Link>
       <Link style={styles.tabBarLink}
         to='/account'

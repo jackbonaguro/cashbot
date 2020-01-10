@@ -135,8 +135,8 @@ class Keystore extends React.Component {
         <View style={styles.container}
         >
           <View>
-            <Text style={localStyles.welcome}>Keystore</Text>
-            <TextInput>
+            <Text style={styles.title}>Keystore</Text>
+            <TextInput style={styles.instructions}>
               {this.state.mnemonic ? this.state.mnemonic.toString() : 'No Key'}
             </TextInput>
           </View>
@@ -160,9 +160,9 @@ class Keystore extends React.Component {
             }}></Button>
           </View>
           <View style={{ paddingVertical: 10 }}>
-            <Text style={localStyles.instructions}>{`Current Index: ${this.state.index}`}</Text>
-            <Text style={localStyles.instructions}>Current Address:</Text>
-            <TextInput>
+            <Text style={styles.instructions}>{`Current Index: ${this.state.index}`}</Text>
+            <Text style={styles.instructions}>Current Address:</Text>
+            <TextInput style={styles.instructions}>
               {this.props.address}
             </TextInput>
             <View

@@ -123,15 +123,15 @@ class Status extends React.Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Text style={localStyles.welcome}>
+          <Text style={styles.title}>
             Wallet
           </Text>
-          <Text>FCMToken: </Text>
-          <TextInput style={localStyles.instructions}>
+          <Text style={styles.instructions}>FCMToken: </Text>
+          <TextInput style={styles.instructions}>
             {`${this.state.fcmToken}`}
           </TextInput>
-          <Text>Current Address: </Text>
-          <TextInput style={localStyles.instructions}>
+          <Text style={styles.instructions}>Current Address: </Text>
+          <TextInput style={styles.instructions}>
             {`${this.props.address}`}
           </TextInput>
           <Link
@@ -143,8 +143,8 @@ class Status extends React.Component {
             <Text style={styles.routerButton}>Keystore</Text>
           </Link>
         </View>
-        <View style={{ backgroundColor: '#DEF' }}>
-          <Text style={localStyles.welcome}>Notifications</Text>
+        <View style={{ backgroundColor: '#123' }}>
+          <Text style={styles.title}>Notifications</Text>
           <FlatList
             data={this.state.notifications}
             extraData={this.state}
@@ -165,8 +165,8 @@ class Status extends React.Component {
             keyExtractor={n => n.id}
           />
         </View>
-        <View style={{ backgroundColor: '#FED' }}>
-          <Text style={localStyles.welcome}>Messages</Text>
+        <View style={{ backgroundColor: '#312' }}>
+          <Text style={styles.title}>Messages</Text>
           <FlatList
             data={this.state.messages}
             extraData={this.state}
@@ -195,9 +195,8 @@ const localStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5ECFF',
   },
-  welcome: {
+  title: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,

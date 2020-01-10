@@ -2,23 +2,26 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const pallette = {
   white: '#FFFFFF',
-}
+  tabBar: '#383838',
+  tabBarHighlight: '#8800BB88',
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5ECFF',
+    width: 100+'%',
   },
-  welcome: {
+  title: {
     fontSize: 20,
     textAlign: 'center',
+    color: pallette.white,
     margin: 10,
   },
   instructions: {
     textAlign: 'center',
-    color: '#333333',
+    color: pallette.white,
     marginBottom: 5,
   },
   routerButton: {
@@ -28,7 +31,7 @@ const styles = StyleSheet.create({
     color: pallette.white,
   },
   tabBar: {
-    backgroundColor: pallette.white,
+    backgroundColor: pallette.tabBar,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'stretch',
@@ -41,11 +44,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tabBarButton: {
-    color: '#55CC55',
+    color: pallette.white,
     fontSize: 16,
+    padding: 10,
+    borderRadius: 25,
   },
   appContainer: {
     height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
     backgroundColor: '#444444',
     flex: 1,
     flexDirection: 'column',

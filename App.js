@@ -13,6 +13,7 @@ import { setEmail } from './actions';
 
 import Keystore from './components/Keystore';
 import Status from './components/Status';
+import Account from './components/Account';
 import TabBar from './components/TabBar';
 import styles from './styles';
 
@@ -39,6 +40,12 @@ class App extends React.Component {
                 path="/keystore"
                 render={(props) => (
                   <Keystore {...props} />
+                )}
+              />
+              <Route
+                path="/account"
+                render={(props) => (
+                  <Account {...props} />
                 )}
               />
             </Switch>
