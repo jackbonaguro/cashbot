@@ -8,10 +8,17 @@ const userReducer = (state = {}, action) => {
         email: action.email,
       };
     }
-    case 'SET_ADDRESS': {
+    case 'SET_SEED': {
       return {
         ...state,
-        address: action.address,
+        seed: action.seed,
+      };
+    }
+    case 'SET_RECEIVE_INDEX': {
+      console.log(action);
+      return {
+        ...state,
+        receiveIndex: action.receiveIndex,
       };
     }
     default: {

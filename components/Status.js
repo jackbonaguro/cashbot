@@ -47,14 +47,14 @@ class Status extends React.Component {
       const res = await firebase.messaging().requestPermission();
       const fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
-        console.log('FCM Token: ', fcmToken);
+        //console.log('FCM Token: ', fcmToken);
         const enabled = await firebase.messaging().hasPermission();
         if (enabled) {
-          console.log('FCM messaging has permission:' + enabled)
+          //console.log('FCM messaging has permission:' + enabled)
         } else {
           try {
             await firebase.messaging().requestPermission();
-            console.log('FCM permission granted')
+            //console.log('FCM permission granted')
           } catch (error) {
             console.error('FCM Permission Error', error);
           }
@@ -103,7 +103,7 @@ class Status extends React.Component {
 
   async componentDidMount() {
     firebase.messaging().getToken().then((fcmToken) => {
-      console.log(`FCMToken: ${fcmToken}`);
+      //console.log(`FCMToken: ${fcmToken}`);
       this.setState({
         fcmToken,
       });

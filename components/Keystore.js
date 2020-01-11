@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { Link } from 'react-router-native';
 import { connect } from 'react-redux';
-import { setAddress } from '../actions';
 import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
 import { generateSecureRandom } from 'react-native-securerandom';
 import Mnemonic, { bitcore } from 'bitcore-mnemonic';
@@ -18,19 +17,18 @@ import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
 import styles, { pallette } from '../styles';
 
+import { fetchReceiveIndex, fetchSeed, setSeed, setReceiveIndex, generateSeed } from '../actions';
+import Storage from '../storage';
+import KeyDerivation from '../keyderivation';
+
 class Keystore extends React.Component {
   constructor() {
     super();
-    this.state = {
-      mnemonic: null,
-      index: null,
-      address: null,
-    };
   }
 
   async componentDidMount() {
-    this.load();
-    this.loadIndex();
+    this.props.dispatch(fetchSeed());
+    this.props.dispatch(fetchReceiveIndex());
   }
 
   deriveAddress(mnemonic, index) {
@@ -44,91 +42,6 @@ class Keystore extends React.Component {
     return `${address}`;
   }
 
-  new() {
-    // 16 bytes = 128 bits, yielding a 12-word mnemonic (compatible with most wallets)
-    // https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
-    generateSecureRandom(16).then(randomBytes => {
-      // Successfully generates new BIP39 Mnemonic from native secure RNG
-      let mnemonic = Mnemonic.fromSeed(new Buffer(randomBytes), Mnemonic.Words.ENGLISH);
-      console.log(mnemonic);
-      this.setState({
-        mnemonic,
-      });
-    });
-  }
-
-  save(mnemonic) {
-    const keyIndex = 0;
-    RNSecureKeyStore.set(`KEY-${keyIndex}`, mnemonic.toString(), { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY })
-      .then((res) => {
-        console.log(res);
-      }, (err) => {
-        console.warn(err);
-      });
-  }
-
-  load() {
-    const keyIndex = 0;
-    RNSecureKeyStore.get(`KEY-${keyIndex}`)
-      .then((res) => {
-        this.setState({
-          mnemonic: new Mnemonic(res, Mnemonic.Words.ENGLISH),
-        });
-      }, (err) => {
-        if (err && err.code && err.code === '404') {
-          // 404 comes from filesystem server, means no file exists at this path.
-          // For now we just set mnemonic back to null.
-          this.setState({
-            mnemonic: null,
-          });
-        } else {
-          console.warn(err);
-        }
-      });
-  }
-
-  delete() {
-    const keyIndex = 0;
-    RNSecureKeyStore.remove(`KEY-${keyIndex}`)
-      .then((res) => {
-        console.log(res)
-      }, (err) => {
-        console.warn(err);
-      });
-  }
-
-  async saveIndex(index) {
-    const keyIndex = 0;
-    try {
-      await AsyncStorage.setItem(`KEY-${keyIndex}/INDEX`, `${index}`);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  async loadIndex() {
-    const keyIndex = 0;
-    this.props.dispatch(setAddress('...'));
-    try {
-      const value = await AsyncStorage.getItem(`KEY-${keyIndex}/INDEX`)
-      let index;
-      if (value !== null) {
-        // value previously stored
-        index = parseInt(value);
-      } else {
-        index = 0;
-      }
-      const address = this.deriveAddress(this.state.mnemonic, index);
-      this.props.dispatch(setAddress(address));
-      this.setState({
-        index,
-        //address,
-      })
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
   render() {
     return (
       <ScrollView>
@@ -137,7 +50,7 @@ class Keystore extends React.Component {
           <View>
             <Text style={styles.title}>Keystore</Text>
             <TextInput style={styles.instructions}>
-              {this.state.mnemonic ? this.state.mnemonic.toString() : 'No Key'}
+              {this.props.seed ? this.props.seed.toString() : '---'}
             </TextInput>
           </View>
           <View
@@ -147,23 +60,27 @@ class Keystore extends React.Component {
             }}
           >
             <Button title={'NEW'} onPress={() => {
-              this.new();
+              this.props.dispatch(generateSeed());
             }}></Button>
             <Button title={'SAVE'} onPress={() => {
-              this.save(this.state.mnemonic);
+              Storage.saveSeed(this.props.seed);
             }}></Button>
             <Button title={'LOAD'} onPress={() => {
-              this.load();
+              this.props.dispatch(fetchSeed());
             }}></Button>
             <Button title={'DELETE'} onPress={() => {
-              this.delete();
+              Storage.deleteSeed();
             }}></Button>
           </View>
           <View style={{ paddingVertical: 10 }}>
-            <Text style={styles.instructions}>{`Current Index: ${this.state.index}`}</Text>
+            <Text style={styles.instructions}>{`Current Index: ${(typeof this.props.receiveIndex !== 'undefined') ?
+              this.props.receiveIndex :
+              '---'}`}</Text>
             <Text style={styles.instructions}>Current Address:</Text>
             <TextInput style={styles.instructions}>
-              {this.props.address}
+              {(this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
+                KeyDerivation.deriveAddress(this.props.seed, this.props.receiveIndex) :
+                '---'}
             </TextInput>
             <View
               style={{
@@ -171,14 +88,14 @@ class Keystore extends React.Component {
                 justifyContent: 'space-between',
               }}
             >
-              <Button title={'INCREMENT'} onPress={async () => {
-                this.saveIndex(this.state.index + 1).then(() => {
-                  this.loadIndex();
+              <Button title={'INCREMENT'} onPress={() => {
+                Storage.saveReceiveIndex(this.props.receiveIndex + 1).then(() => {
+                  this.props.dispatch(fetchReceiveIndex());
                 }).catch(console.error);
               }}></Button>
-              <Button title={'RESET'} onPress={async () => {
-                this.saveIndex(0).then(() => {
-                  this.loadIndex();
+              <Button title={'RESET'} onPress={() => {
+                Storage.saveReceiveIndex(0).then(() => {
+                  this.props.dispatch(fetchReceiveIndex());
                 }).catch(console.error);
               }}></Button>
             </View>
@@ -212,7 +129,8 @@ const localStyles = StyleSheet.create({
 
 const mapStateToProps = ({ userReducer }) => ({
   email: userReducer.email,
-  address: userReducer.address,
+  receiveIndex: userReducer.receiveIndex,
+  seed: userReducer.seed,
 });
 
 const mapDispatchToProps = dispatch => ({
