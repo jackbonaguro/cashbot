@@ -14,6 +14,7 @@ import { setEmail } from '../actions';
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
 import styles, { pallette } from '../styles';
+import TabBar from "./TabBar";
 
 class Account extends React.Component {
   constructor() {
@@ -27,15 +28,18 @@ class Account extends React.Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.container}
-        style={{
-          width: 100+'%',
-        }}
-      >
-        <Text style={styles.title}>
-          Account
-        </Text>
-      </ScrollView>
+      <View style={styles.appContainer}>
+        <ScrollView contentContainerStyle={styles.container}
+                    style={{
+                      width: 100+'%',
+                    }}
+        >
+          <Text style={styles.title}>
+            Account
+          </Text>
+        </ScrollView>
+        <TabBar match={this.props.match}/>
+      </View>
     );
   }
 }

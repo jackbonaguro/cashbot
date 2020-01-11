@@ -8,7 +8,7 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-native';
+import {Link, Switch} from 'react-router-native';
 import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
 
 import { setEmail } from '../actions';
@@ -16,6 +16,7 @@ import { setEmail } from '../actions';
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
 import styles, { pallette } from '../styles';
+import TabBar from "./TabBar";
 
 class Status extends React.Component {
   constructor() {
@@ -121,71 +122,74 @@ class Status extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <Text style={styles.title}>
-            Wallet
-          </Text>
-          <Text style={styles.instructions}>FCMToken: </Text>
-          <TextInput style={styles.instructions}>
-            {`${this.state.fcmToken}`}
-          </TextInput>
-          <Text style={styles.instructions}>Current Address: </Text>
-          <TextInput style={styles.instructions}>
-            {`${this.props.address}`}
-          </TextInput>
-          <Link
-            to='/keystore'
-            component={TouchableOpacity}
-            activeOpacity={0.8}
-            replace={false}
-          >
-            <Text style={styles.routerButton}>Keystore</Text>
-          </Link>
-        </View>
-        <View style={{ backgroundColor: '#123' }}>
-          <Text style={styles.title}>Notifications</Text>
-          <FlatList
-            data={this.state.notifications}
-            extraData={this.state}
-            renderItem={({ item: n }) => {
-              const title = n.title;
-              const body = n.body;
-              const id = n.id;
-              return (
-                <View style={{
-                  padding: 10,
-                }}>
-                  <Text>{`Name: ${title}`}</Text>
-                  <Text>{`Body: ${body}`}</Text>
-                  <Text>{`ID: ${id}`}</Text>
-                </View>
-              );
-            }}
-            keyExtractor={n => n.id}
-          />
-        </View>
-        <View style={{ backgroundColor: '#312' }}>
-          <Text style={styles.title}>Messages</Text>
-          <FlatList
-            data={this.state.messages}
-            extraData={this.state}
-            renderItem={({ item: m }) => {
-              const data = m.data;
-              const id = m.id;
-              return (
-                <View style={{
-                  padding: 10,
-                }}>
-                  <Text>{`Data: ${JSON.stringify(data)}`}</Text>
-                  <Text>{`ID: ${id}`}</Text>
-                </View>
-              );
-            }}
-            keyExtractor={n => n.id}
-          />
-        </View>
-      </ScrollView>
+      <View style={styles.appContainer}>
+        <ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.title}>
+              Wallet
+            </Text>
+            <Text style={styles.instructions}>FCMToken: </Text>
+            <TextInput style={styles.instructions}>
+              {`${this.state.fcmToken}`}
+            </TextInput>
+            <Text style={styles.instructions}>Current Address: </Text>
+            <TextInput style={styles.instructions}>
+              {`${this.props.address}`}
+            </TextInput>
+            <Link
+              to='/keystore'
+              component={TouchableOpacity}
+              activeOpacity={0.8}
+              replace={false}
+            >
+              <Text style={styles.routerButton}>Keystore</Text>
+            </Link>
+          </View>
+          <View style={{ backgroundColor: '#123' }}>
+            <Text style={styles.title}>Notifications</Text>
+            <FlatList
+              data={this.state.notifications}
+              extraData={this.state}
+              renderItem={({ item: n }) => {
+                const title = n.title;
+                const body = n.body;
+                const id = n.id;
+                return (
+                  <View style={{
+                    padding: 10,
+                  }}>
+                    <Text>{`Name: ${title}`}</Text>
+                    <Text>{`Body: ${body}`}</Text>
+                    <Text>{`ID: ${id}`}</Text>
+                  </View>
+                );
+              }}
+              keyExtractor={n => n.id}
+            />
+          </View>
+          <View style={{ backgroundColor: '#312' }}>
+            <Text style={styles.title}>Messages</Text>
+            <FlatList
+              data={this.state.messages}
+              extraData={this.state}
+              renderItem={({ item: m }) => {
+                const data = m.data;
+                const id = m.id;
+                return (
+                  <View style={{
+                    padding: 10,
+                  }}>
+                    <Text>{`Data: ${JSON.stringify(data)}`}</Text>
+                    <Text>{`ID: ${id}`}</Text>
+                  </View>
+                );
+              }}
+              keyExtractor={n => n.id}
+            />
+          </View>
+        </ScrollView>
+        <TabBar match={this.props.match}/>
+      </View>
     );
   }
 }

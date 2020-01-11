@@ -1,9 +1,13 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Dimensions,
+  StatusBar,
+} from 'react-native';
 
 const pallette = {
   white: '#FFFFFF',
   tabBar: '#383838',
-  tabBarHighlight: '#8800BB88',
+  inactive: '#888888'
 };
 
 const styles = StyleSheet.create({
@@ -34,26 +38,38 @@ const styles = StyleSheet.create({
     backgroundColor: pallette.tabBar,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'stretch',
+    alignItems: 'center',
     minHeight: 55,
   },
   tabBarLink: {
-    flex: 1,
+    paddingHorizontal: 10,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   tabBarButton: {
+    color: pallette.inactive,
+    fontSize: 24,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderBottomColor: pallette.tabBar,
+    borderTopColor: pallette.tabBar,
+    borderBottomWidth: 2,
+    borderTopWidth: 2,
+  },
+  tabBarButtonActive: {
     color: pallette.white,
-    fontSize: 16,
-    padding: 10,
-    borderRadius: 25,
+    fontSize: 24,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderBottomColor: '#880088',
+    borderTopColor: pallette.tabBar,
+    borderBottomWidth: 2,
+    borderTopWidth: 2,
   },
   appContainer: {
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height - StatusBar.currentHeight,
     backgroundColor: '#444444',
-    flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-end',
   },

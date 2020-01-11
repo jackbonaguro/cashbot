@@ -29,6 +29,7 @@ import {
 } from '../actions';
 import Storage from '../storage';
 import KeyDerivation from '../keyderivation';
+import TabBar from "./TabBar";
 
 class Keystore extends React.Component {
   constructor() {
@@ -53,67 +54,70 @@ class Keystore extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}
-        >
-          <View>
-            <Text style={styles.title}>Keystore</Text>
-            <TextInput style={styles.instructions}>
-              {this.props.seed ? this.props.seed.toString() : '---'}
-            </TextInput>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
+      <View style={styles.appContainer}>
+        <ScrollView>
+          <View style={styles.container}
           >
-            <Button title={'NEW'} onPress={() => {
-              this.props.dispatch(generateSeed());
-            }}></Button>
-            <Button title={'RELOAD'} onPress={() => {
-              this.props.dispatch(fetchSeed());
-            }}></Button>
-            <Button title={'DELETE'} onPress={() => {
-              this.props.dispatch(deleteSeed());
-            }}></Button>
-          </View>
-          <View style={{ paddingVertical: 10 }}>
-            <Text style={styles.instructions}>{`Current Index: ${(typeof this.props.receiveIndex !== 'undefined') ?
-              this.props.receiveIndex :
-              '---'}`}</Text>
-            <Text style={styles.instructions}>Current Address:</Text>
-            <TextInput style={styles.instructions}>
-              {(this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
-                KeyDerivation.deriveAddress(this.props.seed, this.props.receiveIndex) :
-                '---'}
-            </TextInput>
+            <View>
+              <Text style={styles.title}>Keystore</Text>
+              <TextInput style={styles.instructions}>
+                {this.props.seed ? this.props.seed.toString() : '---'}
+              </TextInput>
+            </View>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}
             >
-              <Button title={'INCREMENT'} onPress={() => {
-                this.props.dispatch(incrementReceiveIndex(this.props.receiveIndex));
+              <Button title={'NEW'} onPress={() => {
+                this.props.dispatch(generateSeed());
               }}></Button>
-              <Button title={'RESET'} onPress={() => {
-                Storage.saveReceiveIndex(0).then(() => {
-                  this.props.dispatch(resetReceiveIndex());
-                }).catch(console.error);
+              <Button title={'RELOAD'} onPress={() => {
+                this.props.dispatch(fetchSeed());
+              }}></Button>
+              <Button title={'DELETE'} onPress={() => {
+                this.props.dispatch(deleteSeed());
               }}></Button>
             </View>
+            <View style={{ paddingVertical: 10 }}>
+              <Text style={styles.instructions}>{`Current Index: ${(typeof this.props.receiveIndex !== 'undefined') ?
+                this.props.receiveIndex :
+                '---'}`}</Text>
+              <Text style={styles.instructions}>Current Address:</Text>
+              <TextInput style={styles.instructions}>
+                {(this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
+                  KeyDerivation.deriveAddress(this.props.seed, this.props.receiveIndex) :
+                  '---'}
+              </TextInput>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Button title={'INCREMENT'} onPress={() => {
+                  this.props.dispatch(incrementReceiveIndex(this.props.receiveIndex));
+                }}></Button>
+                <Button title={'RESET'} onPress={() => {
+                  Storage.saveReceiveIndex(0).then(() => {
+                    this.props.dispatch(resetReceiveIndex());
+                  }).catch(console.error);
+                }}></Button>
+              </View>
+            </View>
+            <Link
+              to='/status'
+              component={TouchableOpacity}
+              activeOpacity={0.8}
+              replace={false}
+            >
+              <Text style={styles.routerButton}>Status</Text>
+            </Link>
           </View>
-          <Link
-            to='/status'
-            component={TouchableOpacity}
-            activeOpacity={0.8}
-            replace={false}
-          >
-            <Text style={styles.routerButton}>Status</Text>
-          </Link>
-        </View>
-      </ScrollView>
+        </ScrollView>
+        <TabBar match={this.props.match}/>
+      </View>
     );
   }
 }

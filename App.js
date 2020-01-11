@@ -24,10 +24,8 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <NativeRouter style={{
-            height: Dimensions.get('window').height,
-          }}>
-          <View style={styles.appContainer}>
+        <NativeRouter>
+          <View>
             <Switch style={{flex:1}}>
               <Redirect exact from="/" to="/status" />
               <Route
@@ -49,7 +47,6 @@ class App extends React.Component {
                 )}
               />
             </Switch>
-            <TabBar />
           </View>
         </NativeRouter>
       </Provider>
