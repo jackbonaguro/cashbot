@@ -1,4 +1,4 @@
-import Storage from '../storage';
+import Storage from '../controllers/storage';
 // import KeyDerivation from "../keyderivation";
 
 export const setEmail = email => ({
@@ -27,11 +27,9 @@ export const setSeed = seed => {
 
 export const fetchReceiveIndex = () => {
   return (dispatch) => {
-    console.log('prefetch');
     Storage.fetchReceiveIndexAsync(() => {
       dispatch(setReceiveIndex());
     }, (index) => {
-      console.log('postfetch' + index);
       dispatch(setReceiveIndex(index));
     });
   };

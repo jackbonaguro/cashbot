@@ -15,7 +15,6 @@ const userReducer = (state = {}, action) => {
       };
     }
     case 'SET_RECEIVE_INDEX': {
-      console.log(action);
       return {
         ...state,
         receiveIndex: action.receiveIndex,

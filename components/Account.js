@@ -29,11 +29,7 @@ class Account extends React.Component {
   render() {
     return (
       <View style={styles.appContainer}>
-        <ScrollView contentContainerStyle={styles.container}
-                    style={{
-                      width: 100+'%',
-                    }}
-        >
+        <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.title}>
             Account
           </Text>

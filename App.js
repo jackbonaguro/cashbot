@@ -27,7 +27,7 @@ class App extends React.Component {
         <NativeRouter>
           <View>
             <Switch style={{flex:1}}>
-              <Redirect exact from="/" to="/status" />
+              <Redirect exact from="/" to="/wallet" />
               <Route
                 path="/status"
                 render={(props) => (
@@ -35,7 +35,7 @@ class App extends React.Component {
                 )}
               />
               <Route
-                path="/keystore"
+                path="/wallet"
                 render={(props) => (
                   <Keystore {...props} />
                 )}

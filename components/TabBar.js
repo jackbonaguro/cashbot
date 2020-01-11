@@ -19,7 +19,6 @@ import styles, { pallette } from '../styles';
 
 const TabBar = (props) => {
   let getStyle = (path) => {
-    console.log(props.match);
     if (props.match.url === path) {
       return styles.tabBarButtonActive;
     } else {
@@ -44,12 +43,12 @@ const TabBar = (props) => {
           <FontAwesome icon={RegularIcons.bell} color={'#FFF'} style={getStyle('/status')}/>
         </Link>
         <Link style={styles.tabBarLink}
-              to='/keystore'
+              to='/wallet'
               component={TouchableOpacity}
               activeOpacity={0.8}
               replace={false}
         >
-          <FontAwesome icon={SolidIcons.wallet} color={'#FFF'} style={getStyle('/keystore')}/>
+          <FontAwesome icon={SolidIcons.wallet} color={'#FFF'} style={getStyle('/wallet')}/>
         </Link>
         <Link style={styles.tabBarLink}
               to='/account'

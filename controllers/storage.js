@@ -5,12 +5,19 @@ import RNSecureKeyStore, {ACCESSIBLE} from "react-native-secure-key-store";
 import Mnemonic from "bitcore-mnemonic";
 
 export default Storage = {
-  // thunk
+  saveReceiveIndex: async (index) => {
+    const keyIndex = 0;
+    try {
+      await AsyncStorage.setItem(`RECEIVE-${keyIndex}/INDEX`, `${index}`);
+    } catch (e) {
+      console.error(e);
+    }
+  },
   fetchReceiveIndexAsync: async (beforeCallback, afterCallback) => {
     const keyIndex = 0;
     beforeCallback();
     try {
-      const value = await AsyncStorage.getItem(`KEY-${keyIndex}/INDEX`);
+      const value = await AsyncStorage.getItem(`RECEIVE-${keyIndex}/INDEX`);
       let index;
       if (value !== null) {
         // value previously stored
@@ -23,10 +30,27 @@ export default Storage = {
       console.error(e);
     }
   },
-  saveReceiveIndex: async (index) => {
+  saveSigningIndex: async (index) => {
     const keyIndex = 0;
     try {
-      await AsyncStorage.setItem(`KEY-${keyIndex}/INDEX`, `${index}`);
+      await AsyncStorage.setItem(`SIGNING-${keyIndex}/INDEX`, `${index}`);
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  fetchSigningIndexAsync: async (beforeCallback, afterCallback) => {
+    const keyIndex = 0;
+    beforeCallback();
+    try {
+      const value = await AsyncStorage.getItem(`SIGNING-${keyIndex}/INDEX`);
+      let index;
+      if (value !== null) {
+        // value previously stored
+        index = parseInt(value);
+      } else {
+        index = 0;
+      }
+      afterCallback(index);
     } catch (e) {
       console.error(e);
     }
@@ -49,7 +73,7 @@ export default Storage = {
   },
   saveSeed: (mnemonic, callback) => {
     const keyIndex = 0;
-    RNSecureKeyStore.set(`KEY-${keyIndex}`, mnemonic.toString(), { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY })
+    RNSecureKeyStore.set(`SEED-${keyIndex}`, mnemonic.toString(), { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY })
       .then((res) => {
         callback(res);
       }, (err) => {
@@ -58,7 +82,7 @@ export default Storage = {
   },
   deleteSeed: (callback) => {
     const keyIndex = 0;
-    RNSecureKeyStore.remove(`KEY-${keyIndex}`)
+    RNSecureKeyStore.remove(`SEED-${keyIndex}`)
       .then((res) => {
         callback(res);
       }, (err) => {

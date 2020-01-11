@@ -17,6 +17,7 @@ import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
 import styles, { pallette } from '../styles';
 import TabBar from "./TabBar";
+import KeyDerivation from "../controllers/keyderivation";
 
 class Status extends React.Component {
   constructor() {
@@ -123,8 +124,8 @@ class Status extends React.Component {
   render() {
     return (
       <View style={styles.appContainer}>
-        <ScrollView>
-          <View style={styles.container}>
+        <ScrollView style={styles.container} contentContainerStyle={{}}>
+          <View>
             <Text style={styles.title}>
               Wallet
             </Text>
@@ -134,16 +135,10 @@ class Status extends React.Component {
             </TextInput>
             <Text style={styles.instructions}>Current Address: </Text>
             <TextInput style={styles.instructions}>
-              {`${this.props.address}`}
+              {(this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
+                KeyDerivation.deriveReceiveAddress(this.props.seed, this.props.receiveIndex) :
+                '---'}
             </TextInput>
-            <Link
-              to='/keystore'
-              component={TouchableOpacity}
-              activeOpacity={0.8}
-              replace={false}
-            >
-              <Text style={styles.routerButton}>Keystore</Text>
-            </Link>
           </View>
           <View style={{ backgroundColor: '#123' }}>
             <Text style={styles.title}>Notifications</Text>
@@ -194,27 +189,10 @@ class Status extends React.Component {
   }
 }
 
-const localStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  }
-});
-
 const mapStateToProps = ({ userReducer }) => ({
   email: userReducer.email,
-  address: userReducer.address,
+  receiveIndex: userReducer.receiveIndex,
+  seed: userReducer.seed,
 });
 
 const mapDispatchToProps = dispatch => ({

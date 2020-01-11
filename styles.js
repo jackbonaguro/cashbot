@@ -7,14 +7,18 @@ import {
 const pallette = {
   white: '#FFFFFF',
   tabBar: '#383838',
-  inactive: '#888888'
+  inactive: '#888888',
+  inputBackground: '#FFFFFF44',
+  black: '#000000',
+  transparent: '#00000000',
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  scrollContainer: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
+  },
+  container: {
     width: 100+'%',
   },
   title: {
@@ -26,13 +30,14 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: pallette.white,
-    marginBottom: 5,
+    //marginBottom: 5,
   },
   routerButton: {
     padding: 10,
     borderRadius: 10,
     backgroundColor: '#555555',
     color: pallette.white,
+    flex: 0,
   },
   tabBar: {
     backgroundColor: pallette.tabBar,

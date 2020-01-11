@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   StyleSheet,
-  TouchableOpacity,
   View,
   ScrollView,
   Button,
+  Clipboard
 } from 'react-native';
 import { Link } from 'react-router-native';
 import { connect } from 'react-redux';
@@ -12,6 +12,8 @@ import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
 import { generateSecureRandom } from 'react-native-securerandom';
 import Mnemonic, { bitcore } from 'bitcore-mnemonic';
 import AsyncStorage from '@react-native-community/async-storage';
+import QRCode from "react-native-qrcode-svg";
+import { SolidIcons } from "react-native-fontawesome/FontAwesomeIcons";
 
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
@@ -27,9 +29,10 @@ import {
   generateSeed,
   deleteSeed
 } from '../actions';
-import Storage from '../storage';
-import KeyDerivation from '../keyderivation';
+import Storage from '../controllers/storage';
+import KeyDerivation from '../controllers/keyderivation';
 import TabBar from "./TabBar";
+import { default as ButtonInput } from './ButtonInput';
 
 class Keystore extends React.Component {
   constructor() {
@@ -55,14 +58,16 @@ class Keystore extends React.Component {
   render() {
     return (
       <View style={styles.appContainer}>
-        <ScrollView>
-          <View style={styles.container}
-          >
+        <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
+          <View>
             <View>
-              <Text style={styles.title}>Keystore</Text>
-              <TextInput style={styles.instructions}>
-                {this.props.seed ? this.props.seed.toString() : '---'}
-              </TextInput>
+              <Text style={styles.title}>Wallet</Text>
+              <ButtonInput style={{...styles.instructions, maxWidth: 100+'%'}}
+                           value={this.props.seed ? this.props.seed.toString() : '---'}
+                           icon={SolidIcons.eye}
+                           iconPress={() => {}}
+              >
+              </ButtonInput>
             </View>
             <View
               style={{
@@ -80,40 +85,56 @@ class Keystore extends React.Component {
                 this.props.dispatch(deleteSeed());
               }}></Button>
             </View>
-            <View style={{ paddingVertical: 10 }}>
-              <Text style={styles.instructions}>{`Current Index: ${(typeof this.props.receiveIndex !== 'undefined') ?
-                this.props.receiveIndex :
-                '---'}`}</Text>
-              <Text style={styles.instructions}>Current Address:</Text>
-              <TextInput style={styles.instructions}>
-                {(this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
-                  KeyDerivation.deriveAddress(this.props.seed, this.props.receiveIndex) :
-                  '---'}
-              </TextInput>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Button title={'INCREMENT'} onPress={() => {
-                  this.props.dispatch(incrementReceiveIndex(this.props.receiveIndex));
-                }}></Button>
-                <Button title={'RESET'} onPress={() => {
-                  Storage.saveReceiveIndex(0).then(() => {
-                    this.props.dispatch(resetReceiveIndex());
-                  }).catch(console.error);
-                }}></Button>
+            <View style={{ paddingVertical: 10, flexDirection: 'row', justifyContent: 'center' }}>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={styles.instructions}>{`Current Index: ${(typeof this.props.receiveIndex !== 'undefined') ?
+                  this.props.receiveIndex :
+                  '---'}`}</Text>
+                <Text style={styles.instructions}>Current Address:</Text>
+                <ButtonInput style={styles.instructions}
+                             value={(this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
+                    KeyDerivation.deriveReceiveAddress(this.props.seed, this.props.receiveIndex) :
+                    '---'}
+                             icon={SolidIcons.copy}
+                             iconPress={(value) => {
+                               Clipboard.setString(value);
+                             }}
+                ></ButtonInput>
               </View>
             </View>
-            <Link
-              to='/status'
-              component={TouchableOpacity}
-              activeOpacity={0.8}
-              replace={false}
+            <View style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center'
+            }}>
+              <View style={{padding: 15, backgroundColor: pallette.white}}>
+                <QRCode
+                  value={
+                    (this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
+                      KeyDerivation.deriveReceiveAddress(this.props.seed, this.props.receiveIndex) :
+                      '---'}
+                  color={pallette.black}
+                  size={150}
+                  ecl={'H'}
+                  backgroundColor={pallette.white}
+                ></QRCode>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
             >
-              <Text style={styles.routerButton}>Status</Text>
-            </Link>
+              <Button title={'INCREMENT'} onPress={() => {
+                this.props.dispatch(incrementReceiveIndex(this.props.receiveIndex));
+              }}></Button>
+              <Button title={'RESET'} onPress={() => {
+                Storage.saveReceiveIndex(0).then(() => {
+                  this.props.dispatch(resetReceiveIndex());
+                }).catch(console.error);
+              }}></Button>
+            </View>
           </View>
         </ScrollView>
         <TabBar match={this.props.match}/>
