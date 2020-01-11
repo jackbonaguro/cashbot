@@ -2,6 +2,9 @@
   "name": "Cashbot",
   "version": "5.4.0",
   "private": true,
+  "resolutions": {
+    "bitcore-lib": "^8.13.0"
+  },
   "scripts": {
     "android-bundle": "ORG_GRADLE_PROJECT_bundleInDev=true npm run android",
     "android": "react-native run-android",
@@ -17,6 +20,7 @@
     "@react-native-community/async-storage": "^1.7.0",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.5.0",
+    "bitcore-message": "^1.0.4",
     "bitcore-mnemonic": "^8.13.0",
     "browserify-zlib": "^0.1.4",
     "buffer": "^5.4.3",

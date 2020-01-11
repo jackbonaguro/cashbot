@@ -1,12 +1,11 @@
 import {generateSecureRandom} from "react-native-securerandom";
+import Message from 'bitcore-message';
 import Mnemonic from "bitcore-mnemonic";
-import {setSeed} from "../actions";
 
 export default KeyDerivation = {
   deriveReceiveAddress: (mnemonic, index) => {
     // Will return address string
     var xpriv = mnemonic.toHDPrivateKey();
-
     const derivationPath = `m/44'/1'/0'/0/${index}`;
     const derivedXPriv = xpriv.derive(derivationPath);
     const pubKey = derivedXPriv.publicKey;
@@ -34,4 +33,12 @@ export default KeyDerivation = {
   },
   //deriveAddressAsync: async (mnemonic, index, beforeCallback, afterCallback) => {
   //}
+  signMessage: (mnemonic, index, message) => {
+    var xpriv = mnemonic.toHDPrivateKey();
+    const derivationPath = `m/44'/1'/0'/0/${index}`;
+    const derivedXPriv = xpriv.derive(derivationPath);
+    console.log(derivedXPriv.publicKey.toAddress());
+    console.log(derivedXPriv.privateKey.toString());
+    return Message(message).sign(derivedXPriv.privateKey);
+  },
 };

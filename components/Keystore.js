@@ -135,6 +135,36 @@ class Keystore extends React.Component {
                 }).catch(console.error);
               }}></Button>
             </View>
+            <View>
+              <Text style={styles.instructions}>Signed Message</Text>
+              <View style={{
+                alignItems: 'center',
+                flexDirection: 'row',
+                justifyContent: 'center'
+              }}>
+                <View style={{padding: 15, backgroundColor: pallette.white}}>
+                  <QRCode
+                    value={'Hello, World!!'}
+                    color={pallette.black}
+                    size={150}
+                    ecl={'H'}
+                    backgroundColor={pallette.white}
+                  ></QRCode>
+                </View>
+                <View style={{padding: 15, backgroundColor: pallette.white}}>
+                  <QRCode
+                    value={
+                      (this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
+                        KeyDerivation.signMessage(this.props.seed, this.props.receiveIndex, 'Hello, World!!') :
+                        '---'}
+                    color={pallette.black}
+                    size={150}
+                    ecl={'H'}
+                    backgroundColor={pallette.white}
+                  ></QRCode>
+                </View>
+              </View>
+            </View>
           </View>
         </ScrollView>
         <TabBar match={this.props.match}/>
