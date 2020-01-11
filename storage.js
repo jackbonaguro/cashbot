@@ -47,20 +47,20 @@ export default Storage = {
         }
       });
   },
-  saveSeed: (mnemonic) => {
+  saveSeed: (mnemonic, callback) => {
     const keyIndex = 0;
     RNSecureKeyStore.set(`KEY-${keyIndex}`, mnemonic.toString(), { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY })
       .then((res) => {
-        console.log(res);
+        callback(res);
       }, (err) => {
         console.warn(err);
       });
   },
-  deleteSeed: () => {
+  deleteSeed: (callback) => {
     const keyIndex = 0;
     RNSecureKeyStore.remove(`KEY-${keyIndex}`)
       .then((res) => {
-        console.log(res)
+        callback(res);
       }, (err) => {
         console.warn(err);
       });

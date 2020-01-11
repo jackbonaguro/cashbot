@@ -15,14 +15,14 @@ export const setReceiveIndex = receiveIndex => {
   return {
     type: 'SET_RECEIVE_INDEX',
     receiveIndex
-  }
+  };
 };
 
 export const setSeed = seed => {
   return {
     type: 'SET_SEED',
     seed
-  }
+  };
 };
 
 export const fetchReceiveIndex = () => {
@@ -34,7 +34,23 @@ export const fetchReceiveIndex = () => {
       console.log('postfetch' + index);
       dispatch(setReceiveIndex(index));
     });
-  }
+  };
+};
+export const incrementReceiveIndex = (receiveIndex) => {
+  return (dispatch) => {
+    dispatch(setReceiveIndex());
+    Storage.saveReceiveIndex(receiveIndex + 1).then(() => {
+      dispatch(setReceiveIndex(receiveIndex + 1));
+    }).catch(console.error);
+  };
+};
+export const resetReceiveIndex = () => {
+  return (dispatch) => {
+    dispatch(setReceiveIndex());
+    Storage.saveReceiveIndex(0).then(() => {
+      dispatch(setReceiveIndex(0));
+    }).catch(console.error);
+  };
 };
 
 export const fetchSeed = () => {
@@ -44,15 +60,25 @@ export const fetchSeed = () => {
     }, (seed) => {
       dispatch(setSeed(seed));
     });
-  }
+  };
 };
-
 export const generateSeed = () => {
   return (dispatch) => {
     KeyDerivation.generateSeedAsync(() => {
       dispatch(setSeed());
     }, (seed) => {
-      dispatch(setSeed(seed));
+      Storage.saveSeed(seed, () => {
+        dispatch(setSeed(seed));
+        dispatch(setReceiveIndex(0));
+      });
     })
-  }
+  };
+};
+export const deleteSeed = () => {
+  return (dispatch) => {
+    Storage.deleteSeed(() => {
+      dispatch(setSeed());
+      dispatch(setReceiveIndex(0));
+    });
+  };
 };

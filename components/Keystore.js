@@ -17,7 +17,16 @@ import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
 import styles, { pallette } from '../styles';
 
-import { fetchReceiveIndex, fetchSeed, setSeed, setReceiveIndex, generateSeed } from '../actions';
+import {
+  fetchReceiveIndex,
+  incrementReceiveIndex,
+  resetReceiveIndex,
+  fetchSeed,
+  setSeed,
+  setReceiveIndex,
+  generateSeed,
+  deleteSeed
+} from '../actions';
 import Storage from '../storage';
 import KeyDerivation from '../keyderivation';
 
@@ -62,14 +71,11 @@ class Keystore extends React.Component {
             <Button title={'NEW'} onPress={() => {
               this.props.dispatch(generateSeed());
             }}></Button>
-            <Button title={'SAVE'} onPress={() => {
-              Storage.saveSeed(this.props.seed);
-            }}></Button>
-            <Button title={'LOAD'} onPress={() => {
+            <Button title={'RELOAD'} onPress={() => {
               this.props.dispatch(fetchSeed());
             }}></Button>
             <Button title={'DELETE'} onPress={() => {
-              Storage.deleteSeed();
+              this.props.dispatch(deleteSeed());
             }}></Button>
           </View>
           <View style={{ paddingVertical: 10 }}>
@@ -89,13 +95,11 @@ class Keystore extends React.Component {
               }}
             >
               <Button title={'INCREMENT'} onPress={() => {
-                Storage.saveReceiveIndex(this.props.receiveIndex + 1).then(() => {
-                  this.props.dispatch(fetchReceiveIndex());
-                }).catch(console.error);
+                this.props.dispatch(incrementReceiveIndex(this.props.receiveIndex));
               }}></Button>
               <Button title={'RESET'} onPress={() => {
                 Storage.saveReceiveIndex(0).then(() => {
-                  this.props.dispatch(fetchReceiveIndex());
+                  this.props.dispatch(resetReceiveIndex());
                 }).catch(console.error);
               }}></Button>
             </View>
