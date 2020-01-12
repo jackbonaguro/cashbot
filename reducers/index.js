@@ -41,14 +41,12 @@ const userReducer = (state = {}, action) => {
 const messageReducer = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_MESSAGE': {
-      console.log(state.messages);
       let messages = state.messages;
       if (!messages) {
         messages = [action.message];
       } else {
         messages.push(action.message);
       }
-      console.log(messages);
       return {
         ...state,
         messages

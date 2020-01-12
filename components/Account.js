@@ -11,7 +11,13 @@ import { Link } from 'react-router-native';
 import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
 import { RegularIcons } from 'react-native-fontawesome';
 
-import {fetchSigningIndex, setEmail, setSigningXPriv } from '../actions';
+import {
+  fetchSigningIndex,
+  setEmail,
+  setSigningIndex,
+  setSigningXPriv,
+  deriveAndSetSigningXPriv,
+} from '../actions';
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
 import { default as ButtonInput } from './ButtonInput';
@@ -21,18 +27,12 @@ import KeyDerivation from "../controllers/keyderivation";
 import Api from '../controllers/api';
 
 class Account extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      fcmToken: '',
-      notifications: [],
-      messages: [],
-    };
-  }
-
-  async componentDidMount() {
+  componentDidMount() {
     this.props.dispatch(fetchSigningIndex());
-    this.props.dispatch(setSigningXPriv(KeyDerivation.deriveSigningXPriv(this.props.seed)));
+    //this.props.dispatch(setSigningIndex(0));
+    //this.props.dispatch(setSigningXPriv('abcd'));
+    //this.props.dispatch(setSigningXPriv(KeyDerivation.deriveSigningXPriv(this.props.seed)));
+    this.props.dispatch(deriveAndSetSigningXPriv(this.props.seed));
   }
 
   render() {
@@ -63,12 +63,12 @@ class Account extends React.Component {
                         fcmToken: this.props.fcmToken
                       }, (err, apiResponse) => {
                         if (err) {
-                          console.warn(err);
+                          //console.warn(err);
                         }
-                        console.log(apiResponse);
+                        // Register worked, make a note
                       });
                     } catch (err) {
-                      console.error(err);
+                      //console.error(err);
                     }
                   }}
           >

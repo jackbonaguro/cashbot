@@ -38,10 +38,7 @@ let signMessage = (mnemonic, path, message) => {
 
 let signMessageXPriv = (xpriv, message) => {
   var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
-  console.log('xpriv: '+hdPrivateKey);
-  console.log('message: '+message);
   let sig = Message(message).sign(hdPrivateKey.privateKey);
-  console.log('Sig: '+sig);
   return sig;
 };
 
@@ -68,7 +65,6 @@ export default KeyDerivation = {
     generateSecureRandom(16).then(randomBytes => {
       // Successfully generates new BIP39 Mnemonic from native secure RNG
       let mnemonic = Mnemonic.fromSeed(new Buffer(randomBytes), Mnemonic.Words.ENGLISH);
-      //console.log(mnemonic);
       //this.props.dispatch(setSeed(mnemonic));
       afterCallback(mnemonic)
     });

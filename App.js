@@ -30,7 +30,6 @@ class App extends React.Component {
     const messageHandler = (message) => {
       let userState = store.getState().userReducer;
       Api.addressRequestHook(KeyDerivation.deriveReceiveAddress(userState.seed, userState.receiveIndex), (err, responseBody) => {
-        console.log(`responseBody: ${JSON.stringify(responseBody)}`);
         store.dispatch(addMessage({
           data: message.data,
           id: message.messageId,

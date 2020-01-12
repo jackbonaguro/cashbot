@@ -18,7 +18,6 @@ const initializeFCM = async (fcmToken, messageHandler, notificationHandler, call
       firebase.notifications().onNotificationDisplayed((notification: Notification) => {
         // Process your notification as required
         // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
-        console.log('Notification: ', notification);
       });
 
       let notificationListener = firebase.notifications().onNotification(notificationHandler);

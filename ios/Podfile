@@ -51,6 +51,9 @@ target 'Cashbot' do
 
 
 
+
+  pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
+
   target 'CashbotTests' do
     inherit! :search_paths
     # Pods for testing

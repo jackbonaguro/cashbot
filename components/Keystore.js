@@ -4,7 +4,8 @@ import {
   View,
   ScrollView,
   Button,
-  Clipboard
+  Clipboard,
+  ActivityIndicator
 } from 'react-native';
 import { Link } from 'react-router-native';
 import { connect } from 'react-redux';
@@ -12,11 +13,12 @@ import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
 import { generateSecureRandom } from 'react-native-securerandom';
 import Mnemonic, { bitcore } from 'bitcore-mnemonic';
 import AsyncStorage from '@react-native-community/async-storage';
-import QRCode from "react-native-qrcode-svg";
 import { SolidIcons, RegularIcons } from "react-native-fontawesome/FontAwesomeIcons";
+import Toast from 'react-native-simple-toast';
 
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
+import { default as QRCode } from './QRCode';
 import styles, { pallette } from '../styles';
 
 import {
@@ -46,6 +48,9 @@ class Keystore extends React.Component {
   }
 
   render() {
+    const address = (this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
+      KeyDerivation.deriveReceiveAddress(this.props.seed, this.props.receiveIndex) :
+      null;
     return (
       <View style={styles.appContainer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
@@ -57,6 +62,7 @@ class Keystore extends React.Component {
                            icon={RegularIcons.copy}
                            iconPress={(value) => {
                              Clipboard.setString(value);
+                             Toast.show('Copied Mnemonic');
                            }}
               >
               </ButtonInput>
@@ -79,19 +85,21 @@ class Keystore extends React.Component {
             </View>
             <View style={{ paddingVertical: 10, flexDirection: 'row', justifyContent: 'center' }}>
               <View style={{ alignItems: 'center' }}>
-                <Text style={styles.instructions}>{`Current Index: ${(typeof this.props.receiveIndex !== 'undefined') ?
-                  this.props.receiveIndex :
-                  '---'}`}</Text>
+                <Text style={styles.instructions}>Current Index:</Text>
+                { (typeof this.props.receiveIndex !== 'undefined') ? (
+                  <Text style={styles.instructions}>{this.props.receiveIndex}</Text>
+                ) : (<ActivityIndicator size="small" color="#880088" />)}
                 <Text style={styles.instructions}>Current Address:</Text>
-                <ButtonInput style={styles.instructions}
-                             value={(this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
-                    KeyDerivation.deriveReceiveAddress(this.props.seed, this.props.receiveIndex) :
-                    '---'}
-                             icon={RegularIcons.copy}
-                             iconPress={(value) => {
-                               Clipboard.setString(value);
-                             }}
-                ></ButtonInput>
+                { address ? (
+                  <ButtonInput style={styles.instructions}
+                               value={address}
+                               icon={RegularIcons.copy}
+                               iconPress={(value) => {
+                                 Clipboard.setString(value);
+                                 Toast.show('Copied Address');
+                               }}
+                  ></ButtonInput>
+                ) : (<ActivityIndicator size="small" color="#880088" />)}
               </View>
             </View>
             <View style={{
@@ -99,18 +107,13 @@ class Keystore extends React.Component {
               flexDirection: 'row',
               justifyContent: 'center'
             }}>
-              <View style={{padding: 15, backgroundColor: pallette.white}}>
+              { address ? (
                 <QRCode
-                  value={
-                    (this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
-                      KeyDerivation.deriveReceiveAddress(this.props.seed, this.props.receiveIndex) :
-                      '---'}
-                  color={pallette.appBackground}
+                  value={address}
                   size={100}
                   ecl={'M'}
-                  backgroundColor={pallette.white}
                 ></QRCode>
-              </View>
+              ) : (<ActivityIndicator size="large" color="#880088" />)}
             </View>
             <View
               style={{
@@ -134,27 +137,27 @@ class Keystore extends React.Component {
                 flexDirection: 'row',
                 justifyContent: 'center'
               }}>
-                <View style={{padding: 15, backgroundColor: pallette.white}}>
-                  <QRCode
-                    value={'Hello, World!!'}
-                    color={pallette.appBackground}
-                    size={150}
-                    ecl={'M'}
-                    backgroundColor={pallette.white}
-                  ></QRCode>
-                </View>
-                <View style={{padding: 15, backgroundColor: pallette.white}}>
-                  <QRCode
-                    value={
-                      (this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
-                        KeyDerivation.signReceiveMessage(this.props.seed, this.props.receiveIndex, 'Hello, World!!') :
-                        '---'}
-                    color={pallette.appBackground}
-                    size={150}
-                    ecl={'M'}
-                    backgroundColor={pallette.white}
-                  ></QRCode>
-                </View>
+                <QRCode
+                  value={'Hello, World!!'}
+                  size={150}
+                  ecl={'M'}
+                  style={{
+                    borderBottomRightRadius: 0,
+                    borderTopRightRadius: 0,
+                  }}
+                ></QRCode>
+                <QRCode
+                  value={
+                    (this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
+                      KeyDerivation.signReceiveMessage(this.props.seed, this.props.receiveIndex, 'Hello, World!!') :
+                      '---'}
+                  size={150}
+                  style={{
+                    borderBottomLeftRadius: 0,
+                    borderTopLeftRadius: 0,
+                  }}
+                  ecl={'M'}
+                ></QRCode>
               </View>
             </View>
           </View>

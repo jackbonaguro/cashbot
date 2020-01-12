@@ -35,9 +35,9 @@ const Api = {
     };
     const sig = signPayload(signingXPriv, payload);
 
-    console.log(Bitcore.HDPublicKey(xPub).publicKey.toAddress('testnet').toString());
-    console.log(JSON.stringify(payload));
-    console.log(sig);
+    // console.log(Bitcore.HDPublicKey(xPub).publicKey.toAddress('testnet').toString());
+    // console.log(JSON.stringify(payload));
+    // console.log(sig);
 
     fetch(`${baseUrl}/register?s=${encodeURIComponent(sig)}`, {
       method: 'POST',
@@ -47,7 +47,6 @@ const Api = {
         "Content-Type": "application/json"
       },
     }).then(response => {
-      //console.log(response);
       return response.json();
     }).then(json => {
       return callback(null, json);

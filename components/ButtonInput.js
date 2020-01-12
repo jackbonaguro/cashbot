@@ -6,14 +6,6 @@ import FontAwesome, { RegularIcons, SolidIcons, BrandIcons } from 'react-native-
 import { default as TextInput } from './TextInput';
 
 class ButtonInput extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.state = {};
-    // if (props) {
-    //   this.state.value = this.props.value;
-    // }
-  }
-
   render() {
     return (
       <View

@@ -42,7 +42,7 @@ export const setSeed = seed => {
 };
 
 export const fetchReceiveIndex = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     Storage.fetchReceiveIndexAsync(() => {
       dispatch(setReceiveIndex());
     }, (index) => {
@@ -68,12 +68,19 @@ export const resetReceiveIndex = () => {
 };
 
 export const fetchSigningIndex = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     Storage.fetchSigningIndexAsync(() => {
       dispatch(setSigningIndex());
     }, (index) => {
       dispatch(setSigningIndex(index));
     });
+  };
+};
+
+export const deriveAndSetSigningXPriv = (seed) => {
+  return async (dispatch) => {
+    const xpriv = KeyDerivation.deriveSigningXPriv(seed);
+    dispatch(setSigningXPriv(xpriv));
   };
 };
 
