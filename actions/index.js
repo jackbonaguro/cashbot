@@ -1,4 +1,5 @@
 import Storage from '../controllers/storage';
+import fcm from "../controllers/fcm";
 // import KeyDerivation from "../keyderivation";
 
 export const setEmail = email => ({
@@ -80,3 +81,26 @@ export const deleteSeed = () => {
     });
   };
 };
+
+
+
+export const addMessage = (message) => {
+  return {
+    type: 'ADD_MESSAGE',
+    message
+  }
+};
+
+export const addNotification = (notification) => {
+  return {
+    type: 'ADD_NOTIFCATION',
+    notification
+  }
+};
+
+export const setFCMToken = (fcmToken) => {
+  return {
+    type: 'SET_FCM_TOKEN',
+    fcmToken
+  };
+}

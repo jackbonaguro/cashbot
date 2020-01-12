@@ -2,6 +2,10 @@
 import firebase from 'react-native-firebase';
 
 import store from './store';
+import { incrementReceiveIndex, fetchReceiveIndex, fetchSeed } from './actions';
+import KeyDerivation from './controllers/keyderivation';
+import Api from './controllers/api';
+import Storage from './controllers/storage';
 
 async function respondToMessage(address) {
   return new Promise((resolve, reject) => {
@@ -19,13 +23,25 @@ async function respondToMessage(address) {
 }
 
 export default async (message) => {
-  let address = store.getState().userReducer.address;
-  //console.warn('Address from store: ' + address);
-  respondToMessage(address).then(responseBody => {
-    // Keep count of requests, check restrictions and bucket
-  }).catch(err => {
-    // Notify user something is wrong with their configuration
-  });
+  // Can't rely on redux too much here since we need things to happen in a particular order;
+  // thunks don't have callbacks since they expect a re-render
 
-  return Promise.resolve();
+  let seed = Storage.fetchSeedAsync(() => {}, (seed) => {
+    if (!seed) {
+      return;
+    }
+    let receiveIndex = Storage.fetchReceiveIndexAsync(() => {}, (receiveIndex) => {
+      if (!receiveIndex) {
+        return;
+      }
+      Api.addressRequestHook(KeyDerivation.deriveReceiveAddress(seed, receiveIndex), (err, responseBody) => {
+        if (err) {
+          //console.error(err);
+          return;
+        }
+        // Keep count of requests, check restrictions and bucket
+        store.dispatch(incrementReceiveIndex(receiveIndex));
+      });
+    });
+  });
 }

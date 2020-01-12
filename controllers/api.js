@@ -1,8 +1,8 @@
-
+const baseUrl = 'http://localhost:3001';
 
 export default Api = {
   addressRequestHook: async (address, callback) => {
-    fetch('http://localhost:3001/respond', {
+    fetch(`${baseUrl}/respond`, {
       method: 'POST',
       body: `{ "address": "${address}" }`,
       headers: {

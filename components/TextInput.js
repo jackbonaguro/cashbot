@@ -9,7 +9,8 @@ let CustomTextInput = (props) => {
       style={[{
         ...props.style
       },{
-        fontFamily: 'Iosevka'
+        fontFamily: 'Iosevka',
+        flexShrink: 1
       }]}
     >
       {props.children}

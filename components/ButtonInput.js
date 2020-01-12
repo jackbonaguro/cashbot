@@ -25,7 +25,8 @@ class ButtonInput extends React.Component {
           borderRadius: 15,
           flexDirection: 'row',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          paddingHorizontal: 15,
         }]}
       >
         <TextInput style={styles.instructions}>{this.props.value || ''}</TextInput>
@@ -34,7 +35,7 @@ class ButtonInput extends React.Component {
         }}>
           <FontAwesome icon={this.props.icon}
                        color={pallette.white}
-                       style={[{fontSize: 20, paddingHorizontal: 15},
+                       style={[{fontSize: 20, paddingLeft: 15},
                          styles.instructions]}
           ></FontAwesome>
         </TouchableOpacity>

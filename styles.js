@@ -7,10 +7,12 @@ import {
 const pallette = {
   white: '#FFFFFF',
   tabBar: '#383838',
+  tabBarActive: '#880088',
   inactive: '#888888',
   inputBackground: '#FFFFFF44',
   black: '#000000',
   transparent: '#00000000',
+  appBackground: '#444444',
 };
 
 const styles = StyleSheet.create({
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: pallette.white,
-    //marginBottom: 5,
+    paddingVertical: 5,
   },
   routerButton: {
     padding: 10,
@@ -67,14 +69,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderBottomColor: '#880088',
+    borderBottomColor: pallette.tabBar,
     borderTopColor: pallette.tabBar,
     borderBottomWidth: 2,
     borderTopWidth: 2,
   },
   appContainer: {
     height: Dimensions.get('window').height - StatusBar.currentHeight,
-    backgroundColor: '#444444',
+    backgroundColor: pallette.appBackground,
     flexDirection: 'column',
     alignItems: 'flex-end',
   },

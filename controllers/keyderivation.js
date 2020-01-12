@@ -1,25 +1,30 @@
 import {generateSecureRandom} from "react-native-securerandom";
 import Message from 'bitcore-message';
-import Mnemonic from "bitcore-mnemonic";
+import Mnemonic, { bitcore as Bitcore } from "bitcore-mnemonic";
+
+let deriveAddress = (mnemonic, path) => {
+  // Will return address string
+  var xpriv = mnemonic.toHDPrivateKey();
+  const derivedXPriv = xpriv.derive(path);
+  const pubKey = derivedXPriv.publicKey;
+  const address = pubKey.toAddress('testnet');
+  return `${address}`;
+};
+
+let signMessage = (mnemonic, path, message) => {
+  var xpriv = mnemonic.toHDPrivateKey();
+  const derivedXPriv = xpriv.derive(path);
+  return Message(message).sign(derivedXPriv.privateKey);
+};
 
 export default KeyDerivation = {
   deriveReceiveAddress: (mnemonic, index) => {
-    // Will return address string
-    var xpriv = mnemonic.toHDPrivateKey();
-    const derivationPath = `m/44'/1'/0'/0/${index}`;
-    const derivedXPriv = xpriv.derive(derivationPath);
-    const pubKey = derivedXPriv.publicKey;
-    const address = pubKey.toAddress();
-    return `${address}`;
+    return deriveAddress(mnemonic, `m/44'/1'/0'/0/${index}`);
   },
-  deriveAddress: (mnemonic, path, index) => {
-    // Will return address string
-    var xpriv = mnemonic.toHDPrivateKey();
-    const derivedXPriv = xpriv.derive(path);
-    const pubKey = derivedXPriv.publicKey;
-    const address = pubKey.toAddress();
-    return `${address}`;
+  deriveSigningAddress: (mnemonic, index) => {
+    return deriveAddress(mnemonic, `m/44'/1'/1'/0/${index}`);
   },
+  deriveAddress,
   generateSeedAsync: async (beforeCallback, afterCallback) => {
     // 16 bytes = 128 bits, yielding a 12-word mnemonic (compatible with most wallets)
     // https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
@@ -33,12 +38,11 @@ export default KeyDerivation = {
   },
   //deriveAddressAsync: async (mnemonic, index, beforeCallback, afterCallback) => {
   //}
-  signMessage: (mnemonic, index, message) => {
-    var xpriv = mnemonic.toHDPrivateKey();
-    const derivationPath = `m/44'/1'/0'/0/${index}`;
-    const derivedXPriv = xpriv.derive(derivationPath);
-    console.log(derivedXPriv.publicKey.toAddress());
-    console.log(derivedXPriv.privateKey.toString());
-    return Message(message).sign(derivedXPriv.privateKey);
+  signReceiveMessage: (mnemonic, index, message) => {
+    return signMessage(mnemonic, `m/44'/1'/0'/0/${index}`, message);
   },
+  signSigningMessage: (mnemonic, index, message) => {
+    return signMessage(mnemonic, `m/44'/1'/1'/0/${index}`, message);
+  },
+  signMessage,
 };
