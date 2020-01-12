@@ -16,7 +16,7 @@ import { default as ButtonInput } from './ButtonInput';
 import styles, { pallette } from '../styles';
 import TabBar from "./TabBar";
 
-class Account extends React.Component {
+class Account2 extends React.Component {
   componentDidMount() {
     //this.props.dispatch(fetchSigningIndex());
     //this.props.dispatch(deriveAndSetSigningXPriv(this.props.seed));
@@ -67,4 +67,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Account)
+)(Account2)

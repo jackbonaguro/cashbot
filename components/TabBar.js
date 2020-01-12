@@ -35,28 +35,20 @@ const TabBar = (props) => {
         alignItems: 'center',
       }}>
         <Link style={styles.tabBarLink}
-              to='/status'
-              component={TouchableOpacity}
-              activeOpacity={0.8}
-              replace={false}
-        >
-          <FontAwesome icon={RegularIcons.bell} color={'#FFF'} style={getStyle('/status')}/>
-        </Link>
-        <Link style={styles.tabBarLink}
-              to='/wallet'
-              component={TouchableOpacity}
-              activeOpacity={0.8}
-              replace={false}
-        >
-          <FontAwesome icon={SolidIcons.wallet} color={'#FFF'} style={getStyle('/wallet')}/>
-        </Link>
-        <Link style={styles.tabBarLink}
               to='/account'
               component={TouchableOpacity}
               activeOpacity={0.8}
               replace={false}
         >
           <FontAwesome icon={RegularIcons.user} color={'#FFF'} style={getStyle('/account')}/>
+        </Link>
+        <Link style={styles.tabBarLink}
+              to='/account2'
+              component={TouchableOpacity}
+              activeOpacity={0.8}
+              replace={false}
+        >
+          <FontAwesome icon={RegularIcons.user} color={'#FFF'} style={getStyle('/account2')}/>
         </Link>
       </View>
     </View>

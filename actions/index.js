@@ -3,10 +3,16 @@ import FCM from "../controllers/fcm";
 import Api from "../controllers/api";
 import KeyDerivation from "../controllers/keyderivation";
 
-export const setEmail = email => ({
-  type: 'SET_EMAIL',
-  email
-});
+export const setEmail = email => {
+  return async (dispatch) => {
+    setTimeout(() => {
+      dispatch({
+        type: 'SET_EMAIL',
+        email
+      });
+    }, 2000);
+  };
+};
 
 export const setReceiveXPub = receiveXPub => ({
   type: 'SET_RECEIVE_XPUB',
