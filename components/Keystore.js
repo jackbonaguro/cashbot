@@ -21,6 +21,7 @@ import styles, { pallette } from '../styles';
 
 import {
   fetchReceiveIndex,
+  fetchSigningIndex,
   incrementReceiveIndex,
   resetReceiveIndex,
   fetchSeed,

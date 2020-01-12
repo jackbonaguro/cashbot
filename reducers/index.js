@@ -26,6 +26,12 @@ const userReducer = (state = {}, action) => {
         signingIndex: action.signingIndex,
       };
     }
+    case 'SET_SIGNING_XPRIV': {
+      return {
+        ...state,
+        signingXPriv: action.signingXPriv,
+      };
+    }
     default: {
       return state;
     }

@@ -1,6 +1,7 @@
 import Storage from '../controllers/storage';
-import fcm from "../controllers/fcm";
-// import KeyDerivation from "../keyderivation";
+import FCM from "../controllers/fcm";
+import Api from "../controllers/api";
+import KeyDerivation from "../controllers/keyderivation";
 
 export const setEmail = email => ({
   type: 'SET_EMAIL',
@@ -16,6 +17,20 @@ export const setReceiveIndex = receiveIndex => {
   return {
     type: 'SET_RECEIVE_INDEX',
     receiveIndex
+  };
+};
+
+export const setSigningXPriv = signingXPriv => {
+  return {
+    type: 'SET_SIGNING_XPRIV',
+    signingXPriv
+  };
+};
+
+export const setSigningIndex = signingIndex => {
+  return {
+    type: 'SET_SIGNING_INDEX',
+    signingIndex
   };
 };
 
@@ -49,6 +64,16 @@ export const resetReceiveIndex = () => {
     Storage.saveReceiveIndex(0).then(() => {
       dispatch(setReceiveIndex(0));
     }).catch(console.error);
+  };
+};
+
+export const fetchSigningIndex = () => {
+  return (dispatch) => {
+    Storage.fetchSigningIndexAsync(() => {
+      dispatch(setSigningIndex());
+    }, (index) => {
+      dispatch(setSigningIndex(index));
+    });
   };
 };
 
@@ -103,4 +128,4 @@ export const setFCMToken = (fcmToken) => {
     type: 'SET_FCM_TOKEN',
     fcmToken
   };
-}
+};

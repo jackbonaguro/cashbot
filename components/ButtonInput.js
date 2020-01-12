@@ -17,7 +17,6 @@ class ButtonInput extends React.Component {
   render() {
     return (
       <View
-        {...this.props}
         style={[{
           ...this.props.style
         }, {
@@ -29,7 +28,9 @@ class ButtonInput extends React.Component {
           paddingHorizontal: 15,
         }]}
       >
-        <TextInput style={styles.instructions}>{this.props.value || ''}</TextInput>
+        <TextInput style={styles.instructions}
+                   {...this.props}
+        ></TextInput>
         <TouchableOpacity onPress={() => {
           this.props.iconPress(this.props.value);
         }}>

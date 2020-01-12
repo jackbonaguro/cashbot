@@ -11,10 +11,38 @@ let deriveAddress = (mnemonic, path) => {
   return `${address}`;
 };
 
+let deriveXPub = (mnemonic, path) => {
+  // Will return address string
+  var xpriv = mnemonic.toHDPrivateKey();
+  const derivedXPriv = xpriv.derive(path);
+  const hdPublicKey = derivedXPriv.hdPublicKey;
+  return `${hdPublicKey}`;
+};
+let deriveXPriv = (mnemonic, path) => {
+  // Will return address string
+  var xpriv = mnemonic.toHDPrivateKey();
+  const derivedXPriv = xpriv.derive(path);
+  return `${derivedXPriv}`;
+};
+let deriveXPubFromXPriv = (xpriv) => {
+  var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
+  const hdPublicKey = hdPrivateKey.hdPublicKey;
+  return `${hdPublicKey}`;
+};
+
 let signMessage = (mnemonic, path, message) => {
   var xpriv = mnemonic.toHDPrivateKey();
   const derivedXPriv = xpriv.derive(path);
   return Message(message).sign(derivedXPriv.privateKey);
+};
+
+let signMessageXPriv = (xpriv, message) => {
+  var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
+  console.log('xpriv: '+hdPrivateKey);
+  console.log('message: '+message);
+  let sig = Message(message).sign(hdPrivateKey.privateKey);
+  console.log('Sig: '+sig);
+  return sig;
 };
 
 export default KeyDerivation = {
@@ -24,6 +52,15 @@ export default KeyDerivation = {
   deriveSigningAddress: (mnemonic, index) => {
     return deriveAddress(mnemonic, `m/44'/1'/1'/0/${index}`);
   },
+  deriveSigningXPriv: (mnemonic) => {
+    return deriveXPriv(mnemonic, `m/44'/1'/1'/0`);
+  },
+  deriveSigningXPub: (mnemonic) => {
+    return deriveXPub(mnemonic, `m/44'/1'/1'/0`);
+  },
+  deriveXPub,
+  deriveXPriv,
+  deriveXPubFromXPriv,
   deriveAddress,
   generateSeedAsync: async (beforeCallback, afterCallback) => {
     // 16 bytes = 128 bits, yielding a 12-word mnemonic (compatible with most wallets)
@@ -45,4 +82,5 @@ export default KeyDerivation = {
     return signMessage(mnemonic, `m/44'/1'/1'/0/${index}`, message);
   },
   signMessage,
+  signMessageXPriv,
 };

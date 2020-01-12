@@ -26,11 +26,11 @@ export default async (message) => {
   // Can't rely on redux too much here since we need things to happen in a particular order;
   // thunks don't have callbacks since they expect a re-render
 
-  let seed = Storage.fetchSeedAsync(() => {}, (seed) => {
+  Storage.fetchSeedAsync(() => {}, (seed) => {
     if (!seed) {
       return;
     }
-    let receiveIndex = Storage.fetchReceiveIndexAsync(() => {}, (receiveIndex) => {
+    Storage.fetchReceiveIndexAsync(() => {}, (receiveIndex) => {
       if (!receiveIndex) {
         return;
       }
