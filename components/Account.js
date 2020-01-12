@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { RegularIcons } from 'react-native-fontawesome';
 
 import {
+  fetchReceiveIndex,
+  fetchSeed,
   setEmail
 } from '../actions';
 import { default as Text } from './Text';
@@ -15,23 +17,23 @@ import { default as TextInput } from './TextInput';
 import { default as ButtonInput } from './ButtonInput';
 import styles, { pallette } from '../styles';
 import TabBar from "./TabBar";
+import KeyDerivation from "../controllers/keyderivation";
+import Mnemonic from "bitcore-mnemonic";
 
 class Account extends React.Component {
-  componentDidMount() {
-    //this.props.dispatch(fetchSigningIndex());
-    //this.props.dispatch(deriveAndSetSigningXPriv(this.props.seed));
+  constructor() {
+    super();
+    this.state = {
+      mnemonic: new Mnemonic('absorb notice behind exhibit industry wool nominee eyebrow into phone sight nut'),
+    };
   }
-
   render() {
-    let num = 1;
-    if (this.props.match.url === '/account2') {
-      num = 2;
-    }
+    const address = KeyDerivation.deriveReceiveAddress(this.state.mnemonic, 1);
     return (
       <View style={styles.appContainer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.title}>
-            Account{`${num}`}
+            Account1
           </Text>
           <Text style={styles.instructions}>Email: </Text>
           <ButtonInput
@@ -46,6 +48,7 @@ class Account extends React.Component {
           ></ButtonInput>
           <Button title={'REGISTER'}
                   onPress={() => {
+                    KeyDerivation.deriveReceiveAddress(this.state.mnemonic, 1);
                   }}
           >
           </Button>
