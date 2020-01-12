@@ -2,29 +2,22 @@ import Storage from '../controllers/storage';
 import FCM from "../controllers/fcm";
 import Api from "../controllers/api";
 import KeyDerivation from "../controllers/keyderivation";
-import Mnemonic from 'bitcore-mnemonic';
+import Mnemonic, { bitcore as Bitcore } from "bitcore-mnemonic";
 
 export const setEmail = email => {
   return async (dispatch) => {
-    /*setTimeout(() => {
-      dispatch({
-        type: 'SET_EMAIL',
-        email
-      });
-    }, 2000);*/
-    Storage.fetchReceiveIndexAsync(() => {
-      KeyDerivation.deriveAddress(
-        new Mnemonic('absorb notice behind exhibit industry wool nominee eyebrow into phone sight nut'),
-        `m/44'/1'/0'/0/0`);
+    return new Promise((resolve) => {
       dispatch({
         type: 'SET_EMAIL',
       });
-    }, (index) => {
+      let mnemonic = new Mnemonic('attract mango aim dwarf fat kid mixed razor concert frozen thunder chuckle');
+      let address = KeyDerivation.deriveAddress(mnemonic, `m/44'/1'/0'/0/0`);
       dispatch({
         type: 'SET_EMAIL',
-        email
+        email: address
       });
-    });
+      resolve();
+    })
   };
 };
 

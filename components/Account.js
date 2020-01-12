@@ -2,7 +2,7 @@ import React from 'react';
 import {
   View,
   ScrollView,
-  Button
+  Button, ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
 import { RegularIcons } from 'react-native-fontawesome';
@@ -21,14 +21,12 @@ import KeyDerivation from "../controllers/keyderivation";
 import Mnemonic from "bitcore-mnemonic";
 
 class Account extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      mnemonic: new Mnemonic('absorb notice behind exhibit industry wool nominee eyebrow into phone sight nut'),
-    };
+  componentDidMount() {
+    this.props.dispatch(setEmail());
   }
+
   render() {
-    const address = KeyDerivation.deriveReceiveAddress(this.state.mnemonic, 1);
+    //this.props.dispatch(setEmail());
     return (
       <View style={styles.appContainer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
@@ -36,19 +34,12 @@ class Account extends React.Component {
             Account1
           </Text>
           <Text style={styles.instructions}>Email: </Text>
-          <ButtonInput
-            onSubmitEditing={({nativeEvent})=> {
-              this.props.dispatch(setEmail(nativeEvent.text));
-            }}
-            defaultValue={this.props.email || ''}
-            icon={RegularIcons.timesCircle}
-            iconPress={() => {
-              this.props.dispatch(setEmail());
-            }}
-          ></ButtonInput>
+          { (typeof this.props.email !== 'undefined') ? (
+            <Text style={styles.instructions}>{this.props.email}</Text>
+          ) : (<ActivityIndicator size="small" color="#880088" />)}
           <Button title={'REGISTER'}
                   onPress={() => {
-                    KeyDerivation.deriveReceiveAddress(this.state.mnemonic, 1);
+                    this.props.dispatch(setEmail());
                   }}
           >
           </Button>
