@@ -13,22 +13,24 @@ export default Storage = {
       console.error(e);
     }
   },
-  fetchReceiveIndexAsync: async (beforeCallback, afterCallback) => {
-    const keyIndex = 0;
-    beforeCallback();
-    try {
-      const value = await AsyncStorage.getItem(`RECEIVE-${keyIndex}/INDEX`);
-      let index;
-      if (value !== null) {
-        // value previously stored
-        index = parseInt(value);
-      } else {
-        index = 0;
+  fetchReceiveIndex: async () => {
+    return new Promise((resolve, reject) => {
+      const keyIndex = 0;
+      try {
+        AsyncStorage.getItem(`RECEIVE-${keyIndex}/INDEX`).then(value => {
+          let index;
+          if (value !== null) {
+            // value previously stored
+            index = parseInt(value);
+          } else {
+            index = 0;
+          }
+          return resolve(index);
+        });
+      } catch (err) {
+        return reject(err);
       }
-      afterCallback(index);
-    } catch (e) {
-      console.error(e);
-    }
+    });
   },
   saveSigningIndex: async (index) => {
     const keyIndex = 0;
@@ -38,22 +40,24 @@ export default Storage = {
       console.error(e);
     }
   },
-  fetchSigningIndexAsync: async (beforeCallback, afterCallback) => {
-    const keyIndex = 0;
-    beforeCallback();
-    try {
-      const value = await AsyncStorage.getItem(`SIGNING-${keyIndex}/INDEX`);
-      let index;
-      if (value !== null) {
-        // value previously stored
-        index = parseInt(value);
-      } else {
-        index = 0;
+  fetchSigningIndex: async () => {
+    return new Promise((resolve, reject) => {
+      const keyIndex = 0;
+      try {
+        AsyncStorage.getItem(`SIGNING-${keyIndex}/INDEX`).then(value => {
+          let index;
+          if (value !== null) {
+            // value previously stored
+            index = parseInt(value);
+          } else {
+            index = 0;
+          }
+          return resolve(index);
+        });
+      } catch (err) {
+        return reject(err);
       }
-      afterCallback(index);
-    } catch (e) {
-      console.error(e);
-    }
+    });
   },
   fetchSeedAsync: async (beforeCallback, afterCallback) => {
     const keyIndex = 0;

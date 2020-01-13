@@ -12,11 +12,20 @@ export const setReceiveXPub = receiveXPub => ({
   type: 'SET_RECEIVE_XPUB',
   receiveXPub
 });
-
-export const setReceiveIndex = receiveIndex => {
-  return {
-    type: 'SET_RECEIVE_INDEX',
-    receiveIndex
+export const setReceiveIndex = (receiveIndex, seed) => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'SET_RECEIVE_INDEX',
+      receiveIndex
+    });
+  };
+};
+export const setReceiveAddress = receiveAddress => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'SET_RECEIVE_ADDRESS',
+      receiveAddress
+    });
   };
 };
 
@@ -26,11 +35,16 @@ export const setSigningXPriv = signingXPriv => {
     signingXPriv
   };
 };
-
 export const setSigningIndex = signingIndex => {
   return {
     type: 'SET_SIGNING_INDEX',
     signingIndex
+  };
+};
+export const setSigningAddress = signingAddress => {
+  return {
+    type: 'SET_SIGNING_ADDRESS',
+    signingAddress
   };
 };
 
@@ -41,46 +55,85 @@ export const setSeed = seed => {
   };
 };
 
-export const fetchReceiveIndex = () => {
+export const fetchReceiveIndex = (seed) => {
   return async (dispatch) => {
-    Storage.fetchReceiveIndexAsync(() => {
-      dispatch(setReceiveIndex());
-    }, (index) => {
-      dispatch(setReceiveIndex(index));
-    });
-  };
-};
-export const incrementReceiveIndex = (receiveIndex) => {
-  return (dispatch) => {
     dispatch(setReceiveIndex());
-    Storage.saveReceiveIndex(receiveIndex + 1).then(() => {
-      dispatch(setReceiveIndex(receiveIndex + 1));
+    dispatch(setReceiveAddress());
+    dispatch({
+      type: 'SET_TEST_SIG'
+    });
+    Storage.fetchReceiveIndex().then((index) => {
+      dispatch(setReceiveIndex(index, seed));
+      dispatch(setTestSig(seed, index));
+      KeyDerivation.deriveReceiveAddress(seed, index).then(address => {
+        dispatch(setReceiveAddress(address));
+      }).catch(console.error);
     }).catch(console.error);
   };
 };
-export const resetReceiveIndex = () => {
+export const incrementReceiveIndex = (seed, receiveIndex) => {
   return (dispatch) => {
     dispatch(setReceiveIndex());
+    dispatch(setReceiveAddress());
+    dispatch({
+      type: 'SET_TEST_SIG'
+    });
+    return Storage.saveReceiveIndex(receiveIndex + 1).then(() => {
+      dispatch(setReceiveIndex(receiveIndex + 1, seed));
+      dispatch(setTestSig(seed, receiveIndex + 1));
+      return KeyDerivation.deriveReceiveAddress(seed, receiveIndex + 1).then(address => {
+        return dispatch(setReceiveAddress(address));
+      }).catch(console.error);
+    }).catch(console.error);
+  };
+};
+export const resetReceiveIndex = (seed) => {
+  return (dispatch) => {
+    dispatch(setReceiveIndex());
+    dispatch(setReceiveAddress());
+    dispatch({
+      type: 'SET_TEST_SIG'
+    });
     Storage.saveReceiveIndex(0).then(() => {
-      dispatch(setReceiveIndex(0));
+      dispatch(setReceiveIndex(0, seed));
+      dispatch(setTestSig(seed, 0));
+      KeyDerivation.deriveReceiveAddress(seed, 0).then(address => {
+        dispatch(setReceiveAddress(address));
+      }).catch(console.error);
     }).catch(console.error);
   };
 };
 
-export const fetchSigningIndex = () => {
+export const fetchSigningIndex = (seed) => {
   return async (dispatch) => {
-    Storage.fetchSigningIndexAsync(() => {
-      dispatch(setSigningIndex());
-    }, (index) => {
+    dispatch(setSigningIndex());
+    dispatch(setSigningAddress());
+    console.log('fetchSigningIndex');
+    /*Storage.fetchSigningIndex.then((index) => {
       dispatch(setSigningIndex(index));
-    });
+      KeyDerivation.deriveSigningAddress(seed, index).then(address => {
+        dispatch(setReceiveAddress(address));
+      }).catch(console.error);
+    });*/
   };
 };
 
 export const deriveAndSetSigningXPriv = (seed) => {
   return async (dispatch) => {
-    const xpriv = KeyDerivation.deriveSigningXPriv(seed);
-    dispatch(setSigningXPriv(xpriv));
+    KeyDerivation.deriveSigningXPriv(seed).then(xpriv => {
+      dispatch(setSigningXPriv(xpriv));
+    }).catch(console.error);
+  };
+};
+
+export const setTestSig = (seed, index) => {
+  return async (dispatch) => {
+    KeyDerivation.signReceiveMessage(seed, index, 'Hello, World!!').then(testSig => {
+      dispatch({
+        type: 'SET_TEST_SIG',
+        testSig
+      });
+    }).catch(console.error);
   };
 };
 
@@ -90,6 +143,9 @@ export const fetchSeed = () => {
       dispatch(setSeed());
     }, (seed) => {
       dispatch(setSeed(seed));
+      dispatch(fetchReceiveIndex(seed));
+      dispatch(fetchSigningIndex(seed));
+      dispatch(deriveAndSetSigningXPriv(seed));
     });
   };
 };

@@ -27,14 +27,6 @@ import KeyDerivation from "../controllers/keyderivation";
 import Api from '../controllers/api';
 
 class Account extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(fetchSigningIndex());
-    //this.props.dispatch(setSigningIndex(0));
-    //this.props.dispatch(setSigningXPriv('abcd'));
-    //this.props.dispatch(setSigningXPriv(KeyDerivation.deriveSigningXPriv(this.props.seed)));
-    this.props.dispatch(deriveAndSetSigningXPriv(this.props.seed));
-  }
-
   render() {
     return (
       <View style={styles.appContainer}>

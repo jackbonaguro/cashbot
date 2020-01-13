@@ -8,7 +8,7 @@ import { createStore } from 'redux';
 import { NativeRouter, Route, Redirect, Switch } from 'react-router-native';
 import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
 
-import { setFCMToken, addNotification, addMessage, incrementReceiveIndex } from './actions';
+import {setFCMToken, addNotification, addMessage, incrementReceiveIndex, fetchSeed} from './actions';
 
 import Keystore from './components/Keystore';
 import Status from './components/Status';
@@ -53,6 +53,7 @@ class App extends React.Component {
         notificationListener,
       });
     });
+    store.dispatch(fetchSeed());
   }
 
   componentWillUnmount() {

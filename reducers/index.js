@@ -20,10 +20,28 @@ const userReducer = (state = {}, action) => {
         receiveIndex: action.receiveIndex,
       };
     }
+    case 'SET_RECEIVE_ADDRESS': {
+      return {
+        ...state,
+        receiveAddress: action.receiveAddress,
+      };
+    }
     case 'SET_SIGNING_INDEX': {
       return {
         ...state,
         signingIndex: action.signingIndex,
+      };
+    }
+    case 'SET_TEST_SIG': {
+      return {
+        ...state,
+        testSig: action.testSig
+      };
+    }
+    case 'SET_SIGNING_ADDRESS': {
+      return {
+        ...state,
+        signingAddress: action.signingAddress,
       };
     }
     case 'SET_SIGNING_XPRIV': {

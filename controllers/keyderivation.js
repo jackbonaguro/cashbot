@@ -3,72 +3,117 @@ import Message from 'bitcore-message';
 import Mnemonic, { bitcore as Bitcore } from "bitcore-mnemonic";
 
 let deriveAddress = (mnemonic, path) => {
-  // Will return address string
-  var xpriv = mnemonic.toHDPrivateKey();
-  const derivedXPriv = xpriv.derive(path);
-  const pubKey = derivedXPriv.publicKey;
-  const address = pubKey.toAddress('testnet');
-  return `${address}`;
+  return new Promise((resolve, reject) => {
+    try {
+      // Will return address string
+      var xpriv = mnemonic.toHDPrivateKey();
+      const derivedXPriv = xpriv.derive(path);
+      const pubKey = derivedXPriv.publicKey;
+      const address = pubKey.toAddress('testnet');
+      return resolve(`${address}`);
+    } catch (err) {
+      return reject(err);
+    }
+  });
 };
 
 let deriveXPub = (mnemonic, path) => {
-  // Will return address string
-  var xpriv = mnemonic.toHDPrivateKey();
-  const derivedXPriv = xpriv.derive(path);
-  const hdPublicKey = derivedXPriv.hdPublicKey;
-  return `${hdPublicKey}`;
+  return new Promise((resolve, reject) => {
+    try {
+      // Will return address string
+      var xpriv = mnemonic.toHDPrivateKey();
+      const derivedXPriv = xpriv.derive(path);
+      const hdPublicKey = derivedXPriv.hdPublicKey;
+      return resolve(`${hdPublicKey}`);
+    } catch (err) {
+      return reject(err);
+    }
+  });
 };
 let deriveXPriv = (mnemonic, path) => {
-  // Will return address string
-  var xpriv = mnemonic.toHDPrivateKey();
-  const derivedXPriv = xpriv.derive(path);
-  return `${derivedXPriv}`;
+  return new Promise((resolve, reject) => {
+    try {
+      // Will return address string
+      var xpriv = mnemonic.toHDPrivateKey();
+      const derivedXPriv = xpriv.derive(path);
+      return resolve(`${derivedXPriv}`);
+    } catch (err) {
+      return reject(err);
+    }
+  });
 };
 let deriveXPubFromXPriv = (xpriv) => {
-  var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
-  const hdPublicKey = hdPrivateKey.hdPublicKey;
-  return `${hdPublicKey}`;
+  return new Promise((resolve, reject) => {
+    try {
+      var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
+      const hdPublicKey = hdPrivateKey.hdPublicKey;
+      return resolve(`${hdPublicKey}`);
+    } catch (err) {
+      return reject(err);
+    }
+  });
 };
 
 let signMessage = (mnemonic, path, message) => {
-  var xpriv = mnemonic.toHDPrivateKey();
-  const derivedXPriv = xpriv.derive(path);
-  return Message(message).sign(derivedXPriv.privateKey);
+  return new Promise((resolve, reject) => {
+    try {
+      var xpriv = mnemonic.toHDPrivateKey();
+      const derivedXPriv = xpriv.derive(path);
+      return resolve(Message(message).sign(derivedXPriv.privateKey));
+    } catch (err) {
+      return reject(err);
+    }
+  });
 };
 
 let signMessageXPriv = (xpriv, message) => {
-  var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
-  let sig = Message(message).sign(hdPrivateKey.privateKey);
-  return sig;
+  return new Promise((resolve, reject) => {
+    try {
+      var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
+      let sig = Message(message).sign(hdPrivateKey.privateKey);
+      return resolve(sig);
+    } catch (err) {
+      return reject(err);
+    }
+  });
+};
+
+const generateSeed = () => {
+  return new Promise((resolve, reject) => {
+    // 16 bytes = 128 bits, yielding a 12-word mnemonic (compatible with most wallets)
+    // https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+    generateSecureRandom(16).then(randomBytes => {
+      // Successfully generates new BIP39 Mnemonic from native secure RNG
+      try {
+        let mnemonic = Mnemonic.fromSeed(new Buffer(randomBytes), Mnemonic.Words.ENGLISH);
+
+        //this.props.dispatch(setSeed(mnemonic));
+        return resolve(mnemonic);
+      } catch (err) {
+        return reject(err);
+      }
+    });
+  });
 };
 
 export default KeyDerivation = {
-  deriveReceiveAddress: (mnemonic, index) => {
+  deriveReceiveAddress: async (mnemonic, index) => {
     return deriveAddress(mnemonic, `m/44'/1'/0'/0/${index}`);
   },
-  deriveSigningAddress: (mnemonic, index) => {
+  deriveSigningAddress: async (mnemonic, index) => {
     return deriveAddress(mnemonic, `m/44'/1'/1'/0/${index}`);
   },
-  deriveSigningXPriv: (mnemonic) => {
+  deriveSigningXPriv: async (mnemonic) => {
     return deriveXPriv(mnemonic, `m/44'/1'/1'/0`);
   },
-  deriveSigningXPub: (mnemonic) => {
+  deriveSigningXPub: async (mnemonic) => {
     return deriveXPub(mnemonic, `m/44'/1'/1'/0`);
   },
   deriveXPub,
   deriveXPriv,
   deriveXPubFromXPriv,
   deriveAddress,
-  generateSeedAsync: async (beforeCallback, afterCallback) => {
-    // 16 bytes = 128 bits, yielding a 12-word mnemonic (compatible with most wallets)
-    // https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
-    generateSecureRandom(16).then(randomBytes => {
-      // Successfully generates new BIP39 Mnemonic from native secure RNG
-      let mnemonic = Mnemonic.fromSeed(new Buffer(randomBytes), Mnemonic.Words.ENGLISH);
-      //this.props.dispatch(setSeed(mnemonic));
-      afterCallback(mnemonic)
-    });
-  },
+  generateSeed,
   //deriveAddressAsync: async (mnemonic, index, beforeCallback, afterCallback) => {
   //}
   signReceiveMessage: (mnemonic, index, message) => {

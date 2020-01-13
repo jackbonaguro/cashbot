@@ -38,34 +38,24 @@ import TabBar from "./TabBar";
 import { default as ButtonInput } from './ButtonInput';
 
 class Keystore extends React.Component {
-  constructor() {
-    super();
-  }
-
-  async componentDidMount() {
-    this.props.dispatch(fetchSeed());
-    this.props.dispatch(fetchReceiveIndex());
-  }
-
   render() {
-    const address = (this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
-      KeyDerivation.deriveReceiveAddress(this.props.seed, this.props.receiveIndex) :
-      null;
     return (
       <View style={styles.appContainer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
           <View>
             <View>
               <Text style={styles.title}>Wallet</Text>
-              <ButtonInput style={{...styles.instructions, maxWidth: 100+'%'}}
-                           value={this.props.seed ? this.props.seed.toString() : '---'}
-                           icon={RegularIcons.copy}
-                           iconPress={(value) => {
-                             Clipboard.setString(value);
-                             Toast.show('Copied Mnemonic');
-                           }}
-              >
-              </ButtonInput>
+              { this.props.seed ? (
+                <ButtonInput style={{...styles.instructions, maxWidth: 100+'%'}}
+                             value={this.props.seed.toString()}
+                             icon={RegularIcons.copy}
+                             iconPress={(value) => {
+                               Clipboard.setString(value);
+                               Toast.show('Copied Mnemonic');
+                             }}
+                >
+                </ButtonInput>
+              ) : (<ActivityIndicator size="small" color="#880088" />)}
             </View>
             <View
               style={{
@@ -90,9 +80,9 @@ class Keystore extends React.Component {
                   <Text style={styles.instructions}>{this.props.receiveIndex}</Text>
                 ) : (<ActivityIndicator size="small" color="#880088" />)}
                 <Text style={styles.instructions}>Current Address:</Text>
-                { address ? (
+                { this.props.receiveAddress ? (
                   <ButtonInput style={styles.instructions}
-                               value={address}
+                               value={this.props.receiveAddress}
                                icon={RegularIcons.copy}
                                iconPress={(value) => {
                                  Clipboard.setString(value);
@@ -107,9 +97,9 @@ class Keystore extends React.Component {
               flexDirection: 'row',
               justifyContent: 'center'
             }}>
-              { address ? (
+              { this.props.receiveAddress ? (
                 <QRCode
-                  value={address}
+                  value={this.props.receiveAddress}
                   size={100}
                   ecl={'M'}
                 ></QRCode>
@@ -122,43 +112,40 @@ class Keystore extends React.Component {
               }}
             >
               <Button title={'INCREMENT'} onPress={() => {
-                this.props.dispatch(incrementReceiveIndex(this.props.receiveIndex));
+                this.props.dispatch(incrementReceiveIndex(this.props.seed, this.props.receiveIndex));
               }}></Button>
               <Button title={'RESET'} onPress={() => {
-                Storage.saveReceiveIndex(0).then(() => {
-                  this.props.dispatch(resetReceiveIndex());
-                }).catch(console.error);
+                this.props.dispatch(resetReceiveIndex(this.props.seed));
               }}></Button>
             </View>
             <View>
               <Text style={styles.instructions}>Signed Message: "Hello, World!!"</Text>
-              <View style={{
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'center'
-              }}>
-                <QRCode
-                  value={'Hello, World!!'}
-                  size={150}
-                  ecl={'M'}
-                  style={{
-                    borderBottomRightRadius: 0,
-                    borderTopRightRadius: 0,
-                  }}
-                ></QRCode>
-                <QRCode
-                  value={
-                    (this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
-                      KeyDerivation.signReceiveMessage(this.props.seed, this.props.receiveIndex, 'Hello, World!!') :
-                      '---'}
+              { this.props.testSig ? (
+                <View style={{
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'center'
+                }}>
+                  <QRCode
+                    value={'Hello, World!!'}
+                    size={150}
+                    ecl={'M'}
+                    style={{
+                      borderBottomRightRadius: 0,
+                      borderTopRightRadius: 0,
+                    }}
+                  ></QRCode>
+                  <QRCode
+                  value={this.props.testSig}
                   size={150}
                   style={{
                     borderBottomLeftRadius: 0,
                     borderTopLeftRadius: 0,
                   }}
                   ecl={'M'}
-                ></QRCode>
-              </View>
+                  ></QRCode>
+                </View>
+              ) : (<ActivityIndicator size="large" color="#880088" />)}
             </View>
           </View>
         </ScrollView>
@@ -184,7 +171,9 @@ const localStyles = StyleSheet.create({
 const mapStateToProps = ({ userReducer }) => ({
   email: userReducer.email,
   receiveIndex: userReducer.receiveIndex,
+  receiveAddress: userReducer.receiveAddress,
   seed: userReducer.seed,
+  testSig: userReducer.testSig,
 });
 
 const mapDispatchToProps = dispatch => ({
