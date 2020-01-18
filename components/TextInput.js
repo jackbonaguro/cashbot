@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import {pallette} from "../styles";
+import {palette} from "../styles";
 
 let CustomTextInput = (props) => {
   return (

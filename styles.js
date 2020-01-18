@@ -4,7 +4,7 @@ import {
   StatusBar,
 } from 'react-native';
 
-const pallette = {
+const palette = {
   white: '#FFFFFF',
   tabBar: '#383838',
   tabBarActive: '#880088',
@@ -13,6 +13,7 @@ const pallette = {
   black: '#000000',
   transparent: '#00000000',
   appBackground: '#444444',
+  purple: '#880088',
 };
 
 const styles = StyleSheet.create({
@@ -26,23 +27,23 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     textAlign: 'center',
-    color: pallette.white,
+    color: palette.white,
     margin: 10,
   },
   instructions: {
     textAlign: 'center',
-    color: pallette.white,
+    color: palette.white,
     paddingVertical: 5,
   },
   routerButton: {
     padding: 10,
     borderRadius: 10,
     backgroundColor: '#555555',
-    color: pallette.white,
+    color: palette.white,
     flex: 0,
   },
   tabBar: {
-    backgroundColor: pallette.tabBar,
+    backgroundColor: palette.tabBar,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -55,32 +56,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tabBarButton: {
-    color: pallette.inactive,
+    color: palette.inactive,
     fontSize: 24,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderBottomColor: pallette.tabBar,
-    borderTopColor: pallette.tabBar,
+    borderBottomColor: palette.tabBar,
+    borderTopColor: palette.tabBar,
     borderBottomWidth: 2,
     borderTopWidth: 2,
   },
   tabBarButtonActive: {
-    color: pallette.white,
+    color: palette.white,
     fontSize: 24,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderBottomColor: pallette.tabBar,
-    borderTopColor: pallette.tabBar,
+    borderBottomColor: palette.tabBar,
+    borderTopColor: palette.tabBar,
     borderBottomWidth: 2,
     borderTopWidth: 2,
   },
   appContainer: {
     height: Dimensions.get('window').height - StatusBar.currentHeight,
-    backgroundColor: pallette.appBackground,
+    backgroundColor: palette.appBackground,
     flexDirection: 'column',
     alignItems: 'flex-end',
   },
 });
 
 export default styles;
-export { pallette };
+export { palette };

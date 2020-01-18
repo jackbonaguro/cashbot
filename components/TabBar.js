@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
 
 import { default as Text } from './Text';
-import styles, { pallette } from '../styles';
+import styles, { palette } from '../styles';
 
 const TabBar = (props) => {
   let getStyle = (path) => {

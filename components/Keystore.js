@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  Button,
   Clipboard,
   ActivityIndicator
 } from 'react-native';
@@ -19,7 +18,7 @@ import Toast from 'react-native-simple-toast';
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
 import { default as QRCode } from './QRCode';
-import styles, { pallette } from '../styles';
+import styles, { palette } from '../styles';
 
 import {
   fetchReceiveIndex,
@@ -36,6 +35,7 @@ import Storage from '../controllers/storage';
 import KeyDerivation from '../controllers/keyderivation';
 import TabBar from "./TabBar";
 import { default as ButtonInput } from './ButtonInput';
+import { default as Button } from './Button';
 
 class Keystore extends React.Component {
   render() {
@@ -55,7 +55,7 @@ class Keystore extends React.Component {
                              }}
                 >
                 </ButtonInput>
-              ) : (<ActivityIndicator size="small" color="#880088" />)}
+              ) : (<ActivityIndicator size="small" color={palette.purple} />)}
             </View>
             <View
               style={{
@@ -78,7 +78,7 @@ class Keystore extends React.Component {
                 <Text style={styles.instructions}>Current Index:</Text>
                 { (typeof this.props.receiveIndex !== 'undefined') ? (
                   <Text style={styles.instructions}>{this.props.receiveIndex}</Text>
-                ) : (<ActivityIndicator size="small" color="#880088" />)}
+                ) : (<ActivityIndicator size="small" color={palette.purple} />)}
                 <Text style={styles.instructions}>Current Address:</Text>
                 { this.props.receiveAddress ? (
                   <ButtonInput style={styles.instructions}
@@ -89,7 +89,7 @@ class Keystore extends React.Component {
                                  Toast.show('Copied Address');
                                }}
                   ></ButtonInput>
-                ) : (<ActivityIndicator size="small" color="#880088" />)}
+                ) : (<ActivityIndicator size="small" color={palette.purple} />)}
               </View>
             </View>
             <View style={{
@@ -103,7 +103,7 @@ class Keystore extends React.Component {
                   size={100}
                   ecl={'M'}
                 ></QRCode>
-              ) : (<ActivityIndicator size="large" color="#880088" />)}
+              ) : (<ActivityIndicator size="large" color={palette.purple} />)}
             </View>
             <View
               style={{
@@ -145,7 +145,7 @@ class Keystore extends React.Component {
                   ecl={'M'}
                   ></QRCode>
                 </View>
-              ) : (<ActivityIndicator size="large" color="#880088" />)}
+              ) : (<ActivityIndicator size="large" color={palette.purple} />)}
             </View>
           </View>
         </ScrollView>

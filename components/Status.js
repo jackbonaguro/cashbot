@@ -6,6 +6,7 @@ import {
   ScrollView,
   FlatList,
   Button,
+  ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {Link, Switch} from 'react-router-native';
@@ -15,11 +16,8 @@ import { incrementReceiveIndex, addMessage, addNotification } from '../actions';
 
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
-import styles, { pallette } from '../styles';
+import styles, { palette } from '../styles';
 import TabBar from "./TabBar";
-
-import KeyDerivation from "../controllers/keyderivation";
-import Api from '../controllers/api';
 
 class Status extends React.Component {
   render() {
@@ -35,11 +33,12 @@ class Status extends React.Component {
               {`${this.props.fcmToken}`}
             </TextInput>
             <Text style={styles.instructions}>Current Address: </Text>
-            <TextInput style={styles.instructions}>
-              {(this.props.seed && (typeof this.props.receiveIndex !== 'undefined')) ?
-                KeyDerivation.deriveReceiveAddress(this.props.seed, this.props.receiveIndex) :
-                '---'}
-            </TextInput>
+            { this.props.receiveAddress ?
+              (
+                <TextInput style={styles.instructions}>
+                </TextInput>
+              ) :  (<ActivityIndicator size="small" color={palette.purple} />)
+            }
           </View>
           <View style={{ backgroundColor: '#123' }}>
             <Text style={styles.title}>Notifications</Text>
@@ -92,7 +91,7 @@ class Status extends React.Component {
 
 const mapStateToProps = ({ userReducer, messageReducer }) => ({
   email: userReducer.email,
-  receiveIndex: userReducer.receiveIndex,
+  receiveAddress: userReducer.receiveAddress,
   seed: userReducer.seed,
   messages: messageReducer.messages,
   notifications: messageReducer.notifications,

@@ -4,7 +4,6 @@ import {
   View,
   ScrollView,
   FlatList,
-  Button
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-native';
@@ -21,7 +20,8 @@ import {
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
 import { default as ButtonInput } from './ButtonInput';
-import styles, { pallette } from '../styles';
+import { default as Button } from './Button';
+import styles, { palette } from '../styles';
 import TabBar from "./TabBar";
 import KeyDerivation from "../controllers/keyderivation";
 import Api from '../controllers/api';

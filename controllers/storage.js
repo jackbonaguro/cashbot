@@ -5,15 +5,17 @@ import RNSecureKeyStore, {ACCESSIBLE} from "react-native-secure-key-store";
 import Mnemonic from "bitcore-mnemonic";
 
 export default Storage = {
-  saveReceiveIndex: async (index) => {
-    const keyIndex = 0;
-    try {
-      await AsyncStorage.setItem(`RECEIVE-${keyIndex}/INDEX`, `${index}`);
-    } catch (e) {
-      console.error(e);
-    }
+  saveReceiveIndex: (index) => {
+    return new Promise((resolve, reject) => {
+      const keyIndex = 0;
+      console.log('B');
+      AsyncStorage.setItem(`RECEIVE-${keyIndex}/INDEX`, `${index}`).then(() => {
+        console.log('C');
+        return resolve();
+      }).catch(reject);
+    });
   },
-  fetchReceiveIndex: async () => {
+  fetchReceiveIndex: () => {
     return new Promise((resolve, reject) => {
       const keyIndex = 0;
       try {
@@ -32,15 +34,13 @@ export default Storage = {
       }
     });
   },
-  saveSigningIndex: async (index) => {
-    const keyIndex = 0;
-    try {
-      await AsyncStorage.setItem(`SIGNING-${keyIndex}/INDEX`, `${index}`);
-    } catch (e) {
-      console.error(e);
-    }
+  saveSigningIndex: (index) => {
+    return new Promise((resolve, reject) => {
+      const keyIndex = 0;
+      AsyncStorage.setItem(`SIGNING-${keyIndex}/INDEX`, `${index}`).then(resolve).catch(reject);
+    });
   },
-  fetchSigningIndex: async () => {
+  fetchSigningIndex: () => {
     return new Promise((resolve, reject) => {
       const keyIndex = 0;
       try {
@@ -59,38 +59,36 @@ export default Storage = {
       }
     });
   },
-  fetchSeedAsync: async (beforeCallback, afterCallback) => {
-    const keyIndex = 0;
-    beforeCallback();
-    RNSecureKeyStore.get(`KEY-${keyIndex}`)
-      .then((res) => {
-        afterCallback(new Mnemonic(res, Mnemonic.Words.ENGLISH));
-      }, (err) => {
+  fetchSeed: () => {
+    return new Promise((resolve, reject) => {
+      const keyIndex = 0;
+      RNSecureKeyStore.get(`KEY-${keyIndex}`).then((res) => {
+        return resolve(new Mnemonic(res, Mnemonic.Words.ENGLISH));
+      }).catch((err) => {
         if (err && err.code && err.code === '404') {
           // 404 comes from filesystem server, means no file exists at this path.
           // For now we just set mnemonic back to null.
-          afterCallback(null);
-        } else {
-          console.warn(err);
+          return resolve(null);
         }
+        return reject(err);
       });
+    });
   },
-  saveSeed: (mnemonic, callback) => {
-    const keyIndex = 0;
-    RNSecureKeyStore.set(`SEED-${keyIndex}`, mnemonic.toString(), { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY })
-      .then((res) => {
-        callback(res);
-      }, (err) => {
-        console.warn(err);
-      });
+  saveSeed: (mnemonic) => {
+    return new Promise((resolve, reject) => {
+      const keyIndex = 0;
+      RNSecureKeyStore.set(
+          `SEED-${keyIndex}`,
+          mnemonic.toString(),
+          { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY }
+        ).then(resolve).catch(reject);
+    });
   },
-  deleteSeed: (callback) => {
-    const keyIndex = 0;
-    RNSecureKeyStore.remove(`SEED-${keyIndex}`)
-      .then((res) => {
-        callback(res);
-      }, (err) => {
-        console.warn(err);
-      });
+  deleteSeed: () => {
+    return new Promise((resolve, reject) => {
+      const keyIndex = 0;
+      RNSecureKeyStore.remove(`SEED-${keyIndex}`)
+        .then(resolve).catch(reject);
+    });
   }
 }

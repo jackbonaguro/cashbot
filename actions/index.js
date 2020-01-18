@@ -1,7 +1,10 @@
+import AsyncStorage from "@react-native-community/async-storage";
+
 import Storage from '../controllers/storage';
 import FCM from "../controllers/fcm";
 import Api from "../controllers/api";
 import KeyDerivation from "../controllers/keyderivation";
+import {bitcore as Bitcore} from "bitcore-mnemonic/lib/mnemonic";
 
 export const setEmail = email => ({
   type: 'SET_EMAIL',
@@ -64,7 +67,7 @@ export const fetchReceiveIndex = (seed) => {
     });
     Storage.fetchReceiveIndex().then((index) => {
       dispatch(setReceiveIndex(index, seed));
-      dispatch(setTestSig(seed, index));
+      //dispatch(setTestSig(seed, index));
       KeyDerivation.deriveReceiveAddress(seed, index).then(address => {
         dispatch(setReceiveAddress(address));
       }).catch(console.error);
@@ -73,18 +76,38 @@ export const fetchReceiveIndex = (seed) => {
 };
 export const incrementReceiveIndex = (seed, receiveIndex) => {
   return (dispatch) => {
-    dispatch(setReceiveIndex());
+    /*dispatch(setReceiveIndex());
     dispatch(setReceiveAddress());
     dispatch({
       type: 'SET_TEST_SIG'
     });
-    return Storage.saveReceiveIndex(receiveIndex + 1).then(() => {
-      dispatch(setReceiveIndex(receiveIndex + 1, seed));
-      dispatch(setTestSig(seed, receiveIndex + 1));
-      return KeyDerivation.deriveReceiveAddress(seed, receiveIndex + 1).then(address => {
-        return dispatch(setReceiveAddress(address));
-      }).catch(console.error);
-    }).catch(console.error);
+    Storage.saveReceiveIndex(receiveIndex + 1).catch(console.error);
+    dispatch(setReceiveIndex(receiveIndex + 1, seed));
+    //dispatch(setTestSig(seed, receiveIndex + 1));
+    //console.warn('A');
+    KeyDerivation.deriveReceiveAddress(seed, receiveIndex + 1).then(address => {
+      dispatch(setReceiveAddress(address));
+    }).catch(console.error);*/
+    dispatch(setReceiveIndex());
+    dispatch(setReceiveAddress());
+    /*setTimeout(() => {
+      dispatch(setReceiveIndex(1));
+      dispatch(setReceiveAddress('1234'));
+    }, 1000);*/
+    /*new Promise((resolve) => {
+      return setTimeout(resolve, 1000);
+    })*/
+    //AsyncStorage.setItem(`TEST`, `1`)
+    //KeyDerivation.deriveXPubFromXPriv('xprv9s21ZrQH143K2JF8RafpqtKiTbsbaxEeUaMnNHsm5o6wCW3z8ySyH4UxFVSfZ8n7ESu7fgir8imbZKLYVBxFPND1pniTZ81vKfd45EHKX73')
+    new Promise((resolve) => {
+      var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
+      const hdPublicKey = hdPrivateKey.hdPublicKey;
+      return resolve();
+    })
+    .then(() => {
+      dispatch(setReceiveIndex(1));
+      dispatch(setReceiveAddress('1234'));
+    });
   };
 };
 export const resetReceiveIndex = (seed) => {
@@ -96,7 +119,7 @@ export const resetReceiveIndex = (seed) => {
     });
     Storage.saveReceiveIndex(0).then(() => {
       dispatch(setReceiveIndex(0, seed));
-      dispatch(setTestSig(seed, 0));
+      //dispatch(setTestSig(seed, 0));
       KeyDerivation.deriveReceiveAddress(seed, 0).then(address => {
         dispatch(setReceiveAddress(address));
       }).catch(console.error);
@@ -139,9 +162,12 @@ export const setTestSig = (seed, index) => {
 
 export const fetchSeed = () => {
   return (dispatch) => {
-    Storage.fetchSeedAsync(() => {
-      dispatch(setSeed());
-    }, (seed) => {
+    dispatch(setSeed());
+    dispatch(setReceiveIndex());
+    dispatch(setSigningIndex());
+    dispatch(setReceiveAddress());
+    dispatch(setSigningAddress());
+    Storage.fetchSeed().then((seed) => {
       dispatch(setSeed(seed));
       dispatch(fetchReceiveIndex(seed));
       dispatch(fetchSigningIndex(seed));
@@ -154,7 +180,7 @@ export const generateSeed = () => {
     KeyDerivation.generateSeedAsync(() => {
       dispatch(setSeed());
     }, (seed) => {
-      Storage.saveSeed(seed, () => {
+      Storage.saveSeed(seed).then(() => {
         dispatch(setSeed(seed));
         dispatch(setReceiveIndex(0));
       });
@@ -163,7 +189,7 @@ export const generateSeed = () => {
 };
 export const deleteSeed = () => {
   return (dispatch) => {
-    Storage.deleteSeed(() => {
+    Storage.deleteSeed().then(() => {
       dispatch(setSeed());
       dispatch(setReceiveIndex(0));
     });
