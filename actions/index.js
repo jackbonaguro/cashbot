@@ -6,6 +6,8 @@ import Api from "../controllers/api";
 import KeyDerivation from "../controllers/keyderivation";
 import {bitcore as Bitcore} from "bitcore-mnemonic/lib/mnemonic";
 
+import crypto from 'crypto';
+
 export const setEmail = email => ({
   type: 'SET_EMAIL',
   email
@@ -78,22 +80,22 @@ export const incrementReceiveIndex = (seed, receiveIndex) => {
   return (dispatch) => {
     dispatch(setReceiveIndex());
     dispatch(setReceiveAddress());
-    new Promise((resolve) => {
-      const crypto = require('crypto');
-      let i;
-      console.log('D');
-      for (i = 0; i < 100; i++) {
-        //console.log('IN');
-        const alice = crypto.createDiffieHellman(32);
-      }
-      console.log('E');
-      return resolve();
-    })
-    //example()
-    .then(() => {
-      dispatch(setReceiveIndex(receiveIndex + 1));
-      dispatch(setReceiveAddress('1234'));
-    });
+    /*setTimeout(() => {
+      new Promise((resolve) => {
+        let i;
+        console.log('D');
+        let iterations = ((typeof DedicatedWorkerGlobalScope) === 'undefined') ? 2000 : 100000;
+        for (i = 0; i < iterations; i++) {
+          crypto.createHmac('sha256', 'shhh').update('Hello, World!!').digest('hex');
+        }
+        console.log('E');
+        return resolve();
+      })
+        .then(() => {
+          dispatch(setReceiveIndex(receiveIndex + 1));
+          dispatch(setReceiveAddress('1234'));
+        });
+    });*/
   };
 };
 export const resetReceiveIndex = (seed) => {
