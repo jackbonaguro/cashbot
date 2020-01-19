@@ -28,6 +28,9 @@ import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
+import com.bitgo.randombytes.RandomBytesPackage;
+import com.reactlibrary.RNThreadPackage;
+
 import java.util.List;
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
@@ -59,6 +62,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             packages.add(new RNFirebasePerformancePackage());
             packages.add(new RNFirebaseStoragePackage());
             //packages.add(new RNSecureKeyStorePackage());
+            packages.add(new RNThreadPackage(mReactNativeHost, new RandomBytesPackage()));
         return packages;
     }
 

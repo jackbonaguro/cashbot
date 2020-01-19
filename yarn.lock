@@ -6313,6 +6313,11 @@ react-native-tcp@^3.3.2:
     process "^0.11.9"
     util "^0.10.3"
 
+react-native-threads@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/react-native-threads/-/react-native-threads-0.0.17.tgz#a880c14244fa1b9183ed99761bb7dfd170f79069"
+  integrity sha512-Qoi5djj3XtQGNkBzcLMBMtqoARm+805VQroP2YoH8ohdQPkcxuPbduJCw+rTuk6grpbXGNpOu9zS41r1oA0uVw==
+
 react-native-udp@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/react-native-udp/-/react-native-udp-2.6.1.tgz#ce9f2479f8af6d1bb356cfee69c89cf92fdd50be"

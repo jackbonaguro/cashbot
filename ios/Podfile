@@ -54,6 +54,9 @@ target 'Cashbot' do
 
   pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
 
+
+  pod 'RNThread', :path => '../node_modules/react-native-threads'
+
   target 'CashbotTests' do
     inherit! :search_paths
     # Pods for testing

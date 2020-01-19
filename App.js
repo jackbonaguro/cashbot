@@ -7,6 +7,7 @@ import {connect, Provider} from 'react-redux';
 import { createStore } from 'redux';
 import { NativeRouter, Route, Redirect, Switch } from 'react-router-native';
 import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
+import { Thread } from "react-native-threads";
 
 import {setFCMToken, addNotification, addMessage, incrementReceiveIndex, fetchSeed} from './actions';
 
@@ -27,6 +28,11 @@ class App extends React.Component {
     this.state = {};
   }
   async componentDidMount() {
+    const thread = new Thread('./cryptoThread.js');
+    thread.postMessage('hello');
+    thread.onmessage = (message) => console.warn(message);
+    //thread.terminate();
+
     const messageHandler = (message) => {
       let userState = store.getState().userReducer;
       Api.addressRequestHook(KeyDerivation.deriveReceiveAddress(userState.seed, userState.receiveIndex), (err, responseBody) => {
