@@ -27,17 +27,17 @@ const Api = {
       fcmToken,
     } = params;
 
-    const xPub = KeyDerivation.deriveXPubFromXPriv(signingXPriv);
+    const xPub = await KeyDerivation.deriveXPubFromXPriv(signingXPriv);
     const payload = {
       email,
       fcmToken,
       xPub
     };
-    const sig = signPayload(signingXPriv, payload);
+    const sig = await signPayload(signingXPriv, payload);
 
     // console.log(Bitcore.HDPublicKey(xPub).publicKey.toAddress('testnet').toString());
     // console.log(JSON.stringify(payload));
-    // console.log(sig);
+    console.log(sig);
 
     fetch(`${baseUrl}/register?s=${encodeURIComponent(sig)}`, {
       method: 'POST',

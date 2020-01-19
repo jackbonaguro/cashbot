@@ -55,12 +55,13 @@ class Account extends React.Component {
                         fcmToken: this.props.fcmToken
                       }, (err, apiResponse) => {
                         if (err) {
-                          //console.warn(err);
+                          console.warn(err);
                         }
                         // Register worked, make a note
+                        console.log(apiResponse);
                       });
                     } catch (err) {
-                      //console.error(err);
+                      console.error(err);
                     }
                   }}
           >
