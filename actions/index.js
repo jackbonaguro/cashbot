@@ -76,36 +76,22 @@ export const fetchReceiveIndex = (seed) => {
 };
 export const incrementReceiveIndex = (seed, receiveIndex) => {
   return (dispatch) => {
-    /*dispatch(setReceiveIndex());
-    dispatch(setReceiveAddress());
-    dispatch({
-      type: 'SET_TEST_SIG'
-    });
-    Storage.saveReceiveIndex(receiveIndex + 1).catch(console.error);
-    dispatch(setReceiveIndex(receiveIndex + 1, seed));
-    //dispatch(setTestSig(seed, receiveIndex + 1));
-    //console.warn('A');
-    KeyDerivation.deriveReceiveAddress(seed, receiveIndex + 1).then(address => {
-      dispatch(setReceiveAddress(address));
-    }).catch(console.error);*/
     dispatch(setReceiveIndex());
     dispatch(setReceiveAddress());
-    /*setTimeout(() => {
-      dispatch(setReceiveIndex(1));
-      dispatch(setReceiveAddress('1234'));
-    }, 1000);*/
-    /*new Promise((resolve) => {
-      return setTimeout(resolve, 1000);
-    })*/
-    //AsyncStorage.setItem(`TEST`, `1`)
-    //KeyDerivation.deriveXPubFromXPriv('xprv9s21ZrQH143K2JF8RafpqtKiTbsbaxEeUaMnNHsm5o6wCW3z8ySyH4UxFVSfZ8n7ESu7fgir8imbZKLYVBxFPND1pniTZ81vKfd45EHKX73')
     new Promise((resolve) => {
-      var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
-      const hdPublicKey = hdPrivateKey.hdPublicKey;
+      const crypto = require('crypto');
+      let i;
+      console.log('D');
+      for (i = 0; i < 100; i++) {
+        //console.log('IN');
+        const alice = crypto.createDiffieHellman(32);
+      }
+      console.log('E');
       return resolve();
     })
+    //example()
     .then(() => {
-      dispatch(setReceiveIndex(1));
+      dispatch(setReceiveIndex(receiveIndex + 1));
       dispatch(setReceiveAddress('1234'));
     });
   };
