@@ -97,16 +97,16 @@ const generateSeed = () => {
 };
 
 export default KeyDerivation = {
-  deriveReceiveAddress: async (mnemonic, index) => {
+  deriveReceiveAddress: (mnemonic, index) => {
     return deriveAddress(mnemonic, `m/44'/1'/0'/0/${index}`);
   },
-  deriveSigningAddress: async (mnemonic, index) => {
+  deriveSigningAddress: (mnemonic, index) => {
     return deriveAddress(mnemonic, `m/44'/1'/1'/0/${index}`);
   },
-  deriveSigningXPriv: async (mnemonic) => {
+  deriveSigningXPriv: (mnemonic) => {
     return deriveXPriv(mnemonic, `m/44'/1'/1'/0`);
   },
-  deriveSigningXPub: async (mnemonic) => {
+  deriveSigningXPub: (mnemonic) => {
     return deriveXPub(mnemonic, `m/44'/1'/1'/0`);
   },
   deriveXPub,

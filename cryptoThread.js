@@ -4,13 +4,53 @@ import KeyDerivation from './controllers/keyderivation';
 
 let count = 0;
 
-self.onmessage = message => {
-  console.log(`THREAD: got message ${message}`);
+self.onmessage = m => {
+  let message;
+  try {
+    message = JSON.parse(m);
+    //throw new Error(`${message.method}`);
+    if ((typeof message.id) === 'undefined') {
+      throw new Error(`CryptoThread message has no id`);
+    }
+  } catch (e) {
+    // We don't even have id, so message is garbage. Emit for global error handler
+    return self.postMessage(JSON.stringify({
+      err: e.message
+    }));
+  }
 
-  count++;
-
-  self.postMessage(`Message #${count} from worker thread!`);
-  KeyDerivation.deriveXPubFromXPriv('xprv9wHokC2KXdTSpEepFcu53hMDUHYfAtTaLEJEMyxBPAMf78hJg17WhL5FyeDUQH5KWmGjGgEb2j74gsZqgupWpPbZgP6uFmP8MYEy5BNbyET').then((xpub) => {
-    self.postMessage(xpub);
-  })
+  try {
+    switch (message.method) {
+      case 'deriveXPubFromXPriv': {
+        KeyDerivation.deriveXPubFromXPriv(message.data.xpriv).then((xpub) => {
+          self.postMessage(JSON.stringify({
+            id: message.id,
+            data: {
+              xpub
+            }
+          }));
+        });
+        return;
+      }
+      case 'deriveAddress': {
+        return KeyDerivation.deriveAddress(message.data.mnemonic, message.data.path).then((address) => {
+          self.postMessage(JSON.stringify({
+            id: message.id,
+            data: {
+              address
+            }
+          }));
+        });
+        return;
+      }
+      default: {
+        throw new Error(`CryptoThread message has invalid method: ${message.method}`);
+      }
+    }
+  } catch (e) {
+    return self.postMessage(JSON.stringify({
+      id: message.id,
+      err: e.message
+    }));
+  }
 };

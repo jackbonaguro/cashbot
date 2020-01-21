@@ -7,7 +7,6 @@ import {connect, Provider} from 'react-redux';
 import { createStore } from 'redux';
 import { NativeRouter, Route, Redirect, Switch } from 'react-router-native';
 import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
-import { Thread } from "react-native-threads";
 
 import {setFCMToken, addNotification, addMessage, incrementReceiveIndex, fetchSeed} from './actions';
 
@@ -19,6 +18,7 @@ import styles from './styles';
 
 import store from './store';
 import FCM from './controllers/fcm';
+import CryptoThread from './controllers/cryptothread';
 import Api from './controllers/api';
 import KeyDerivation from './controllers/keyderivation';
 
@@ -28,11 +28,6 @@ class App extends React.Component {
     this.state = {};
   }
   async componentDidMount() {
-    const thread = new Thread('./cryptoThread.js');
-    thread.postMessage('hello');
-    thread.onmessage = (message) => console.warn(message);
-    //thread.terminate();
-
     const messageHandler = (message) => {
       let userState = store.getState().userReducer;
       Api.addressRequestHook(KeyDerivation.deriveReceiveAddress(userState.seed, userState.receiveIndex), (err, responseBody) => {
@@ -43,6 +38,7 @@ class App extends React.Component {
         store.dispatch(incrementReceiveIndex(userState.receiveIndex));
       });
     };
+
     FCM.initializeFirebase(messageHandler, (notification) => {
       store.dispatch(addNotification({
         title: notification.title,
@@ -59,6 +55,14 @@ class App extends React.Component {
         notificationListener,
       });
     });
+
+    await CryptoThread.initializeCryptoThread();
+    try {
+      let xpub = await CryptoThread.deriveXPubFromXPriv('xprv9wHokC2KXdTSpEepFcu53hMDUHYfAtTaLEJEMyxBPAMf78hJg17WhL5FyeDUQH5KWmGjGgEb2j74gsZqgupWpPbZgP6uFmP8MYEy5BNbyET');
+      console.warn(`XPUB: ${xpub}`);
+    } catch(e) {
+      console.error(e);
+    }
     store.dispatch(fetchSeed());
   }
 
