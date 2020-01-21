@@ -4,7 +4,7 @@ import KeyDerivation from "./keyderivation";
 import RNSecureKeyStore, {ACCESSIBLE} from "react-native-secure-key-store";
 import Mnemonic from "bitcore-mnemonic";
 
-export default Storage = {
+export default {
   saveReceiveIndex: (index) => {
     return new Promise((resolve, reject) => {
       const keyIndex = 0;

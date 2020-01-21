@@ -57,12 +57,6 @@ class App extends React.Component {
     });
 
     await CryptoThread.initializeCryptoThread();
-    try {
-      let xpub = await CryptoThread.deriveXPubFromXPriv('xprv9wHokC2KXdTSpEepFcu53hMDUHYfAtTaLEJEMyxBPAMf78hJg17WhL5FyeDUQH5KWmGjGgEb2j74gsZqgupWpPbZgP6uFmP8MYEy5BNbyET');
-      console.warn(`XPUB: ${xpub}`);
-    } catch(e) {
-      console.error(e);
-    }
     store.dispatch(fetchSeed());
   }
 

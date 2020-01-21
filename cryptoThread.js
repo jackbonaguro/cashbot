@@ -23,7 +23,7 @@ self.onmessage = m => {
   try {
     switch (message.method) {
       case 'deriveXPubFromXPriv': {
-        KeyDerivation.deriveXPubFromXPriv(message.data.xpriv).then((xpub) => {
+        return KeyDerivation.deriveXPubFromXPriv(message.data.xpriv).then((xpub) => {
           self.postMessage(JSON.stringify({
             id: message.id,
             data: {
@@ -31,7 +31,6 @@ self.onmessage = m => {
             }
           }));
         });
-        return;
       }
       case 'deriveAddress': {
         return KeyDerivation.deriveAddress(new Mnemonic(message.data.mnemonic), message.data.path).then((address) => {
@@ -42,7 +41,56 @@ self.onmessage = m => {
             }
           }));
         });
-        return;
+      }
+      case 'deriveXPriv': {
+        return KeyDerivation.deriveXPriv(new Mnemonic(message.data.mnemonic), message.data.path).then((xpriv) => {
+          self.postMessage(JSON.stringify({
+            id: message.id,
+            data: {
+              xpriv
+            }
+          }));
+        });
+      }
+      case 'deriveXPub': {
+        return KeyDerivation.deriveXPub(new Mnemonic(message.data.mnemonic), message.data.path).then((xpriv) => {
+          self.postMessage(JSON.stringify({
+            id: message.id,
+            data: {
+              xpriv
+            }
+          }));
+        });
+      }
+      case 'generateSeed': {
+        return KeyDerivation.generateSeed().then((seed) => {
+          self.postMessage(JSON.stringify({
+            id: message.id,
+            data: {
+              seed: seed.toString()
+            }
+          }));
+        });
+      }
+      case 'signMessage': {
+        return KeyDerivation.signMessage(new Mnemonic(message.data.mnemonic), message.data.path, message.data.message).then((sig) => {
+          self.postMessage(JSON.stringify({
+            id: message.id,
+            data: {
+              sig
+            }
+          }));
+        });
+      }
+      case 'signMessageXPriv': {
+        return KeyDerivation.signMessageXPriv(message.data.xpriv, message.data.message).then((sig) => {
+          self.postMessage(JSON.stringify({
+            id: message.id,
+            data: {
+              sig
+            }
+          }));
+        });
       }
       default: {
         throw new Error(`CryptoThread message has invalid method: ${message.method}`);

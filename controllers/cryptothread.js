@@ -1,5 +1,6 @@
 import EventEmitter from 'EventEmitter';
 import { Thread } from "react-native-threads";
+import Mnemonic from 'bitcore-mnemonic';
 
 /*
 * CryptoThread Controller
@@ -50,7 +51,16 @@ const messageGenerator = (method, data) => {
 };
 
 const deriveAddress = (mnemonic, path) => {
-  return messageGenerator('deriveAddress', { mnemonic, path }).then(data => data.address);
+  return messageGenerator('deriveAddress', { mnemonic: mnemonic.toString(), path }).then(data => data.address);
+};
+const deriveXPriv = (mnemonic, path) => {
+  return messageGenerator('deriveXPriv', { mnemonic: mnemonic.toString(), path }).then(data => data.xpriv);
+};
+const deriveXPub = (mnemonic, path) => {
+  return messageGenerator('deriveXPub', { mnemonic: mnemonic.toString(), path }).then(data => data.xpub);
+};
+const signMessage = (mnemonic, path, message) => {
+  return messageGenerator('signMessage', { mnemonic: mnemonic.toString(), path, message }).then(data => data.sig);
 };
 
 export default {
@@ -75,12 +85,33 @@ export default {
     });
   },
   deriveReceiveAddress: (mnemonic, index) => {
-    return deriveAddress(mnemonic.toString(), `m/44'/1'/0'/0/${index}`);
+    return deriveAddress(mnemonic, `m/44'/1'/0'/0/${index}`);
   },
   deriveAddress,
+  deriveSigningXPriv: (mnemonic) => {
+    return deriveXPriv(mnemonic, `m/44'/1'/1'/0`);
+  },
+  deriveSigningXPub: (mnemonic) => {
+    return deriveXPub(mnemonic, `m/44'/1'/1'/0`);
+  },
+  deriveXPriv,
+  deriveXPub,
   deriveXPubFromXPriv: (xpriv) => {
     return messageGenerator('deriveXPubFromXPriv', { xpriv }).then(data => data.xpub);
   },
+  generateSeed: () => {
+    return messageGenerator('generateSeed', {}).then(data => new Mnemonic(data.seed));
+  },
+  signReceiveMessage: (mnemonic, index, message) => {
+    return signMessage(mnemonic, `m/44'/1'/0'/0/${index}`, message);
+  },
+  signSigningMessage: (mnemonic, index, message) => {
+    return signMessage(mnemonic, `m/44'/1'/1'/0/${index}`, message);
+  },
+  signMessageXPriv: (xpriv, message) => {
+    return messageGenerator('signMessageXPriv', {}).then(data => data.sig);
+  },
+  signMessage,
   terminate: () => {
     thread.terminate();
   }
