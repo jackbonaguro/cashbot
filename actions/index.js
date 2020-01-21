@@ -1,5 +1,3 @@
-import AsyncStorage from "@react-native-community/async-storage";
-
 import Storage from '../controllers/storage';
 import CryptoThread from "../controllers/cryptothread";
 
@@ -108,7 +106,7 @@ export const fetchSigningIndex = (seed) => {
   return async (dispatch) => {
     dispatch(setSigningIndex());
     dispatch(setSigningAddress());
-    Storage.fetchSigningIndex.then((index) => {
+    Storage.fetchSigningIndex().then((index) => {
       dispatch(setSigningIndex(index));
       CryptoThread.deriveSigningAddress(seed, index).then(address => {
         dispatch(setReceiveAddress(address));
@@ -146,7 +144,7 @@ export const fetchSeed = () => {
     Storage.fetchSeed().then((seed) => {
       dispatch(setSeed(seed));
       dispatch(fetchReceiveIndex(seed));
-      //dispatch(fetchSigningIndex(seed));
+      dispatch(fetchSigningIndex(seed));
       dispatch(deriveAndSetSigningXPriv(seed));
     });
   };

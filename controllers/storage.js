@@ -8,9 +8,7 @@ export default {
   saveReceiveIndex: (index) => {
     return new Promise((resolve, reject) => {
       const keyIndex = 0;
-      console.log('B');
       AsyncStorage.setItem(`RECEIVE-${keyIndex}/INDEX`, `${index}`).then(() => {
-        console.log('C');
         return resolve();
       }).catch(reject);
     });
@@ -34,12 +32,6 @@ export default {
       }
     });
   },
-  saveSigningIndex: (index) => {
-    return new Promise((resolve, reject) => {
-      const keyIndex = 0;
-      AsyncStorage.setItem(`SIGNING-${keyIndex}/INDEX`, `${index}`).then(resolve).catch(reject);
-    });
-  },
   fetchSigningIndex: () => {
     return new Promise((resolve, reject) => {
       const keyIndex = 0;
@@ -57,6 +49,12 @@ export default {
       } catch (err) {
         return reject(err);
       }
+    });
+  },
+  saveSigningIndex: (index) => {
+    return new Promise((resolve, reject) => {
+      const keyIndex = 0;
+      AsyncStorage.setItem(`SIGNING-${keyIndex}/INDEX`, `${index}`).then(resolve).catch(reject);
     });
   },
   fetchSeed: () => {

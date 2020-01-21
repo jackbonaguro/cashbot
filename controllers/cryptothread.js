@@ -45,7 +45,7 @@ const messageGenerator = (method, data) => {
       // Reject for timeout after 5 seconds
       setTimeout(() => {
         return reject(new Error(`Timeout on cryptoThread for task: ${task}`));
-      }, 5000);
+      }, 10000);
     })
   ]);
 };
@@ -86,6 +86,9 @@ export default {
   },
   deriveReceiveAddress: (mnemonic, index) => {
     return deriveAddress(mnemonic, `m/44'/1'/0'/0/${index}`);
+  },
+  deriveSigningAddress: (mnemonic, index) => {
+    return deriveAddress(mnemonic, `m/44'/1'/1'/0/${index}`);
   },
   deriveAddress,
   deriveSigningXPriv: (mnemonic) => {
