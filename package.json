@@ -14,7 +14,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "postinstall": "npx jetify"
+    "postinstall": "npx jetify",
+    "bundle-threads": "react-native bundle --dev true --assets-dest ./android/app/src/main/res/ --entry-file cryptoThread.js --platform android --bundle-output ./android/app/src/main/assets/threads/cryptoThread.bundle"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.7.0",

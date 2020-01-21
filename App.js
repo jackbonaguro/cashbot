@@ -28,7 +28,7 @@ class App extends React.Component {
     this.state = {};
   }
   async componentDidMount() {
-    const thread = new Thread('./cryptoThread.js');//./android/app/src/main/assets/threads/cryptoThread.bundle'); //'./cryptoThread.js');
+    const thread = new Thread('./cryptoThread.js');
     thread.postMessage('hello');
     thread.onmessage = (message) => console.warn(message);
     //thread.terminate();
