@@ -49,12 +49,17 @@ const messageGenerator = (method, data) => {
   ]);
 };
 
+const deriveAddress = (mnemonic, path) => {
+  return messageGenerator('deriveAddress', { mnemonic, path }).then(data => data.address);
+};
+
 export default {
   initializeCryptoThread: () => {
     return new Promise((resolve, reject) => {
       if (__DEV__) {
         thread = new Thread('../cryptoThread.js');
       } else {
+        // Prod uses the absolute path (see bundle-threads script)
         thread = new Thread('./cryptoThread.js');
       }
       threadEmitter = new EventEmitter();
@@ -69,10 +74,10 @@ export default {
       resolve();
     });
   },
-  deriveAddress: (mnemonic, path) => {
-    return messageGenerator('deriveAddress', { mnemonic, path }).then(data => data.address);
+  deriveReceiveAddress: (mnemonic, index) => {
+    return deriveAddress(mnemonic.toString(), `m/44'/1'/0'/0/${index}`);
   },
-
+  deriveAddress,
   deriveXPubFromXPriv: (xpriv) => {
     return messageGenerator('deriveXPubFromXPriv', { xpriv }).then(data => data.xpub);
   },

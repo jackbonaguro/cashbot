@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import Storage from '../controllers/storage';
 import FCM from "../controllers/fcm";
 import Api from "../controllers/api";
+import CryptoThread from "../controllers/cryptothread";
 import KeyDerivation from "../controllers/keyderivation";
 import {bitcore as Bitcore} from "bitcore-mnemonic/lib/mnemonic";
 
@@ -68,7 +69,7 @@ export const fetchReceiveIndex = (seed) => {
     Storage.fetchReceiveIndex().then((index) => {
       dispatch(setReceiveIndex(index, seed));
       //dispatch(setTestSig(seed, index));
-      KeyDerivation.deriveReceiveAddress(seed, index).then(address => {
+      CryptoThread.deriveReceiveAddress(seed, index).then(address => {
         dispatch(setReceiveAddress(address));
       }).catch(console.error);
     }).catch(console.error);
@@ -120,7 +121,7 @@ export const resetReceiveIndex = (seed) => {
     Storage.saveReceiveIndex(0).then(() => {
       dispatch(setReceiveIndex(0, seed));
       //dispatch(setTestSig(seed, 0));
-      KeyDerivation.deriveReceiveAddress(seed, 0).then(address => {
+      CryptoThread.deriveReceiveAddress(seed, 0).then(address => {
         dispatch(setReceiveAddress(address));
       }).catch(console.error);
     }).catch(console.error);

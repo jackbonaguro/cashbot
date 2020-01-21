@@ -1,6 +1,7 @@
 import './shim';
 import { self } from 'react-native-threads';
 import KeyDerivation from './controllers/keyderivation';
+import Mnemonic from 'bitcore-mnemonic';
 
 let count = 0;
 
@@ -33,7 +34,7 @@ self.onmessage = m => {
         return;
       }
       case 'deriveAddress': {
-        return KeyDerivation.deriveAddress(message.data.mnemonic, message.data.path).then((address) => {
+        return KeyDerivation.deriveAddress(new Mnemonic(message.data.mnemonic), message.data.path).then((address) => {
           self.postMessage(JSON.stringify({
             id: message.id,
             data: {
