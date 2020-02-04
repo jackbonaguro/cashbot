@@ -112,7 +112,7 @@ export default {
     return signMessage(mnemonic, `m/44'/1'/1'/0/${index}`, message);
   },
   signMessageXPriv: (xpriv, message) => {
-    return messageGenerator('signMessageXPriv', {}).then(data => data.sig);
+    return messageGenerator('signMessageXPriv', { xpriv, message }).then(data => data.sig);
   },
   signMessage,
   terminate: () => {
