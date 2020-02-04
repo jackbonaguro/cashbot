@@ -1,10 +1,9 @@
-import KeyDerivation from './keyderivation';
-import { bitcore as Bitcore } from 'bitcore-mnemonic';
+import CryptoThread from './cryptothread';
 
 const baseUrl = 'http://localhost:3001';
 
 const signPayload = (signingXPriv, payload) => {
-  return KeyDerivation.signMessageXPriv(signingXPriv, JSON.stringify(payload));
+  return CryptoThread.signMessageXPriv(signingXPriv, JSON.stringify(payload));
 };
 
 const Api = {
@@ -27,7 +26,8 @@ const Api = {
       fcmToken,
     } = params;
 
-    const xPub = await KeyDerivation.deriveXPubFromXPriv(signingXPriv);
+    const xPub = await CryptoThread.deriveXPubFromXPriv(signingXPriv);
+    console.log(xPub);
     const payload = {
       email,
       fcmToken,
@@ -35,11 +35,40 @@ const Api = {
     };
     const sig = await signPayload(signingXPriv, payload);
 
-    // console.log(Bitcore.HDPublicKey(xPub).publicKey.toAddress('testnet').toString());
-    // console.log(JSON.stringify(payload));
     console.log(sig);
 
-    fetch(`${baseUrl}/register?s=${encodeURIComponent(sig)}`, {
+    fetch(`${baseUrl}/user/register?s=${encodeURIComponent(sig)}`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      return callback(null, json);
+    }).catch((err) => {
+      return callback(err);
+    });
+  },
+  getUser: async (params, callback) => {
+    const {
+      signingXPriv,
+      email,
+    } = params;
+
+    const xPub = await CryptoThread.deriveXPubFromXPriv(signingXPriv);
+    console.log(xPub);
+    const payload = {
+      email,
+      xPub
+    };
+    const sig = await signPayload(signingXPriv, payload);
+
+    console.log(sig);
+
+    fetch(`${baseUrl}/user?s=${encodeURIComponent(sig)}`, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {

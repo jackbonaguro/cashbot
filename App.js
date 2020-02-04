@@ -20,6 +20,7 @@ import store from './store';
 import FCM from './controllers/fcm';
 import CryptoThread from './controllers/cryptothread';
 import Api from './controllers/api';
+import Storage from './controllers/storage';
 import KeyDerivation from './controllers/keyderivation';
 
 class App extends React.Component {
@@ -57,6 +58,7 @@ class App extends React.Component {
     });
 
     await CryptoThread.initializeCryptoThread();
+    await Storage.initializeStorage();
     store.dispatch(fetchSeed());
   }
 

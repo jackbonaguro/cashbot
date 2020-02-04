@@ -3,8 +3,36 @@ import AsyncStorage from "@react-native-community/async-storage";
 import KeyDerivation from "./keyderivation";
 import RNSecureKeyStore, {ACCESSIBLE} from "react-native-secure-key-store";
 import Mnemonic from "bitcore-mnemonic";
+import SQLite from 'react-native-sqlite-storage';
+
+let db;
 
 export default {
+  initializeStorage: async () => {
+    new Promise((resolve, reject) => {
+      db = SQLite.openDatabase({name: 'test.db', location : "default"}, resolve, reject);
+    }).then(() => {
+      db.transaction((tx) => {
+        // Create all tables if needed
+        tx.executeSql('CREATE TABLE IF NOT EXISTS wallets (id INTEGER PRIMARY KEY AUTOINCREMENT, seed TEXT);');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT);');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS preferences (id INTEGER PRIMARY KEY AUTOINCREMENT, key TEXT, value TEXT);');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS addresses (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT);');
+        //
+        tx.executeSql('CREATE TABLE IF NOT EXISTS wallet_address (id INTEGER PRIMARY KEY AUTOINCREMENT, addressid INTEGER, walletid INTEGER, FOREIGN KEY(addressid) REFERENCES addresses(id), FOREIGN KEY(walletid) REFERENCES wallets(id));');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS user_wallet (id INTEGER PRIMARY KEY AUTOINCREMENT, userid INTEGER, walletid INTEGER, FOREIGN KEY(userid) REFERENCES users(id), FOREIGN KEY(walletid) REFERENCES wallets(id));');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS user_preference (id INTEGER PRIMARY KEY AUTOINCREMENT, userid INTEGER, preferenceid INTEGER, FOREIGN KEY(userid) REFERENCES users(id), FOREIGN KEY(preferenceid) REFERENCES preferences(id));');
+      }, (err) => {
+        if (err) {
+          console.error(err);
+          throw err;
+        }
+      }, () => {
+        // All good
+        console.log('All good');
+      });
+    });
+  },
   saveReceiveIndex: (index) => {
     return new Promise((resolve, reject) => {
       const keyIndex = 0;

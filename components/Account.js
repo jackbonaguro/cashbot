@@ -47,7 +47,6 @@ class Account extends React.Component {
           ></ButtonInput>
           <Button title={'REGISTER'}
                   onPress={() => {
-                    // Thunk call to /register api
                     try {
                       Api.register({
                         signingXPriv: this.props.signingXPriv,
@@ -64,8 +63,24 @@ class Account extends React.Component {
                       console.error(err);
                     }
                   }}
-          >
-          </Button>
+          ></Button>
+          <Button title={'CHECK'}
+                  onPress={() => {
+                    try {
+                      Api.getUser({
+                        signingXPriv: this.props.signingXPriv,
+                        email: this.props.email,
+                      }, (err, apiResponse) => {
+                        if (err) {
+                          console.warn(err);
+                        }
+                        console.log(apiResponse);
+                      });
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+          ></Button>
         </ScrollView>
         <TabBar match={this.props.match}/>
       </View>

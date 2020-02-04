@@ -47,6 +47,7 @@
     "react-native-secure-key-store": "^2.0.5",
     "react-native-securerandom": "^1.0.0-rc.0",
     "react-native-simple-toast": "^1.0.0",
+    "react-native-sqlite-storage": "^4.1.0",
     "react-native-svg": "^10.0.0",
     "react-native-tcp": "^3.3.2",
     "react-native-threads": "^0.0.17",
