@@ -8,12 +8,6 @@ const userReducer = (state = {}, action) => {
         email: action.email,
       };
     }
-    case 'SET_SEED': {
-      return {
-        ...state,
-        seed: action.seed,
-      };
-    }
     case 'SET_RECEIVE_INDEX': {
       return {
         ...state,
@@ -48,6 +42,34 @@ const userReducer = (state = {}, action) => {
       return {
         ...state,
         signingXPriv: action.signingXPriv,
+      };
+    }
+    // New SQL Routes
+    case 'SET_USER': {
+      return {
+        ...state,
+        user: {
+          id: action.id,
+          email: action.email,
+          keys: [],
+          preferences: {}
+        },
+      };
+    }
+    case 'SET_MASTER_KEY': {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          masterKey: action.id,
+          keys: [
+            ...state.keys,
+            {
+              id: action.id,
+              xpriv: action.xpriv
+            }
+          ]
+        },
       };
     }
     default: {

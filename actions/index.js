@@ -134,43 +134,15 @@ export const setTestSig = (seed, index) => {
   };
 };
 
-export const fetchSeed = () => {
-  return (dispatch) => {
-    dispatch(setSeed());
-    dispatch(setReceiveIndex());
-    dispatch(setSigningIndex());
-    dispatch(setReceiveAddress());
-    dispatch(setSigningAddress());
-    Storage.fetchSeed().then((seed) => {
-      dispatch(setSeed(seed));
-      dispatch(fetchReceiveIndex(seed));
-      dispatch(fetchSigningIndex(seed));
-      dispatch(deriveAndSetSigningXPriv(seed));
-    });
-  };
-};
 export const generateSeed = () => {
   return (dispatch) => {
     CryptoThread.generateSeed(() => {
       dispatch(setSeed());
-    }, (seed) => {
-      Storage.saveSeed(seed).then(() => {
-        dispatch(setSeed(seed));
-        dispatch(setReceiveIndex(0));
-      });
+    }).then((seed) => {
+      dispatch(setSeed(seed));
     })
   };
 };
-export const deleteSeed = () => {
-  return (dispatch) => {
-    Storage.deleteSeed().then(() => {
-      dispatch(setSeed());
-      dispatch(setReceiveIndex(0));
-    });
-  };
-};
-
-
 
 export const addMessage = (message) => {
   return {
@@ -190,5 +162,67 @@ export const setFCMToken = (fcmToken) => {
   return {
     type: 'SET_FCM_TOKEN',
     fcmToken
+  };
+};
+
+// New SQL Actions
+export const registerAccount = (email) => {
+  return (dispatch) => {
+    Storage.insertUser(email, 0).then((id) => {
+      console.log(id);
+      return dispatch({
+        type: 'SET_USER',
+        id,
+        email
+      });
+    }).catch(console.error);
+  };
+};
+
+export const setMasterKey = (xpriv) => {
+  return (dispatch) => {
+    Storage.insertKey(xpriv, null, null, null).then((id) => {
+      Storage.setUserMasterKey(email, id).then((results) => {
+        return {
+          type: 'SET_MASTER_KEY',
+          id,
+          xpriv
+        }
+      });
+    });
+  };
+};
+
+export const fetchUser = () => {
+  return (dispatch) => {
+    Storage.getDefaultUser().then((res) => {
+      if (res.length) {
+        let item = res.item(0);
+        console.log(item);
+        dispatch({
+          type: 'SET_USER',
+          id: item.id,
+          email: item.email
+        });
+        let masterKeyId = res.item(0).masterkeyid;
+        if (masterKeyId === 0) {
+          return;
+        }
+        Storage.getKey(masterKeyId).then((res) => {
+          if (!res.length) {
+            return console.error('MasterKeyId set but no key found!');
+          }
+          dispatch({
+            type: 'SET_MASTER_KEY',
+            id: masterKeyId,
+          });
+        });
+      } else {
+        console.log('No stored user');
+        return dispatch({
+          type: 'SET_USER'
+        });
+      }
+    });
   };
 };

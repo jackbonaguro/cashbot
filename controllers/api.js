@@ -76,6 +76,10 @@ const Api = {
         "Content-Type": "application/json"
       },
     }).then(response => {
+      console.log(response);
+      if (!response.ok) {
+        console.error(new Error(response.statusText));
+      }
       return response.json();
     }).then(json => {
       return callback(null, json);

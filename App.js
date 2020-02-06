@@ -13,6 +13,9 @@ import {setFCMToken, addNotification, addMessage, incrementReceiveIndex, fetchSe
 import Keystore from './components/Keystore';
 import Status from './components/Status';
 import Account from './components/Account';
+import Splash from './components/Splash';
+import CreateAccount from "./components/CreateAccount";
+import CreateWallet from "./components/CreateWallet";
 import TabBar from './components/TabBar';
 import styles from './styles';
 
@@ -58,8 +61,7 @@ class App extends React.Component {
     });
 
     await CryptoThread.initializeCryptoThread();
-    await Storage.initializeStorage();
-    store.dispatch(fetchSeed());
+    //store.dispatch(fetchSeed());
   }
 
   componentWillUnmount() {
@@ -73,7 +75,25 @@ class App extends React.Component {
         <NativeRouter>
           <View>
             <Switch style={{flex:1}}>
-              <Redirect exact from="/" to="/wallet" />
+              <Redirect exact from="/" to="/splash" />
+              <Route
+                path="/splash"
+                render={(props) => {
+                  return <Splash {...props} />
+                }}
+              />
+              <Route
+                path="/createaccount"
+                render={(props) => (
+                  <CreateAccount {...props} />
+                )}
+              />
+              <Route
+                path="/createwallet"
+                render={(props) => (
+                  <CreateWallet {...props} />
+                )}
+              />
               <Route
                 path="/status"
                 render={(props) => (

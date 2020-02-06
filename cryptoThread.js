@@ -63,14 +63,17 @@ self.onmessage = m => {
         });
       }
       case 'generateSeed': {
-        return KeyDerivation.generateSeed().then((seed) => {
+        KeyDerivation.generateSeed().then((seed) => {
           self.postMessage(JSON.stringify({
             id: message.id,
             data: {
               seed: seed.toString()
             }
           }));
+        }).catch((err) => {
+          throw err;
         });
+        break;
       }
       case 'signMessage': {
         return KeyDerivation.signMessage(new Mnemonic(message.data.mnemonic), message.data.path, message.data.message).then((sig) => {

@@ -43,7 +43,7 @@ class Keystore extends React.Component {
       <View style={styles.appContainer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
           <View>
-            <View>
+            {/*<View>
               <Text style={styles.title}>Wallet</Text>
               { this.props.seed ? (
                 <ButtonInput style={{...styles.instructions, maxWidth: 100+'%'}}
@@ -146,7 +146,10 @@ class Keystore extends React.Component {
                   ></QRCode>
                 </View>
               ) : (<ActivityIndicator size="large" color={palette.purple} />)}
-            </View>
+            </View>*/}
+            <Text style={styles.title}>
+              Wallet
+            </Text>
           </View>
         </ScrollView>
         <TabBar match={this.props.match}/>

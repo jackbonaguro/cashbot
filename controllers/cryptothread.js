@@ -29,6 +29,7 @@ const messageGenerator = (method, data) => {
   let task = prepMessage(method, data);
   return Promise.race([
     new Promise((resolve, reject) => {
+      console.log(JSON.stringify(task));
       thread.postMessage(JSON.stringify(task));
       // Await reply that matches id
       let messageHandler = threadEmitter.addListener('message', (message) => {
@@ -45,7 +46,7 @@ const messageGenerator = (method, data) => {
       // Reject for timeout after 5 seconds
       setTimeout(() => {
         return reject(new Error(`Timeout on cryptoThread for task: ${JSON.stringify(task)}`));
-      }, 10000);
+      }, 100000);
     })
   ]);
 };
