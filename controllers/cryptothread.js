@@ -46,7 +46,7 @@ const messageGenerator = (method, data) => {
       // Reject for timeout after 5 seconds
       setTimeout(() => {
         return reject(new Error(`Timeout on cryptoThread for task: ${JSON.stringify(task)}`));
-      }, 100000);
+      }, 10000);
     })
   ]);
 };

@@ -29,6 +29,7 @@ import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
 import com.bitgo.randombytes.RandomBytesPackage;
+import net.rhogan.rnsecurerandom.RNSecureRandomPackage;
 import com.reactlibrary.RNThreadPackage;
 
 import java.util.List;
@@ -47,6 +48,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
             // add/remove these packages as appropriate
+            RNSecureRandomPackage rnSecureRandomPackage = new RNSecureRandomPackage();
+
             packages.add(new RNFirebaseAdMobPackage());
             packages.add(new RNFirebaseAnalyticsPackage());
             packages.add(new RNFirebaseAuthPackage());
@@ -62,7 +65,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             packages.add(new RNFirebasePerformancePackage());
             packages.add(new RNFirebaseStoragePackage());
             //packages.add(new RNSecureKeyStorePackage());
-            packages.add(new RNThreadPackage(mReactNativeHost, new RandomBytesPackage()));
+            packages.add(rnSecureRandomPackage);
+            packages.add(new RNThreadPackage(mReactNativeHost, new RandomBytesPackage(), rnSecureRandomPackage));
         return packages;
     }
 

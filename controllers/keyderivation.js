@@ -1,6 +1,8 @@
-import {generateSecureRandom} from "react-native-securerandom";
+import { generateSecureRandom } from "react-native-securerandom";
 import Message from 'bitcore-message';
 import Mnemonic, { bitcore as Bitcore } from "bitcore-mnemonic";
+import {NativeModules} from "react-native";
+const { RNSecureRandom } = NativeModules;
 
 let deriveAddress = (mnemonic, path) => {
   return new Promise((resolve, reject) => {
@@ -82,9 +84,9 @@ const generateSeed = () => {
   return new Promise((resolve, reject) => {
     // 16 bytes = 128 bits, yielding a 12-word mnemonic (compatible with most wallets)
     // https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
-
+    //return resolve('abcd');
+    return resolve('SecureRandom: ' + JSON.stringify(RNSecureRandom));
     generateSecureRandom(16).then(randomBytes => {
-      return resolve('5678');
       // Successfully generates new BIP39 Mnemonic from native secure RNG
       try {
         let mnemonic = Mnemonic.fromSeed(new Buffer(randomBytes), Mnemonic.Words.ENGLISH);
