@@ -45,7 +45,7 @@
     "react-native-qrcode-svg": "^6.0.1",
     "react-native-randombytes": "^3.5.3",
     "react-native-secure-key-store": "^2.0.5",
-    "react-native-securerandom": "^1.0.0-rc.0",
+    "react-native-securerandom": "https://github.com/jackbonaguro/react-native-securerandom.git",
     "react-native-simple-toast": "^1.0.0",
     "react-native-sqlite-storage": "^4.1.0",
     "react-native-svg": "^10.0.0",
