@@ -10,7 +10,8 @@ let CustomTextInput = (props) => {
         ...props.style
       },{
         fontFamily: 'Iosevka',
-        flexShrink: 1
+        //flexShrink: 1
+        flex: 1
       }]}
     >
       {props.children}

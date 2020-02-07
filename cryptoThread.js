@@ -52,6 +52,16 @@ self.onmessage = m => {
           }));
         });
       }
+      case 'deriveXPrivFromXPriv': {
+        return KeyDerivation.deriveXPrivFromXPriv(message.data.xpriv, message.data.path).then((xpriv) => {
+          self.postMessage(JSON.stringify({
+            id: message.id,
+            data: {
+              xpriv
+            }
+          }));
+        });
+      }
       case 'deriveXPub': {
         return KeyDerivation.deriveXPub(new Mnemonic(message.data.mnemonic), message.data.path).then((xpriv) => {
           self.postMessage(JSON.stringify({

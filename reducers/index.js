@@ -17,13 +17,19 @@ const userReducer = (state = {}, action) => {
     case 'SET_RECEIVE_INDEX': {
       return {
         ...state,
-        receiveIndex: action.receiveIndex,
+        user: {
+          ...state.user,
+          receiveIndex: action.receiveIndex,
+        }
       };
     }
     case 'SET_RECEIVE_ADDRESS': {
       return {
         ...state,
-        receiveAddress: action.receiveAddress,
+        user: {
+          ...state.user,
+          receiveAddress: action.receiveAddress,
+        }
       };
     }
     case 'SET_SIGNING_INDEX': {

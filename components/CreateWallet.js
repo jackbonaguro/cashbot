@@ -32,7 +32,6 @@ class CreateWallet extends React.Component {
   render() {
     if (this.props.user && this.props.user.masterKey) {
       //Found user with wallet, go to home screen
-      console.log(this.props.user);
       return (
         <Redirect exact from="/" to="/wallet" />
       );

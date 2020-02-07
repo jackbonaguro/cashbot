@@ -32,6 +32,18 @@ let deriveXPub = (mnemonic, path) => {
     }
   });
 };
+let deriveXPrivFromXPriv = (xpriv, path) => {
+  return new Promise((resolve, reject) => {
+    try {
+      // Will return address string
+      var hdPrivateKey = Bitcore.HDPrivateKey(xpriv);
+      const derivedXPriv = hdPrivateKey.derive(path);
+      return resolve(`${derivedXPriv}`);
+    } catch (err) {
+      return reject(err);
+    }
+  });
+};
 let deriveXPriv = (mnemonic, path) => {
   return new Promise((resolve, reject) => {
     try {
@@ -112,6 +124,7 @@ export default KeyDerivation = {
   deriveXPub,
   deriveXPriv,
   deriveXPubFromXPriv,
+  deriveXPrivFromXPriv,
   deriveAddress,
   generateSeed,
   //deriveAddressAsync: async (mnemonic, index, beforeCallback, afterCallback) => {

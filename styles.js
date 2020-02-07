@@ -24,6 +24,18 @@ const styles = StyleSheet.create({
   container: {
     width: 100+'%',
   },
+  shadowView: {
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+    //
+    // elevation: 5,
+    backgroundColor: palette.tabBar
+  },
   title: {
     fontSize: 20,
     textAlign: 'center',

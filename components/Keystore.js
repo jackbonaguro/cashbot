@@ -42,7 +42,22 @@ class Keystore extends React.Component {
     return (
       <View style={styles.appContainer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
-          <View>
+          <View style={[styles.shadowView, {
+            margin: 15,
+            padding: 15,
+            //backgroundColor: palette.a,
+            borderRadius: 15,
+            alignSelf: 'stretch',
+          }]}>
+            <Text style={styles.title}>BTCUSD</Text>
+          </View>
+          <View style={[styles.shadowView, {
+            margin: 15,
+            padding: 15,
+            //backgroundColor: palette.a,
+            borderRadius: 15,
+            alignSelf: 'stretch',
+          }]}>
             <View>
               <Text style={styles.title}>Wallet</Text>
               { this.props.user && this.props.user.masterKey ? (
@@ -57,40 +72,22 @@ class Keystore extends React.Component {
                 </ButtonInput>
               ) : (<ActivityIndicator size="small" color={palette.purple} />)}
             </View>
-            {/*<View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Button title={'NEW'} onPress={() => {
-                this.props.dispatch(generateSeed());
-              }}></Button>
-              <Button title={'RELOAD'} onPress={() => {
-                this.props.dispatch(fetchSeed());
-              }}></Button>
-              <Button title={'DELETE'} onPress={() => {
-                this.props.dispatch(deleteSeed());
-              }}></Button>
-            </View>
-            <View style={{ paddingVertical: 10, flexDirection: 'row', justifyContent: 'center' }}>
-              <View style={{ alignItems: 'center' }}>
-                <Text style={styles.instructions}>Current Index:</Text>
-                { (typeof this.props.receiveIndex !== 'undefined') ? (
-                  <Text style={styles.instructions}>{this.props.receiveIndex}</Text>
-                ) : (<ActivityIndicator size="small" color={palette.purple} />)}
-                <Text style={styles.instructions}>Current Address:</Text>
-                { this.props.receiveAddress ? (
-                  <ButtonInput style={styles.instructions}
-                               value={this.props.receiveAddress}
-                               icon={RegularIcons.copy}
-                               iconPress={(value) => {
-                                 Clipboard.setString(value);
-                                 Toast.show('Copied Address');
-                               }}
-                  ></ButtonInput>
-                ) : (<ActivityIndicator size="small" color={palette.purple} />)}
-              </View>
+            <View>
+              <Text style={styles.instructions}>Current Index:</Text>
+              { (typeof this.props.receiveIndex !== 'undefined') ? (
+                <Text style={styles.instructions}>{this.props.receiveIndex}</Text>
+              ) : (<ActivityIndicator size="small" color={palette.purple} />)}
+              <Text style={styles.instructions}>Current Address:</Text>
+              { this.props.receiveAddress ? (
+                <ButtonInput style={{...styles.instructions, maxWidth: 100+'%'}}
+                             value={this.props.receiveAddress}
+                             icon={RegularIcons.copy}
+                             iconPress={(value) => {
+                               Clipboard.setString(value);
+                               Toast.show('Copied Address');
+                             }}
+                ></ButtonInput>
+              ) : (<ActivityIndicator size="small" color={palette.purple} />)}
             </View>
             <View style={{
               alignItems: 'center',
@@ -118,7 +115,7 @@ class Keystore extends React.Component {
                 this.props.dispatch(resetReceiveIndex(this.props.seed));
               }}></Button>
             </View>
-            <View>
+            {/*<View>
               <Text style={styles.instructions}>Signed Message: "Hello, World!!"</Text>
               { this.props.testSig ? (
                 <View style={{
@@ -171,7 +168,7 @@ const localStyles = StyleSheet.create({
 const mapStateToProps = ({ userReducer }) => ({
   user: userReducer.user,
   receiveIndex: userReducer.receiveIndex,
-  receiveAddress: userReducer.receiveAddress,
+  receiveAddress: userReducer.user && userReducer.user.receiveAddress,
   seed: userReducer.seed,
   testSig: userReducer.testSig,
 });

@@ -32,6 +32,7 @@ const messageGenerator = (method, data) => {
       thread.postMessage(JSON.stringify(task));
       // Await reply that matches id
       let messageHandler = threadEmitter.addListener('message', (message) => {
+        console.log(message);
         if (message.id === task.id) {
           messageHandler.remove();
           if (message.err) {
@@ -117,5 +118,8 @@ export default {
   signMessage,
   terminate: () => {
     thread.terminate();
-  }
+  },
+  deriveXPrivFromXpriv: (xpriv, path) => {
+    return messageGenerator('deriveXPrivFromXPriv', { xpriv, path }).then(data => data.xpriv);
+  },
 };

@@ -224,8 +224,14 @@ export default {
     // Use the signingXPub to get the count of saved keys
     return await selectSQL('SELECT * FROM keytree WHERE parentid = "' + parentId + '";');
   },
-  getReceiveXPub: async () => {
-    return await selectSQL('SELECT * FROM keys WHERE label = "receiveXPub";');
+  getReceiveKey: async () => {
+    return await selectSQL('SELECT * FROM keys WHERE label = "receive";');
+  },
+  getSigningKey: async () => {
+    return await selectSQL('SELECT * FROM keys WHERE label = "signing";');
+  },
+  getMasterKey: async () => {
+    return await selectSQL('SELECT * FROM keys WHERE label = "master";');
   },
   setUserMasterKey: async (email, masterKeyId) => {
     return await updateSQL('UPDATE users SET masterkeyid = ' + masterKeyId + ' WHERE email = "' + email + '";');

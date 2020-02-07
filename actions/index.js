@@ -183,7 +183,7 @@ export const registerAccount = (email) => {
 export const registerWallet = (seed, email) => {
   return (dispatch) => {
     CryptoThread.deriveXPriv(seed, 'm').then((xpriv) => {
-      return dispatch(setMasterKey(xpriv, email));
+      dispatch(setMasterKey(xpriv, email));
     });
   };
 };
@@ -192,10 +192,29 @@ export const setMasterKey = (xpriv, email) => {
   return (dispatch) => {
     Storage.insertKey(xpriv, null, null, null).then((id) => {
       Storage.setUserMasterKey(email, id).then(() => {
-        return dispatch({
+        dispatch({
           type: 'SET_MASTER_KEY',
           id,
           xpriv
+        });
+        // Derive root of non-change receive addresses
+        Storage.getReceiveKey().then((res) => {
+          if (!res.length) {
+            // Key does not exist, must create
+            CryptoThread.deriveXPrivFromXpriv(xpriv, `m/44'/1'/0'/0`).then((receiveXPriv) => {
+              dispatch(setReceiveAddress(receiveXPriv));
+              CryptoThread.deriveXPubFromXPriv(receiveXPriv).then((receiveXPub) => {
+                Storage.insertKey(receiveXPriv, receiveXPub, null, 'receive').then((id) => {
+                  dispatch(setReceiveAddress(receiveXPub));
+                });
+              });
+            });
+          } else {
+            // Key exists, just populate it
+            let item = res.item(0);
+            Storage.insertKeyLink(id, item.id);
+            dispatch(setReceiveAddress(item.xpub));
+          }
         });
       });
     });
@@ -213,28 +232,30 @@ export const fetchUser = () => {
           id: item.id,
           email: item.email
         });
-        let masterKeyId = res.item(0).masterkeyid;
+        let masterKeyId = item.masterkeyid;
         if (masterKeyId === 0) {
           return;
         }
-        Storage.getKey(masterKeyId).then((res) => {
-          if (!res.length) {
-            return console.error('MasterKeyId set but no key found!');
-          }
-          let item = res.item(0);
-          console.log(item);
-          dispatch({
-            type: 'SET_MASTER_KEY',
-            id: masterKeyId,
-            xpriv: item.xpriv,
-          });
-        });
+        return dispatch(fetchWallet(item.email, masterKeyId));
       } else {
         console.log('No stored user');
         return dispatch({
           type: 'SET_USER'
         });
       }
+    });
+  };
+};
+
+export const fetchWallet = (email, masterKeyId) => {
+  return (dispatch) => {
+    Storage.getKey(masterKeyId).then((res) => {
+      if (!res.length) {
+        return console.error('MasterKeyId set but no key found!');
+      }
+      let item = res.item(0);
+      console.log(item);
+      dispatch(setMasterKey(item.xpriv, email))
     });
   };
 };

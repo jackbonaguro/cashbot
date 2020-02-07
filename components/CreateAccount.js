@@ -27,7 +27,6 @@ class CreateAccount extends React.Component {
   render() {
     if (this.props.user && this.props.user.id) {
       //Found user, go to home screen
-      console.log(this.props.user);
       return (
         <Redirect exact from="/" to="/createwallet" />
       );
