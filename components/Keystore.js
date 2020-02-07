@@ -43,21 +43,21 @@ class Keystore extends React.Component {
       <View style={styles.appContainer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
           <View>
-            {/*<View>
+            <View>
               <Text style={styles.title}>Wallet</Text>
-              { this.props.seed ? (
+              { this.props.user && this.props.user.masterKey ? (
                 <ButtonInput style={{...styles.instructions, maxWidth: 100+'%'}}
-                             value={this.props.seed.toString()}
+                             value={ this.props.user.keys.find(key => (key.id === this.props.user.masterKey)).xpriv }
                              icon={RegularIcons.copy}
                              iconPress={(value) => {
                                Clipboard.setString(value);
-                               Toast.show('Copied Mnemonic');
+                               Toast.show('Copied Master Key');
                              }}
                 >
                 </ButtonInput>
               ) : (<ActivityIndicator size="small" color={palette.purple} />)}
             </View>
-            <View
+            {/*<View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -147,9 +147,6 @@ class Keystore extends React.Component {
                 </View>
               ) : (<ActivityIndicator size="large" color={palette.purple} />)}
             </View>*/}
-            <Text style={styles.title}>
-              Wallet
-            </Text>
           </View>
         </ScrollView>
         <TabBar match={this.props.match}/>
@@ -172,7 +169,7 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ userReducer }) => ({
-  email: userReducer.email,
+  user: userReducer.user,
   receiveIndex: userReducer.receiveIndex,
   receiveAddress: userReducer.receiveAddress,
   seed: userReducer.seed,

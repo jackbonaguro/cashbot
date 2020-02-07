@@ -23,7 +23,7 @@ import { default as ButtonInput } from './ButtonInput';
 import { default as Button } from './Button';
 import styles, { palette } from '../styles';
 import TabBar from "./TabBar";
-import KeyDerivation from "../controllers/keyderivation";
+import Storage from "../controllers/storage";
 import Api from '../controllers/api';
 
 class Account extends React.Component {
@@ -79,6 +79,11 @@ class Account extends React.Component {
                     } catch (err) {
                       console.error(err);
                     }
+                  }}
+          ></Button>
+          <Button title={'RESET DB'}
+                  onPress={() => {
+                    Storage.reset();
                   }}
           ></Button>
         </ScrollView>

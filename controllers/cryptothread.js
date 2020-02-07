@@ -29,7 +29,6 @@ const messageGenerator = (method, data) => {
   let task = prepMessage(method, data);
   return Promise.race([
     new Promise((resolve, reject) => {
-      console.log(JSON.stringify(task));
       thread.postMessage(JSON.stringify(task));
       // Await reply that matches id
       let messageHandler = threadEmitter.addListener('message', (message) => {
@@ -104,7 +103,7 @@ export default {
     return messageGenerator('deriveXPubFromXPriv', { xpriv }).then(data => data.xpub);
   },
   generateSeed: () => {
-    return messageGenerator('generateSeed', {}).then(data => new Mnemonic(data.seed));
+    return messageGenerator('generateSeed', {}).then(data => data.seed);
   },
   signReceiveMessage: (mnemonic, index, message) => {
     return signMessage(mnemonic, `m/44'/1'/0'/0/${index}`, message);

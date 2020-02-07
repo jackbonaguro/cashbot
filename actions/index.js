@@ -139,6 +139,7 @@ export const generateSeed = () => {
     CryptoThread.generateSeed(() => {
       dispatch(setSeed());
     }).then((seed) => {
+      console.log(seed);
       dispatch(setSeed(seed));
     })
   };
@@ -168,8 +169,8 @@ export const setFCMToken = (fcmToken) => {
 // New SQL Actions
 export const registerAccount = (email) => {
   return (dispatch) => {
+    console.log('Set email: '+email);
     Storage.insertUser(email, 0).then((id) => {
-      console.log(id);
       return dispatch({
         type: 'SET_USER',
         id,
@@ -179,15 +180,23 @@ export const registerAccount = (email) => {
   };
 };
 
-export const setMasterKey = (xpriv) => {
+export const registerWallet = (seed, email) => {
+  return (dispatch) => {
+    CryptoThread.deriveXPriv(seed, 'm').then((xpriv) => {
+      return dispatch(setMasterKey(xpriv, email));
+    });
+  };
+};
+
+export const setMasterKey = (xpriv, email) => {
   return (dispatch) => {
     Storage.insertKey(xpriv, null, null, null).then((id) => {
-      Storage.setUserMasterKey(email, id).then((results) => {
-        return {
+      Storage.setUserMasterKey(email, id).then(() => {
+        return dispatch({
           type: 'SET_MASTER_KEY',
           id,
           xpriv
-        }
+        });
       });
     });
   };
@@ -212,9 +221,12 @@ export const fetchUser = () => {
           if (!res.length) {
             return console.error('MasterKeyId set but no key found!');
           }
+          let item = res.item(0);
+          console.log(item);
           dispatch({
             type: 'SET_MASTER_KEY',
             id: masterKeyId,
+            xpriv: item.xpriv,
           });
         });
       } else {

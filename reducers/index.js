@@ -8,6 +8,12 @@ const userReducer = (state = {}, action) => {
         email: action.email,
       };
     }
+    case 'SET_SEED': {
+      return {
+        ...state,
+        seed: action.seed,
+      };
+    }
     case 'SET_RECEIVE_INDEX': {
       return {
         ...state,
@@ -63,10 +69,11 @@ const userReducer = (state = {}, action) => {
           ...state.user,
           masterKey: action.id,
           keys: [
-            ...state.keys,
+            ...state.user.keys,
             {
               id: action.id,
-              xpriv: action.xpriv
+              xpriv: action.xpriv,
+              label: 'master'
             }
           ]
         },

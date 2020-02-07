@@ -48,10 +48,7 @@ const updateSQL = async(query) => {
     db.transaction((tx) => {
       // Create all tables if needed
       tx.executeSql(query, [], (tx, res) => {
-        if (!res.insertId) {
-          return reject(new Error('No updateId for query: ' + query));
-        }
-        return resolve(res.insertId);
+        return resolve();
       }, (tx, err) => {
         return reject(err);
       });
@@ -69,7 +66,6 @@ const deleteSQL = async(query) => {
         if (!res.insertId) {
           return reject(new Error('No removeId for query: ' + query));
         }
-        return resolve(res.insertId);
       }, (tx, err) => {
         return reject(err);
       });
@@ -98,7 +94,7 @@ export default {
         }
       }, () => {
         // All good
-        console.log('All good');
+        console.log('Storage initialized');
         return db;
       });
     });
@@ -231,7 +227,10 @@ export default {
   getReceiveXPub: async () => {
     return await selectSQL('SELECT * FROM keys WHERE label = "receiveXPub";');
   },
-  setUserMasterKey: async (email, id) => {
-    return await updateSQL('UPDATE users SET masterkeyid = ' + masterKey + ' WHERE email = "' + email + '";');
+  setUserMasterKey: async (email, masterKeyId) => {
+    return await updateSQL('UPDATE users SET masterkeyid = ' + masterKeyId + ' WHERE email = "' + email + '";');
+  },
+  reset: async() => {
+    return await updateSQL('DROP TABLE users; DROP TABLE keys; DROP TABLE preferences; DROP TABLE events; DROP TABLE keytree;');
   },
 };

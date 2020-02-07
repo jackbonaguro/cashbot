@@ -7,17 +7,17 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-native';
+import {Link, Redirect} from 'react-router-native';
 import firebase, { Notification, RemoteMessage } from 'react-native-firebase';
 import { RegularIcons } from 'react-native-fontawesome';
 
 import {
   fetchSigningIndex,
-  setEmail,
   setSigningIndex,
   setSigningXPriv,
   deriveAndSetSigningXPriv,
-  generateSeed
+  generateSeed,
+  registerWallet,
 } from '../actions';
 import { default as Text } from './Text';
 import { default as TextInput } from './TextInput';
@@ -30,6 +30,13 @@ import Api from '../controllers/api';
 
 class CreateWallet extends React.Component {
   render() {
+    if (this.props.user && this.props.user.masterKey) {
+      //Found user with wallet, go to home screen
+      console.log(this.props.user);
+      return (
+        <Redirect exact from="/" to="/wallet" />
+      );
+    }
     return (
       <View style={styles.appContainer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
@@ -59,7 +66,9 @@ class CreateWallet extends React.Component {
               }}></Button>
             </View>
             <Button title={'CREATE WALLET'} onPress={() => {
-              this.props.dispatch(registerWallet(this.props.seed));
+              if (this.props.user && this.props.user.email) {
+                this.props.dispatch(registerWallet(this.props.seed, this.props.user.email));
+              }
             }}></Button>
         </ScrollView>
         {/*<TabBar match={this.props.match}/>*/}
@@ -69,9 +78,9 @@ class CreateWallet extends React.Component {
 }
 
 const mapStateToProps = ({ userReducer, messageReducer }) => {
-  console.log(userReducer);
   return {
     seed: userReducer.seed,
+    user: userReducer.user,
   }
 };
 

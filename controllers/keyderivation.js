@@ -84,17 +84,13 @@ const generateSeed = () => {
   return new Promise((resolve, reject) => {
     // 16 bytes = 128 bits, yielding a 12-word mnemonic (compatible with most wallets)
     // https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
-    //return resolve('abcd');
-    return resolve('SecureRandom: ' + JSON.stringify(RNSecureRandom));
     generateSecureRandom(16).then(randomBytes => {
       // Successfully generates new BIP39 Mnemonic from native secure RNG
       try {
         let mnemonic = Mnemonic.fromSeed(new Buffer(randomBytes), Mnemonic.Words.ENGLISH);
-
-        //this.props.dispatch(setSeed(mnemonic));
         return resolve(mnemonic);
       } catch (err) {
-        return reject(err);
+        return resolve(err);
       }
     });
   });
